@@ -25,12 +25,20 @@ $menu2 = 'usuarios';
 
     <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    
+
+    <!-- Bootstrap Icons CSS -->
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="../vendor/DataTables/datatables.min.css">
+
+    <!-- DataTables Javascript -->
+    <script type="text/javascript" src="../vendor/DataTables/datatables.min.js"></script>
+
 </head>
 
 <body>
-
-<p>Parágrafo teste</p>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
@@ -95,19 +103,27 @@ $menu2 = 'usuarios';
 
 
 <div class="container-fluid mt-2 mx-3">
-    
-<?php
-if(@$_GET['pagina'] == $menu1) {
-    require_once($menu1 . '.php');
-} else if (@$_GET['pagina'] == $menu2)  {
-    require_once($menu2 . '.php');
-} else {
-    //caso não for nenhuma das páginas do GET, e tiver algum lixo nele, carrega a home.php
-    require_once($menu1 . '.php');
-}
 
-?>
+    <?php
+    if (@$_GET['pagina'] == $menu1) {
+        require_once($menu1 . '.php');
+    } else if (@$_GET['pagina'] == $menu2) {
+        require_once($menu2 . '.php');
+    } else {
+        //caso não for nenhuma das páginas do GET, e tiver algum lixo nele, carrega a home.php
+        require_once($menu1 . '.php');
+    }
+
+    ?>
 </div>
 
 
 </html>
+
+
+<!-- os scripts js para máscaras devem ser chamados no final, pois acima é carregada a página usuarios.php dentro da index.php, e mascaras.js trabalha com o elemento id="cpf", que é criado apenas em usuarios.php, portanto, não existe no começo de index.php -->
+    <!-- CDN para máscaras --> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
+
+    <!-- mascaras.js -->
+    <script type="text/javascript" src="../vendor/js/mascaras.js"></script>
