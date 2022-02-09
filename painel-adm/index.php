@@ -1,6 +1,13 @@
 <?php
 
 require_once('../conexao.php');
+@session_start();
+
+//VERIFICA PERMISSÃO DO USUÁRIO PARA ACESSAR painel-adm/index.php
+//para evitar que alguém digite esse endereço direto na barra do navegador e entre
+if($_SESSION['nivel_usuario'] != "Admin") {
+    echo "<script language='javascript'>window.location='../index.php'</script>";
+}
 
 //VARIÁVEIS DO MENU ADMINISTRATIVO
 $menu1 = 'home';
@@ -80,7 +87,7 @@ $menu2 = 'usuarios';
                         <ul class="navbar-nav">
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Administrador
+                                    <?php echo $_SESSION['nome_usuario'];                                                                                                                                                            ?>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
                                     <li><a class="dropdown-item" href="#">Editar Perfil</a></li>
@@ -88,7 +95,7 @@ $menu2 = 'usuarios';
                                         <hr class="dropdown-divider">
                                     </li>
 
-                                    <li><a class="dropdown-item" href="#">Logout</a></li>
+                                    <li><a class="dropdown-item" href="logout.php">Logout</a></li>
                                 </ul>
                             </li>
                         </ul>
