@@ -1,5 +1,5 @@
 <?php
-
+//Página de login do sistema, envia os dados digitados para autenticar.php
 require_once('conexao.php')
 
 ?>
@@ -33,6 +33,7 @@ require_once('conexao.php')
 	<link rel="stylesheet" type="text/css" href="vendor/login/css/util.css">
 	<link rel="stylesheet" type="text/css" href="vendor/login/css/main.css">
 	<!--===============================================================================================-->
+	<link rel="shortcut icon" href="img/favicon.ico" />
 </head>
 
 <body>
@@ -41,6 +42,7 @@ require_once('conexao.php')
 		<div class="container-login100" style="background-image: url('vendor/login/images/bg-01.jpg');">
 			<div class="wrap-login100 p-t-30 p-b-50">
 				<span class="login100-form-title p-b-41">
+					<img src="img/logo.png" width="100px"></img>
 				</span>
 				<form method="POST" action="autenticar.php" class="login100-form validate-form p-b-33 p-t-5">
 

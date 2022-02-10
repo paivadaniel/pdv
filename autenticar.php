@@ -19,10 +19,11 @@ $total_reg = @count($res);
 if ($total_reg > 0) {
     $nivel = $res[0]['nivel'];
 
+    //cria variáveis de sessão, $_SESSION['id_usuario'] será usada numa query sql em painel-adm/index.php
     $_SESSION['nome_usuario'] = $res[0]['nome'];
     $_SESSION['cpf_usuario'] = $res[0]['cpf'];
     $_SESSION['nivel_usuario'] = $res[0]['nivel'];
-
+    $_SESSION['id_usuario'] = $res[0]['id'];
 
     if($nivel == "Admin") {
         echo "<script language='javascript'>window.location='painel-adm'</script>";

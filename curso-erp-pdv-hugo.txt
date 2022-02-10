@@ -1,0 +1,464 @@
+---- 01_01 - Introdução ao Curso
+
+fala que será feito tela de login, CRUD, envio de emails
+
+---- Aula 02 - Introdução ao PHP 8
+
+ensina instalar o xampp
+
+----- 01_03
+
+o php não roda de forma local se não tiver um servidor,
+que irá simular o servidor da hospedagem.
+
+criou a pasta php8 dentro de htdocs na pasta do xampp.
+
+----- 01_04
+
+criou o index.php dentro da pasta php8, por padrão, o servidor vai procurar por
+esse arquivo para ser a página inicial.
+
+não é possível testar um arquivo .php sem ter um servidor,
+seja ele local ou hospedado. 
+
+para trabalhar com PHP é necessário conhecimentos básicos em HTML, CSS e Javascript.
+
+----- 01_05
+
+variáveis no php iniciam com $, e dispensam tipagem, ou seja, não é necessário
+definir o tipo de variável, o php é inteligente.
+
+se colocar entre aspas, mesmo que seja número, será interpretado como string, por exemplo:
+
+$texte = "50" é string, e não int.
+
+PHP aceita aspas duplas ou simples.
+Toda linha do PHP termina com ;
+
+variáveis servem para guardar informações que serão utilizadas posteriormente, e que
+estão sujeitos à serem mudadas, à variar.
+
+----- 01_06
+
+na maioria das linguagens utiliza-se o símbolo de + para concatenação,
+porém, no php utiliza-se o .
+
+pode colocar html dentro do php, porém, sempre que for colocar php dentro do html, tem que 
+colocar as tags de abertura e fechamento do php, já se for colocar html dentro do php, basta fazer:
+
+<?php
+$nome = "Daniel";
+$sobrenome = "Paiva";
+$idade = 34;
+
+echo $idade . "<br>";
+echo $nome . " " . $sobrenome;
+
+?>
+
+----- 01_07
+
+para comentar linhas em php usa-se //
+para comentar blocos de código em php usa-se /* */
+
+<br> dá quebra de linha sem espaçamento
+<p> dá quebra de linha com espaçamento
+
+para verificar, utilize:
+
+//com <br>
+echo "<br>" . $total;
+
+//com <p>
+echo "<p>" . $total;
+
+----- 01_08
+
+mostrou if
+
+----- 01_09
+http://localhost/dashboard/www/php8/form/
+
+mostrou if com else e else if
+
+para nomear variáveis não use acentos, caracteres especiais ou espaço,
+e inicie a segunda palavra letra maíuscula, da seguinte forma:
+
+$mediaIdade;
+
+ou faça:
+$media_idade;
+
+---- 01_10
+
+colocou um if dentro do for
+
+---- 01_11
+
+o php pode ser usado por exemplo:
+- em formulários
+- em tela de login
+- para buscar informações do banco de dados e exibir em tela
+
+---- 01_13
+
+pode usar botão com btn ou input
+
+---- 01_14
+
+não dá para declarar duas vezes uma classe, logo em seguida da outra, por exemplo:
+
+        <input type="button" class="form-control" class="btn btn-danger" id="exampleFormControlInput1" value="Salvar">
+
+apenas:
+
+        <input type="button" class="btn btn-danger" id="exampleFormControlInput1" value="Salvar">
+
+junto com form, tem que declarar method e action (esse não é obrigatório)
+
+para passar dados, method pode ser GET ou POST.
+GET envia pela URL.
+POST envia por trás do código.
+
+action nem sempre vai ter, pois ali coloca a url da página que vai enviar, e muita
+das vezes é enviado para a mesma página, e o tratamento feito por script, por exemplo,
+com AJAX.
+
+pode colocar por exemplo action="enviar.php", e nessa página enviar.php faz o tratamento dos dados enviados.
+
+o input precisa ser type="submit" e não type="button" para o formulário enviar os dados.
+
+---- 01_15
+
+para identificar os dados e passar por POST precisa identificar os campos com name, por exemplo,
+de nome, email e mensagem.
+
+com GET no method, esses parâmetros de name são enviados na url.
+
+POST passa por trás do código, é mais seguro.
+
+na barra de pesquisar de uma loja, por exemplo, não tem problema passar por GET, pois é apenas uma pesquisa
+que será feita, porém, quando envolve dados, principalmente do banco de dados,
+é mais seguro por POST.
+
+$nome = $_POST['name'];
+$email = $_POST['email'];
+$msg = $_POST['msg'];
+
+echo $nome . " " . $email . " " . $msg;
+
+$_POST é uma variável global.
+
+----- 01_16
+
+enviando os dados por email:
+
+$conteudo = utf8_decode('Nome: ' . $nome . "\r\n" .  "\r\n" . 'Email: ' . $email . "\r\n" .  "\r\n" . 'Mensagem: ' . $msg . "\r\n" .  "\r\n")
+
+"\r\n" usa ao invés de "<br>" para dar quebra de linha no servidor de email. o servidor
+de email irá interpretar o "\r\n" como "<br>".
+usou aspas duplas para os espaçamentos, e aspas simples para o que vai escrito no email.
+
+----- 01_18
+
+a função mail() não funciona localmente, se tentar no servidor local, irá exibir uma mensagem de alerta.
+
+Warning: mail(): Failed to connect to mailserver at "localhost" port 25, verify your "SMTP" and "smtp_port"
+setting in php.ini or use ini_set() in C:\xampp\htdocs\dashboard\www\php8\form\enviar.php on line 23
+
+pode tirar a mensagem de warning colocando @ na frente de mail():
+
+@mail($destinatario, $assunto, $conteudo, $cabecalho);
+
+um warning é diferente de um parse error.
+
+header, location e script são funções php que executam redirecionamento.
+
+o redirecionamento pode ser feito também por html:
+
+<meta http-equiv="refresh" content="0; url=index.php">
+
+content="0" significa redirect após 0 segundos.
+
+----- 01_19
+
+<script>alert('Enviado com sucesso!');</script>
+
+não é necessário colocar <script type="text/javascript">, já identifica que o código é javascript automaticamente.
+
+criou uma pasta chamada login, e um index.php dentro dela.
+
+criou um arquivo chamado conexao.php na raíz do projeto.
+
+----- 01_20
+
+na hora de criar os campos das tabelas, o tipo string é chamado
+de varchar no banco de dados.
+
+----- 01_21
+
+chave primária é um índice que não se repete dentro da tabela, e irá servir como base 
+para excluir ou editar um registro.
+
+para campos não obrigatórios de preenchimento, como endereço, marque NULO, para permitir
+que esse campo seja aceito sem que tenha que ser preenchidos dado nele, ou seja, nulo.
+
+na aba insere, é possível inserir usuários na tabela de usuários. o id é autoincrement, então
+não é necessário preenchê-lo.
+
+estava inserindo dois usuários, pois eu estava clicando também para executar a tela que aparece
+a instrução em SQL, basta clicar uma vez em executar, e depois ir procurar os dados
+inseridos na tabela clicando em "Procurar".
+
+----- 01_22
+
+date_default_timezone_set('America/Sao_Paulo');
+
+a função acima é para definir o fuso horário, não é obrigatória, importante para quando se trabalha
+com registro de datas no banco de dados. com isso garante-se pegar de maneira correta
+uma data e hora de acordo com o horário do seu banco de dados.
+
+----- 01_24
+
+criou um arquivo config.php na raíz para armazenar as variáveis globais e as de conexão com o
+banco de dados do projeto.
+
+----- 01_26
+
+para não ter que digitar
+
+if($email == "") {
+	echo "Email não digitado";
+	exit();
+}
+
+o que nesse caso iria ir para a página autenticar para mostrar essa mensagem, o autor
+optou por uma forma mais eficiente, e colocou "required" nos inputs de email e senha.
+outra forma é fazer essa verificação com ifs, porém, com ajax, na própria página de login (login/index.php).
+
+----- 01_27
+
+usa método prepare() para trabalhar com dados recebidos de formulários. o prepare() previne
+sql injection.
+
+---- 01_28
+
+ao invés de usar email=:email e senha=:senha
+poderia ter feito email=$email e senha=$senha
+porém, essa não seria uma forma segura, e estaria dando abertura para sql injection
+o primeiro email e senha é o nome que está no banco de dados, já o :email e o :senha,
+é o que irá receber $email e $senha pelo bindValue, como afirmado acima
+faz isso para evitar sql injection
+
+$query->bindValue(":email", $email);
+$query->bindValue(":senha", $senha);
+
+prepare() precisa de execute() para executar o código SQL. 
+o prepare() apenas prepara o SQL para execução.
+
+----- 01_30
+
+usa session_start() para permitir o uso de variáveis de sessão
+
+----- 01_31
+
+a variável de sessão pode ser acessada no painel depois de logar, já uma variável
+comum não pode, teria que ser passada de alguma forma, passamos ela com $_SESSION['nome'] = $res[0]['nome']; 
+
+----- 01_32
+
+as variáveis de sessão precisam de session_start() na página em que são criadas e na que são utilizadas, por exemplo,
+no caso foram criadas em login/autenticar.php, e utilizadas em login/painel-adm/index.php.
+
+----- 01_34
+
+foi implementado de tal forma que só destrói as variáveis de sessão quando o usuário na página
+do painel-admin ou painel-cliente clicar em "Sair", caso contrário, se ele estiver
+logado como admin, voltar para o login e não fizer logout,
+se ele digitar manualmente a url login/painel-admin irá acessar essa página
+
+o mais seguro é verificar o nível de usuário em todas as páginas dentro de um painel,
+para evitar que um usuário digite a url na barra de endereços e acesse a página do painel
+sem estar logado.
+isso pode ser feito inclusive com um trecho de código, por exemplo, verifica_login.php e
+depois dar um require_once('verifica_login.php') em todas as páginas do painel.
+
+---- 01_35
+
+para a senha não aparecer no input, ele deve ser type="password"
+
+---- 01_36
+
+o nível a ser cadastrado é apenas de cliente, não faz sentido um usuário poder se cadastrar e escolher
+administrador como nível.
+
+o required nos inputs pode escrever apenas required ou required=""
+
+----- 01_37
+
+uso isset($_POST['btn-cadastrar']) para ver se o botão cadastrar do modal foi clicado.
+
+minha dúvida é o que está dentro do conteúdo de $_POST['btn-cadastrar'], já que o botão foi clicado.
+
+$query = $pdo->prepare("INSERT into usuarios (nome, email, senha) VALUES (:nome, :email, :senha)")
+
+usa $pdo pois ela foi criada em conexao.php:
+
+    $pdo = new PDO("mysql:dbname=$banco;host=$servidor",$usuario, $senha); //banco de dados, host, usuário, senha
+
+bindValue pode passar tanto variável (como $_POST['senhaCad']) quanto texto ("Cliente"), já
+bindParam não consegue passar texto, aceita apenas variáveis.
+
+---- 01_40
+
+adicionou método GET no form do buscar dentro do painel-adm
+
+---- 01_42
+
+ele percorreu o banco de dados inteiro e escreveu numa tabela, é de longe a melhor aula
+do módulo, a que usou mais lógica.
+
+---- 01_45
+
+fez o refresh automático da página, 
+para aparecer o novo usuário cadastrado na tabela, sem que tenha dar f5,
+fazendo:
+
+    echo "<script language='javascript'>window.location='index.php'</script>";
+
+---- 01_46
+
+usou $_GET[''] ao invés de $_POST[''] pela primeira vez.
+
+---- 01_47
+
+apresentou o operador LIKE do SQL, que faz uma busca aproximada ao que se pretende, por exemplo,
+buscando palavras com início e fim parecido, daí usa % à esquerda, para buscar a sequencia de caracteres
+à esquerda da palavra, e à direita, para buscar a sequencia de caracteres à direita, por exemplo:
+
+Administrador:
+
+se digitar ni
+tem à esquerda
+
+O à direita, não entendi muito bem.
+
+pode passar variável na instrução SQL se não estiver usando prepare(), e sim query(), como abaixo:
+
+$query = $pdo->query("SELECT * FROM usuarios WHERE nome LIKE '$txtBuscar'");
+
+como $txtBuscar recebe vazio se não tiver nada preenchido, a busca exibe vazio quando na tela inicial.
+para isso não acontecer usa-se o operador LIKE no SQL.
+
+---- 01_53
+
+@ serve para omitir warning até de variáveis, por exemplo,
+para omitir mensagem de variável undefined:
+
+<?php echo @$nome_ed; ?>
+
+---- 02_01 - Introdução ao Curso
+
+mostra o que será feito
+
+---- 02_10 - Página dos Usuário
+
+No módulo 01, de php8, ele usou tables do bootstrap, nesse módulo irá usar data tables,
+que é um recurso mais avançado.
+
+----- 02_15 - Iniciando com Ajax
+
+No módulo 1, de php8, no painel-adm/index.php, para criar um novo usuário, o botão
+de salvar é type="submit" e tem name="btn-cadastrar", e está dentro de um form,
+e a variável global $_POST['btn-salvar'] é consultada nessa mesma página:
+
+if (isset($_POST['btn-cadastrar'])) {
+
+... aqui é passado os dados cadastrados para o banco de dados
+
+}
+
+Nesse módulo, faremos essa verificação de quando o botão foi clicado sem isset, e com ajax.
+
+----- 02_17 Retornando dados via ajax
+
+AJAX é feito com base no jQuery, por isso, precisa ter o link para o jQuery na página.
+
+----- 02_02 Alterando dados no dataTable
+
+traduziu os termos do datatables alterando datatables.min.js   
+
+para traduzir, não pode chamar os links por cdn, tem que baixar os arquivos
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.4/datatables.min.css"/>
+ 
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.4/datatables.min.js"></script>
+
+----- 02_27 For para percorrer tabela
+
+pelo que entendi, no código a seguir:
+
+for ($i = 0; $i < $total_reg_tab; $i++) {
+	foreach ($res[$i] as $key => $value) {
+	}
+}
+
+o for é para percorrer as linhas da tabela, e o foreach para percorrer os campos de cada linha,
+por exemplo, João e Maria são dois usuários cadastrados no banco de dados, o for
+é para eles, já para percorrer nome, idade, endereço, cpf, email etc desses usuários
+é usado o foreach.
+
+----- 02_28 Ordenando tabela
+
+com dataTable não é necessário alterar o campo buscar para detectar nome e email dos usuários quando digitamos
+caracteres, como foi feito no módulo 1, com:
+
+        $txtBuscar = '%' . @$_GET['txtBuscar'] . '%';
+
+        $query = $pdo->prepare("SELECT * FROM usuarios WHERE nome LIKE :nome OR email LIKE :email");
+
+adicionou 'ordering': false no script do DataTable
+
+    <script>
+        $(document).ready(function() {
+            $('#usuarios').DataTable({
+                'ordering': false
+            });
+        });
+    </script>
+Assim posso organizar a lista, por exemplo, em ordem crescente pelo email, com a seguinte instrução SQL:
+
+$query_tab = $pdo->query("SELECT * FROM usuarios order by email asc");
+
+----- 02_29
+
+geralmente a pasta com arquivos js, css e outros, fica dentro de uma pasta chamada vendor
+
+----- 02_40
+
+ele não vai fazer os formulários de login com AJAX, portanto, o form terá um action="autenticar.php".
+com AJAX não há atualização de página, dessa forma, um usuário mau-intencionado poderia com o auxílio de
+um programa, digitar inumeras senhas para entrar em pouquíssimos segundos.
+
+a página autenticar.php é uma página intermediária, por exemplo, se for um admin, passa por autenticar.php
+apenas para verificar se é admin, e já redireciona para painel-adm/index.php.
+
+----- 02_42
+
+session(), assim como count() é um dos parametros que dependendo da versão do php pode dar um warning, por isso
+coloca @ na frente, ficando @session()
+
+toda vez que for criar uma variável de sessão, é necessário declarar no topo da página
+@session_start();
+
+variáveis de sessão não perdem o valor quando se troca de página. trabalhamos com variáveis de sessão com 
+o name do elemento, assim como fazemos com $_POST['name'], porém, fica:
+
+$_SESSION['name'];
+
+temos que usar @session_start() para criar e usar variáveis de sessão, por exemplo, elas são criadas em autenticar.php
+e utilizadas em painel-adm/home.php (no nosso caso tem que declarar session_start() também em painel-adm/index.php,
+pois painel-adm/home.php é um require feito no final do código de painel-admin/index.php, e aparentemente tem que ser 
+declarada no início, não fui verificar porquê).
+
+

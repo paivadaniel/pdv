@@ -1,17 +1,32 @@
 <?php
 
-require_once('../conexao.php');
 @session_start();
+/*tem que ser antes do require_once('verifica_permissao.php'),
+pois esse arquivo usa a variável de sessão $_SESSION['nivel_usuario']
+*/
 
-//VERIFICA PERMISSÃO DO USUÁRIO PARA ACESSAR painel-adm/index.php
-//para evitar que alguém digite esse endereço direto na barra do navegador e entre
-if($_SESSION['nivel_usuario'] != "Admin") {
-    echo "<script language='javascript'>window.location='../index.php'</script>";
-}
+require_once('../conexao.php');
+require_once('verifica_permissao.php');
 
 //VARIÁVEIS DO MENU ADMINISTRATIVO
 $menu1 = 'home';
 $menu2 = 'usuarios';
+
+//RECUPERAR DADOS DO USUÁRIO
+$query = $pdo->query("SELECT * FROM usuarios WHERE id = '$_SESSION[id_usuario]'");
+$res = $query->fetchAll(PDO::FETCH_ASSOC);
+
+//ele poderia ter criado todas as variáveis de sessão em autenticar.php, e não precisar executar essa query para pegar os dados do banco de dados
+/*
+usei "usu" ao invés de "usuário", pois outras páginas são chamadas dentro dessa página
+e podem já ter variável $nome_usuario, $email_usuario etc.
+*/
+$nome_usu = $res[0]['nome'];
+$email_usu = $res[0]['email'];
+$cpf_usu = $res[0]['cpf'];
+$senha_usu = $res[0]['senha'];
+$nivel_usu = $res[0]['nivel'];
+$id_usu = $res[0]['id'];
 
 ?>
 
@@ -43,13 +58,19 @@ $menu2 = 'usuarios';
     <!-- DataTables Javascript -->
     <script type="text/javascript" src="../vendor/DataTables/datatables.min.js"></script>
 
+	<!-- FAVICON -->
+	<link rel="shortcut icon" href="../img/favicon.ico" />
+
 </head>
 
 <body>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="index.php">Admin</a>
+            <a class="navbar-brand" href="index.php">					
+                <img src="../img/logo.png" width="50px">
+            </img>
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -87,10 +108,10 @@ $menu2 = 'usuarios';
                         <ul class="navbar-nav">
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <?php echo $_SESSION['nome_usuario'];                                                                                                                                                            ?>
+                                    <?php echo $nome_usu; ?>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                                    <li><a class="dropdown-item" href="#">Editar Perfil</a></li>
+                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalPerfil">Editar Perfil</a></li>
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
@@ -124,13 +145,138 @@ $menu2 = 'usuarios';
     ?>
 </div>
 
+<!-- MODAL PARA EDIÇÃO DOS DADOS -->
+
+<div class="modal fade" tabindex="-1" id="modalPerfil">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Editar Perfil</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form method="POST" id="form-perfil">
+
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="nome" class="form-label">Nome</label>
+                                <!--
+                                id não pode ser "nome", pois usuarios.php já tem uma modal com id="nome", e usuarios.php é chamada em index.php, portanto, haverá conflito
+                                -->
+                                <input type="text" class="form-control" id="nome-perfil" name="nome-perfil" placeholder="Digite seu nome" required value="<?php echo $nome_usu; ?>">
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="cpf" class="form-label">CPF</label>
+                                <input type="text" class="form-control" id="cpf-perfil" name="cpf-perfil" placeholder="Digite seu CPF" required value="<?php echo $cpf_usu; ?>">
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email-perfil" name="email-perfil" placeholder="Digite seu email" required value="<?php echo $email_usu; ?>">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="senha" class="form-label">Senha</label>
+                        <input type="text" class="form-control" id="senha-perfil" name="senha-perfil" placeholder="Digite sua senha" required value="<?php echo $senha_usu; ?>">
+                    </div>
+
+                </div>
+
+                <small>
+                    <div align="center" class="mb-3" id="mensagem-perfil">
+                    </div>
+                </small>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-fechar-perfil">Fechar</button>
+                    <button type="submit" class="btn btn-primary" name="btn-salvar-perfil" id="btn-salvar-perfil">Salvar</button>
+                    <!-- mesmo com o AJAX, o botão deve ser type="submit", e não type="button" 
+                    o event.preventDefault() no script javascript abaixo, evita que a página seja carregada,
+                    e em seguida o AJAX transmite os dados
+                    -->
+
+                    <input type="hidden" name="id-perfil" value="<?php echo $id_usu; ?>">
+
+                    <input type="hidden" name="antigoPerfilEmail" value="<?php echo $email_usu; ?>">
+                    <input type="hidden" name="antigoPerfilCpf" value="<?php echo $cpf_usu; ?>">
+
+
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
 
 </html>
 
+<!-- AJAX DO EDITAR PERFIL -->
+<script type="text/javascript">
+    $("#form-perfil").submit(function() {
+        
+        event.preventDefault();
+        /*
+        toda vez que submetemos uma página por um formulário, ela atualiza,
+        o event.preventDefault() evita que a página seja atualizada,
+        essa é a principal função do ajax
+        */
+        var formData = new FormData(this);
+
+        $.ajax({
+            url: "editar-perfil.php",
+            type: 'POST',
+            data: formData,
+
+            success: function(mensagem) {
+
+                $('#mensagem-perfil').removeClass()
+
+                if (mensagem.trim() == "Salvo com Sucesso!") {
+
+                    $('#btn-fechar-perfil').click();
+                    //window.location = "index.php?pagina=" + pag; //atualiza a página
+                    /*não precisou colocar $pag, e sim apenas pag, pois é javascript,
+                    e não php, e acima var pag = < ?php $pag ?>
+                    */
+
+                } else { //se não devolver "Salvo com Sucesso!", ou seja, se der errado
+
+                    $('#mensagem-perfil').addClass('text-danger')
+                }
+
+                $('#mensagem-perfil').text(mensagem)
+
+
+            },
+
+            cache: false,
+            contentType: false,
+            processData: false,
+            xhr: function() { // Custom XMLHttpRequest
+                var myXhr = $.ajaxSettings.xhr();
+                if (myXhr.upload) { // Avalia se tem suporte a propriedade upload
+                    myXhr.upload.addEventListener('progress', function() {
+                        /* faz alguma coisa durante o progresso do upload */
+                    }, false);
+                }
+                return myXhr;
+            }
+        });
+    });
+</script>
 
 <!-- os scripts js para máscaras devem ser chamados no final, pois acima é carregada a página usuarios.php dentro da index.php, e mascaras.js trabalha com o elemento id="cpf", que é criado apenas em usuarios.php, portanto, não existe no começo de index.php -->
-    <!-- CDN para máscaras --> 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
+<!-- CDN para máscaras -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
 
-    <!-- mascaras.js -->
-    <script type="text/javascript" src="../vendor/js/mascaras.js"></script>
+<!-- mascaras.js -->
+<script type="text/javascript" src="../vendor/js/mascaras.js"></script>
