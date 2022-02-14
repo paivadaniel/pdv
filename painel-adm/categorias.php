@@ -5,7 +5,7 @@
 require_once('../conexao.php');
 require_once('verifica_permissao.php');
 
-$pag = 'fornecedores';
+$pag = 'categorias';
 ?>
 
 <!DOCTYPE html>
@@ -15,20 +15,20 @@ $pag = 'fornecedores';
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página de Fornecedores</title>
+    <title>Página de Categorias</title>
 
 </head>
 
 <body>
 
-    <a href="index.php?pagina=<?php echo $pag; ?>&funcao=novo" type="button" class="btn btn-secondary mt-2">Novo Fornecedor</a>
+    <a href="index.php?pagina=<?php echo $pag; ?>&funcao=novo" type="button" class="btn btn-secondary mt-2">Nova Categoria</a>
 
     <div class="mt-4" style="margin-right: 25px">
 
 
         <?php
 
-        $query_tab = $pdo->query("SELECT * FROM fornecedores order by id desc"); //nome é o campo da tabela
+        $query_tab = $pdo->query("SELECT * FROM categorias order by id desc"); //nome é o campo da tabela
 
         $res_tab = $query_tab->fetchAll(PDO::FETCH_ASSOC);
         $total_reg_tab = @count($res_tab);
@@ -42,10 +42,8 @@ $pag = 'fornecedores';
                     <thead>
                         <tr>
                             <th>Nome</th>
-                            <th>Tipo Pessoa</th>
-                            <th>Email</th>
-                            <th>CPF / CNPJ</th>
-                            <th>Telefone</th>
+                            <th>Produtos</th>
+                            <th>Foto</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
@@ -62,10 +60,10 @@ $pag = 'fornecedores';
 
                             <tr>
                                 <td><?php echo $res_tab[$i]['nome']; ?></td>
-                                <td><?php echo $res_tab[$i]['tipo_pessoa']; ?></td>
-                                <td><?php echo $res_tab[$i]['email']; ?></td>
-                                <td><?php echo $res_tab[$i]['cpf']; ?></td>
-                                <td><?php echo $res_tab[$i]['telefone']; ?></td>
+                                <td></td>
+                                <td>
+                                    <img src="../img/categorias/<?php echo $res_tab[$i]['foto'] ?>" width="50px">
+                                </td>
                                 <td>
 
                                     <a href="index.php?pagina=<?php echo $pag; ?>&funcao=editar&id=<?php echo $res_tab[$i]['id']; ?>" type="button" title="Editar Registro">
@@ -100,18 +98,14 @@ $pag = 'fornecedores';
 if (@$_GET['funcao'] == 'editar') {
     $titulo_modal = "Editar Registro";
 
-    $query_ed = $pdo->query("SELECT * FROM fornecedores WHERE id = '$_GET[id]'");
+    $query_ed = $pdo->query("SELECT * FROM categorias WHERE id = '$_GET[id]'");
     $res_ed = $query_ed->fetchAll(PDO::FETCH_ASSOC);
     $total_res_ed = @count($res_ed);
 
     if ($total_res_ed > 0) {
         //recupera dados do usuário, os quais foram inseridos no banco de dados
         $nome = $res_ed[0]['nome'];
-        $tipo_pessoa = $res_ed[0]['tipo_pessoa'];
-        $email = $res_ed[0]['email'];
-        $cpf = $res_ed[0]['cpf'];
-        $telefone = $res_ed[0]['telefone'];
-        $endereco = $res_ed[0]['endereco'];
+        $nivel = $res_ed[0]['foto'];
     }
 } else {
     $titulo_modal = "Inserir Registro";
@@ -134,60 +128,25 @@ if (@$_GET['funcao'] == 'editar') {
 
                 <div class="modal-body">
 
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="nome" class="form-label">Nome</label>
-                                <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite seu nome" required value="<?php echo @$nome; ?>">
-                            </div>
-
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group mb-3">
-                                <label for="tipo_pessoa">Tipo Pessoa</label>
-                                <select class="form-select mt-1" aria-label="Default select example" name="tipo_pessoa">
-
-                                    <option <?php if (@$tipo_pessoa == 'Fisica') { ?> selected <?php } ?> value="Física">Física</option>
-
-                                    <option <?php if (@$tipo_pessoa == 'Juridica') { ?> selected <?php } ?> value="Jurídica">Jurídica</option>
-                                </select>
-                            </div>
-                        </div>
+                    <div class="mb-3">
+                        <label for="nome" class="form-label">Nome</label>
+                        <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite seu nome" required value="<?php echo @$nome; ?>">
                     </div>
 
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="telefone" class="form-label">Telefone</label>
-                                <input type="text" class="form-control" id="telefone" name="telefone" placeholder="Digite seu nome" required value="<?php echo @$telefone; ?>">
-                            </div>
-
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="cpf" class="form-label">CPF / CNPJ</label>
-                                <input type="text" class="form-control" id="doc" name="cpf" placeholder="Digite seu CPF / CNPJ" value="<?php echo @$cpf; ?>"> <!-- id é doc pois a máscara (mascara.js) referencia um id -->
-                            </div>
-
-                        </div>
+                    <!-- INPUT PARA UPLOAD DE IMAGEM -->
+                    <div class="form-group">
+                        <label>Foto</label>
+                        <input type="file" value="<?php echo @$foto ?>" class="form-control-file" id="imagem" name="imagem" onChange="carregarImg();">
                     </div>
 
-                    <div class="row">
-
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Digite seu email" value="<?php echo @$email; ?>">
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-                        <div class="mb-3">
-                            <label for="endereco" class="form-label">Endereço</label>
-                            <input type="text" class="form-control" id="endereco" name="endereco" placeholder="Digite seu endereço" value="<?php echo @$endereco; ?>">
-                        </div>
-
+                    <div id="divImgConta" class="mt-4">
+                        <?php if (@$foto != "") { //se a imagem já existir 
+                        ?>
+                            <img src="../img/categorias/<?php echo $foto ?>" width="200px" id="target">
+                        <?php  } else { //se for a primeira inserção da categoria, e não tiver sido escolhida uma imagem 
+                        ?>
+                            <img src="../img/categorias/sem-foto.jpg" width="200px" id="target">
+                        <?php } ?>
                     </div>
 
 
@@ -209,9 +168,7 @@ if (@$_GET['funcao'] == 'editar') {
 
                     <input type="hidden" name="id" value="<?php echo @$_GET['id']; ?>">
 
-                    <input type="hidden" name="antigoEmail" value="<?php echo @$email; ?>">
-                    <input type="hidden" name="antigoCpf" value="<?php echo @$cpf; ?>">
-
+                    <input type="hidden" name="antigoNome" value="<?php echo @$nome; ?>">
 
                 </div>
             </form>
@@ -417,6 +374,7 @@ if (@$_GET['funcao'] == 'deletar') {
     });
 </script>
 
+
 <!-- SCRIPT PARA DATATABLE -->
 <script>
     $(document).ready(function() {
@@ -424,4 +382,27 @@ if (@$_GET['funcao'] == 'deletar') {
             'ordering': false
         });
     });
+</script>
+
+
+<!--SCRIPT PARA MOSTRAR TROCA DE IMAGEM -->
+<script type="text/javascript">
+    function carregarImg() {
+
+        var target = document.getElementById('target');
+        var file = document.querySelector("input[type=file]").files[0];
+        var reader = new FileReader();
+
+        reader.onloadend = function() {
+            target.src = reader.result;
+        };
+
+        if (file) {
+            reader.readAsDataURL(file);
+
+
+        } else {
+            target.src = "";
+        }
+    }
 </script>

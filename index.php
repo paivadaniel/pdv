@@ -33,6 +33,7 @@ require_once('conexao.php')
 	<link rel="stylesheet" type="text/css" href="vendor/login/css/util.css">
 	<link rel="stylesheet" type="text/css" href="vendor/login/css/main.css">
 	<!--===============================================================================================-->
+	<!-- FAVICON -->
 	<link rel="shortcut icon" href="img/favicon.ico" />
 </head>
 
