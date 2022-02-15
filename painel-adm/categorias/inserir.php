@@ -39,7 +39,7 @@ if (@$_FILES['imagem']['name'] == "") { //se não subiu imagem
 
 //envio do arquivo para a pasta img
 
-$imagem_temp = @$_FILES['imagem']['tmp_name']; 
+$imagem_temp = @$_FILES['imagem']['tmp_name'];
 $ext = pathinfo($imagem, PATHINFO_EXTENSION);
 
 //só pode fazer o upload de imagens em .png, .jgp, .jpeg e .gif, isso serve para evitar que o usuário suba outros tipos de arquivos maliciosos para o servidor
@@ -62,15 +62,17 @@ if ($id == '') { //se o id não tiver sido criado, é inserção
     $query->execute();
 } else { //se o id já existir, é edição
 
-    if($imagem != 'sem-foto.jpg') {
-        
+    if ($imagem != 'sem-foto.jpg') {
+        $query = $pdo->prepare("UPDATE categorias SET nome = :nome, foto = :foto WHERE id = :id");
+
+        $query->bindValue(":nome", $nome);
+        $query->bindValue(":foto", $imagem);
+    } else {
+        $query = $pdo->prepare("UPDATE categorias SET nome = :nome WHERE id = :id");
+
     }
 
-    $query = $pdo->prepare("UPDATE categorias SET nome = :nome, foto = :foto WHERE id = :id");
-
     $query->bindValue(":nome", $nome);
-    $query->bindValue(":foto", $imagem);
-
     $query->bindValue(":id", $id);
     $query->execute();
 }

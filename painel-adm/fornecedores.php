@@ -75,6 +75,15 @@ $pag = 'fornecedores';
                                     <a href="index.php?pagina=<?php echo $pag; ?>&funcao=deletar&id=<?php echo $res_tab[$i]['id']; ?>" type="button" title="Excluir Registro">
                                         <i class="bi bi-archive text-danger"></i>
                                     </a>
+
+                                    <!-- informações serão passadas via script, e não com o GET como nos links trabalhados acima -->
+                                    <!--
+                                        se não colocar # no href não irá funcionar, e irá dar um refresh (atualizar) a página
+                                     -->
+                                    <a href="#" onclick="mostrarDados('<?php echo $res_tab[$i]['endereco']; ?>, <?php echo $res_tab[$i]['nome']; ?>')" title="Ver Endereço">
+                                        <i class="bi bi-house text-dark ms-2"></i>
+
+                                    </a>
                                 </td>
                             </tr>
 
@@ -256,7 +265,32 @@ if (@$_GET['funcao'] == 'editar') {
     </div>
 </div>
 
+<!-- MODAL PARA MOSTRAR O ENDEREÇO -->
 
+<div class="modal fade" tabindex="-1" id="modalDados">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Dados do Fornecedor</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+
+            <div class="modal-body">
+
+             <b>Nome: </b>
+             <span id="nome-registro"></span>
+
+             <hr>
+             <b>Endereço: </b>
+             <span id="endereco-registro"></span>
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
 
 </html>
 
@@ -424,4 +458,20 @@ if (@$_GET['funcao'] == 'deletar') {
             'ordering': false
         });
     });
+</script>
+
+<!-- SCRIPT PARA MOSTRAR ENDEREÇO -->
+<script type="text/javascript">
+    function mostrarDados(endereco, nome) {
+
+        event.preventDefault();
+
+        $('#endereco-registro').text(endereco);
+        $('#nome-registro').text(nome);
+
+        var myModal = new bootstrap.Modal(document.getElementById('modalDados'), {})
+
+        myModal.show();
+
+    }
 </script>

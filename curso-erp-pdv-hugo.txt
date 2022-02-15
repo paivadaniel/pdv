@@ -462,3 +462,26 @@ pois painel-adm/home.php é um require feito no final do código de painel-admin
 declarada no início, não fui verificar porquê).
 
 
+PROBLEMAS
+
+----- 02_57/02_60
+
+no meu teste está com um problema, na página categorias dentro do painel do adm, quando eu adiciono crio uma categoria
+e adiciona uma foto à ela, depois quando eu clico para editar a categoria não está carregando a foto dela, apesar
+de que está funcionando direito, a foto está sendo mantida ao clicar em salvar as edições.
+
+na pagina de fornecedores dentro do painel-adm não está funcionando meu botão de ver endereço. se eu copiar o código do
+hugo e colocar em fornecedores.php daí funciona, tentei substituir pelo código dele três trechos:
+
+1. codigo do botao
+
+                                    <a href="#" onclick="mostrarDados('<?php echo $res_tab[$i]['endereco']; ?>, <?php echo $res_tab[$i]['nome']; ?>')" title="Ver Endereço">
+                                        <i class="bi bi-house text-dark ms-2"></i>
+
+                                    </a>
+
+
+2. codigo do modal
+3. codigo do script que chama o modal
+
+todos não funcionaram.
