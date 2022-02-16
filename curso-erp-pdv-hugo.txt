@@ -461,6 +461,15 @@ e utilizadas em painel-adm/home.php (no nosso caso tem que declarar session_star
 pois painel-adm/home.php é um require feito no final do código de painel-admin/index.php, e aparentemente tem que ser 
 declarada no início, não fui verificar porquê).
 
+----03_04
+
+no phpmyadmin, na tabela produtos, no valor_compra coloca DECIMAL, e 8,2
+8 dígitos e 2 casas decimais
+
+categoria e fornecedor são INT, pois serão relacionamento entre tabelas
+
+
+
 
 PROBLEMAS
 

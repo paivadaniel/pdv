@@ -29,8 +29,13 @@ if (@$antigoNome != $nome) {
 
 
 //SCRIPT PARA SUBIR FOTO NO BANCO
-$nome_img = preg_replace('/[ -]+/', '-', @$_FILES['imagem']['name']); //['imagem'] refere-se ao elemento com name="imagem" em categorias.php, e ['name'] refere-se ao nome ("minha-foto.jpg", por exemplo) do arquivo do elemento 'imagem' 
+
+$nome_img = date('d-m-Y H:i:s') . '-'. @$_FILES['imagem']['name'];
+$nome_img = preg_replace('/[ :]+/', '-', $nome_img); //['imagem'] refere-se ao elemento com name="imagem" em categorias.php, e ['name'] refere-se ao nome ("minha-foto.jpg", por exemplo) do arquivo do elemento 'imagem' 
+//tudo que for espaço ou dois pontos substitui por traço
+
 $caminho = '../../img/categorias/' . $nome_img;
+
 if (@$_FILES['imagem']['name'] == "") { //se não subiu imagem
     $imagem = "sem-foto.jpg";
 } else { //se fez o upload de imagem
