@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 14-Fev-2022 às 22:34
+-- Tempo de geração: 17-Fev-2022 às 21:27
 -- Versão do servidor: 10.4.21-MariaDB
 -- versão do PHP: 8.0.10
 
@@ -38,7 +38,6 @@ CREATE TABLE `categorias` (
 --
 
 INSERT INTO `categorias` (`id`, `nome`, `foto`) VALUES
-(1, 'Alimentícios', 'sem-foto.jpg'),
 (2, 'Bebidas', 'bebidas.jpg');
 
 -- --------------------------------------------------------
@@ -63,6 +62,32 @@ CREATE TABLE `fornecedores` (
 
 INSERT INTO `fornecedores` (`id`, `nome`, `tipo_pessoa`, `cpf`, `email`, `telefone`, `endereco`) VALUES
 (1, 'Rubaldo do Doce', 'Física', '53535353535353', 'rubaldodoces@yahoo.com', '(34) 41414-1414', 'Rua do Chocolate, 12, Vila Prestígio, Santa Toddy');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `produtos`
+--
+
+CREATE TABLE `produtos` (
+  `id` int(11) NOT NULL,
+  `codigo` int(11) NOT NULL,
+  `nome` varchar(50) NOT NULL,
+  `descricao` varchar(200) NOT NULL,
+  `estoque` int(11) NOT NULL,
+  `valor_compra` decimal(8,2) NOT NULL,
+  `valor_venda` decimal(8,2) NOT NULL,
+  `fornecedor` int(11) NOT NULL,
+  `categoria` int(11) NOT NULL,
+  `foto` varchar(120) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `produtos`
+--
+
+INSERT INTO `produtos` (`id`, `codigo`, `nome`, `descricao`, `estoque`, `valor_compra`, `valor_venda`, `fornecedor`, `categoria`, `foto`) VALUES
+(1, 0, 'daada', 'daddddddddddddddddddddddddddddddddddddddd', 12, '23.00', '28.00', 1, 2, NULL);
 
 -- --------------------------------------------------------
 
@@ -108,6 +133,12 @@ ALTER TABLE `fornecedores`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Índices para tabela `produtos`
+--
+ALTER TABLE `produtos`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Índices para tabela `usuarios`
 --
 ALTER TABLE `usuarios`
@@ -121,13 +152,19 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de tabela `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de tabela `fornecedores`
 --
 ALTER TABLE `fornecedores`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de tabela `produtos`
+--
+ALTER TABLE `produtos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios`
