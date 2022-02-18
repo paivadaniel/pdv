@@ -105,7 +105,7 @@ if (@$_GET['funcao'] == 'editar') {
     if ($total_res_ed > 0) {
         //recupera dados do usuário, os quais foram inseridos no banco de dados
         $nome = $res_ed[0]['nome'];
-        $nivel = $res_ed[0]['foto'];
+        $foto = $res_ed[0]['foto'];
     }
 } else {
     $titulo_modal = "Inserir Registro";

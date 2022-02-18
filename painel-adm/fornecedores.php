@@ -68,7 +68,7 @@ $pag = 'fornecedores';
                                 <td><?php echo $res_tab[$i]['telefone']; ?></td>
                                 <td>
 
-                                    <a href="index.php?pagina=<?php echo $pag; ?>&funcao=editar&id=<?php echo $res_tab[$i]['id']; ?>" type="button" title="Editar Registro">
+                                    <ahref="index.php?pagina=<?php echo $pag; ?>&funcao=editar&id=<?php echo $res_tab[$i]['id']; ?>" type="button" title="Editar Registro">
                                         <i class="bi bi-pencil-square text-primary me-2"></i>
                                     </a>
 

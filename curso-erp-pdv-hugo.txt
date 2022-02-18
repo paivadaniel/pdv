@@ -468,7 +468,9 @@ no phpmyadmin, na tabela produtos, no valor_compra coloca DECIMAL, e 8,2
 
 categoria e fornecedor são INT, pois serão relacionamento entre tabelas
 
+----03_08
 
+categorias.php e produtos.php está com problema no modalDados
 
 
 PROBLEMAS
@@ -494,3 +496,39 @@ hugo e colocar em fornecedores.php daí funciona, tentei substituir pelo código
 3. codigo do script que chama o modal
 
 todos não funcionaram.
+
+----- 03_07
+
+mesmo problema passado, não abriu o modal para mostrar os dados dos produtos
+
+---- 03_07 (ou 03_08)
+
+não entendi o script de carregar imagem em produtos.php e categorias.php
+
+<!--SCRIPT PARA MOSTRAR TROCA DE IMAGEM -->
+<script type="text/javascript">
+    function carregarImg() {
+
+        var target = document.getElementById('target');
+        var file = document.querySelector("input[type=file]").files[0];
+        var reader = new FileReader();
+
+        reader.onloadend = function() {
+            target.src = reader.result;
+        };
+
+        if (file) {
+            reader.readAsDataURL(file);
+
+
+        } else {
+            target.src = "";
+        }
+    }
+</script>
+
+----- 03_08
+
+não entendi
+
+        $('#imagem-registro').attr('src', '../img/produtos/' + foto);

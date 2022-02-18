@@ -59,6 +59,12 @@ $pag = 'produtos';
                         for ($i = 0; $i < $total_reg_tab; $i++) {
                             foreach ($res_tab[$i] as $key => $value) {
                             } //fechamento do foreach
+                            
+                            $id_cat = $res_tab2[$i]['categoria'];
+                            $query_tab2 = $pdo->query("SELECT * FROM categoria WHERE id = '$res_tab[0]['categoria']'"); //nome é o campo da tabela
+                            $res_tab2 = $query_tab2->fetchAll(PDO::FETCH_ASSOC);
+                            $nome_cat = $res_tab2[0]['nome'];
+
 
                         ?>
 
@@ -87,7 +93,7 @@ $pag = 'produtos';
                                         <i class="bi bi-archive text-danger"></i>
                                     </a>
 
-                                    <a href="#" onclick="mostrarDados('<?php echo $res_tab[$i]['descricao']; ?>, <?php echo $res_tab[$i]['foto']; ?>, <?php echo $res_tab[$i]['categoria']; ?>')" title="Ver Dados">
+                                    <a href="#" onclick="mostrarDados('<?php echo $res_tab[$i]['descricao']; ?>, <?php echo $res_tab[$i]['foto']; ?>, <?php echo $nome_cat; ?>')" title="Ver Dados">
                                     <i class="bi bi-card-text text-dark ms-2"></i>
 
 
@@ -125,8 +131,22 @@ if (@$_GET['funcao'] == 'editar') {
 
     if ($total_res_ed > 0) {
         //recupera dados do usuário, os quais foram inseridos no banco de dados
+        $codigo = $res_ed[0]['codigo'];
         $nome = $res_ed[0]['nome'];
-        $nivel = $res_ed[0]['foto'];
+        $descricao = $res_ed[0]['descricao'];
+        $estoque = $res_ed[0]['estoque'];
+        $valor_compra = $res_ed[0]['valor_compra'];
+        $valor_venda = $res_ed[0]['valor_venda'];
+        $fornecedor = $res_ed[0]['fornecedor'];
+        $categoria = $res_ed[0]['categoria'];
+
+        $foto = $res_ed[0]['foto'];
+
+
+
+
+
+
     }
 } else {
     $titulo_modal = "Inserir Registro";
@@ -138,7 +158,7 @@ if (@$_GET['funcao'] == 'editar') {
 <!-- MODAL PARA INSERÇÃO DOS DADOS -->
 
 <div class="modal fade" tabindex="-1" id="modalCadastrar">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title"><?php echo $titulo_modal; ?></h5>
@@ -237,7 +257,7 @@ if (@$_GET['funcao'] == 'editar') {
 
 
 
-<!-- MODAL PARA MOSTRAR O ENDEREÇO -->
+<!-- MODAL PARA MOSTRAR OS DADOS -->
 
 <div class="modal fade" tabindex="-1" id="modalDados">
     <div class="modal-dialog">
@@ -250,13 +270,15 @@ if (@$_GET['funcao'] == 'editar') {
 
             <div class="modal-body">
 
-             <b>Nome: </b>
-             <span id="nome-registro"></span>
+             <b>Categoria: </b>
+             <span id="categoria-registro"></span>
 
              <hr>
-             <b>Endereço: </b>
-             <span id="endereco-registro"></span>
+             <b>Descrição: </b>
+             <span id="descricao-registro"></span>
 
+             <hr>
+             <img id="imagem-registro" src="" class="mt-4" width="200px">
 
             </div>
         </div>
@@ -467,6 +489,7 @@ if (@$_GET['funcao'] == 'deletar') {
 
         $('#descricao-registro').text(descricao);
         $('#categoria-registro').text(categoria);
+        $('#imagem-registro').attr('src', '../img/produtos/' + foto);
 
         var myModal = new bootstrap.Modal(document.getElementById('modalDados'), {})
 
