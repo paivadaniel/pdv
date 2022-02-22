@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 17-Fev-2022 às 21:27
--- Versão do servidor: 10.4.21-MariaDB
--- versão do PHP: 8.0.10
+-- Tempo de geração: 22-Fev-2022 às 01:36
+-- Versão do servidor: 10.4.22-MariaDB
+-- versão do PHP: 8.0.15
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -87,7 +87,7 @@ CREATE TABLE `produtos` (
 --
 
 INSERT INTO `produtos` (`id`, `codigo`, `nome`, `descricao`, `estoque`, `valor_compra`, `valor_venda`, `fornecedor`, `categoria`, `foto`) VALUES
-(1, 0, 'daada', 'daddddddddddddddddddddddddddddddddddddddd', 12, '23.00', '28.00', 1, 2, NULL);
+(1, 0, 'daada', 'daddddddddddddddddddddddddddddddddddddddd', 12, '23.00', '28.00', 1, 2, 'sem-foto.jpg');
 
 -- --------------------------------------------------------
 
