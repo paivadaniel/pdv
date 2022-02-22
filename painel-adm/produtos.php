@@ -59,11 +59,11 @@ $pag = 'produtos';
                         for ($i = 0; $i < $total_reg_tab; $i++) {
                             foreach ($res_tab[$i] as $key => $value) {
                             } //fechamento do foreach
-                            
-                            $id_cat = $res_tab2[$i]['categoria'];
-                            $query_tab2 = $pdo->query("SELECT * FROM categoria WHERE id = '$res_tab[0]['categoria']'"); //nome é o campo da tabela
-                            $res_tab2 = $query_tab2->fetchAll(PDO::FETCH_ASSOC);
-                            $nome_cat = $res_tab2[0]['nome'];
+
+                            $id_cat = $res_tab[$i]['categoria']; //o campo categoria na tabela produtos registra o id da categoria, semelhante ao que que faz o campo fornecedores dessa mesma tabela, que registra o id do fornecedor
+                            $query_2 = $pdo->query("SELECT * FROM categorias WHERE id = '$id_cat'"); //procura na tabela categoria
+                            $res_2 = $query_2->fetchAll(PDO::FETCH_ASSOC);
+                            $nome_cat = $res_2[0]['nome']; //nome da categoria, só vai ter uma linha, por isso usou posição [0]
 
 
                         ?>
@@ -75,7 +75,7 @@ $pag = 'produtos';
                                 <td><?php echo $res_tab[$i]['valor_compra']; ?></td>
                                 <td><?php echo $res_tab[$i]['valor_venda']; ?></td>
                                 <td><?php echo $res_tab[$i]['fornecedor']; ?></td>
-                               
+
                                 <!-- FOTO -->
 
                                 <td>
@@ -94,7 +94,7 @@ $pag = 'produtos';
                                     </a>
 
                                     <a href="#" onclick="mostrarDados('<?php echo $res_tab[$i]['descricao']; ?>, <?php echo $res_tab[$i]['foto']; ?>, <?php echo $nome_cat; ?>')" title="Ver Dados">
-                                    <i class="bi bi-card-text text-dark ms-2"></i>
+                                        <i class="bi bi-card-text text-dark ms-2"></i>
 
 
                                     </a>
@@ -141,12 +141,6 @@ if (@$_GET['funcao'] == 'editar') {
         $categoria = $res_ed[0]['categoria'];
 
         $foto = $res_ed[0]['foto'];
-
-
-
-
-
-
     }
 } else {
     $titulo_modal = "Inserir Registro";
@@ -169,26 +163,75 @@ if (@$_GET['funcao'] == 'editar') {
 
                 <div class="modal-body">
 
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="nome" class="form-label">Nome</label>
+                                <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome" required value="<?php echo @$nome; ?>">
+                            </div>
+
+                        </div>
+                        <div class="col-md-4">
+
+                            <div class="mb-3">
+                                <label for="codigo" class="form-label">Código</label>
+                                <input type="text" class="form-control" id="codigo" name="codigo" placeholder="Código" required value="<?php echo @$codigo; ?>">
+                            </div>
+
+                        </div>
+                        <div class="col-md-4">
+
+                            <div class="mb-3">
+                                <label for="valor_venda" class="form-label">Valor venda</label>
+                                <input type="text" class="form-control" id="valor_venda" name="valor_venda" placeholder="Código" required value="<?php echo @$valor_venda; ?>">
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
                     <div class="mb-3">
-                        <label for="nome" class="form-label">Nome</label>
-                        <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite seu nome" required value="<?php echo @$nome; ?>">
+                        <label for="descricao" class="form-label">Descrição</label>
+                        <textarea type="text" class="form-control" id="descricao" name="descricao" maxlength="200"> <?php echo @$descricao; ?> </textarea> <!-- textarea não tem value, tem que colocar entre a abertura e fechamento das tags -->
                     </div>
 
-                    <!-- INPUT PARA UPLOAD DE IMAGEM -->
-                    <div class="form-group">
-                        <label>Foto</label>
-                        <input type="file" value="<?php echo @$foto ?>" class="form-control-file" id="imagem" name="imagem" onChange="carregarImg();">
+
+                    <div class="row">
+                        <div class="col-md-6">
+
+                            <div class="form-group mb-3">
+                                <label for="categoria">Categoria</label>
+                                <select class="form-select mt-1" aria-label="Default select example" name="categoria">
+
+                                    <option <?php if (@$tipo_pessoa == 'Fisica') { ?> selected <?php } ?> value="Física">Física</option>
+
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-6">
+                            <!-- INPUT PARA UPLOAD DE IMAGEM -->
+                            <div class="form-group">
+                                <label>Foto</label>
+                                <input type="file" value="<?php echo @$foto ?>" class="form-control-file" id="imagem" name="imagem" onChange="carregarImg();">
+                            </div>
+
+                            <div id="divImgConta" class="mt-4">
+                                <?php if (@$foto != "") { //se a imagem já existir 
+                                ?>
+                                    <img src="../img/produtos/<?php echo $foto ?>" width="200px" id="target">
+                                <?php  } else { //se for a primeira inserção da categoria, e não tiver sido escolhida uma imagem 
+                                ?>
+                                    <img src="../img/produtos/sem-foto.jpg" width="200px" id="target">
+                                <?php } ?>
+                            </div>
+
+                        </div>
+
                     </div>
 
-                    <div id="divImgConta" class="mt-4">
-                        <?php if (@$foto != "") { //se a imagem já existir 
-                        ?>
-                            <img src="../img/produtos/<?php echo $foto ?>" width="200px" id="target">
-                        <?php  } else { //se for a primeira inserção da categoria, e não tiver sido escolhida uma imagem 
-                        ?>
-                            <img src="../img/produtos/sem-foto.jpg" width="200px" id="target">
-                        <?php } ?>
-                    </div>
 
 
 
@@ -270,15 +313,15 @@ if (@$_GET['funcao'] == 'editar') {
 
             <div class="modal-body">
 
-             <b>Categoria: </b>
-             <span id="categoria-registro"></span>
+                <b>Categoria: </b>
+                <span id="categoria-registro"></span>
 
-             <hr>
-             <b>Descrição: </b>
-             <span id="descricao-registro"></span>
+                <hr>
+                <b>Descrição: </b>
+                <span id="descricao-registro"></span>
 
-             <hr>
-             <img id="imagem-registro" src="" class="mt-4" width="200px">
+                <hr>
+                <img id="imagem-registro" src="" class="mt-4" width="200px">
 
             </div>
         </div>
@@ -463,9 +506,9 @@ if (@$_GET['funcao'] == 'deletar') {
 <script type="text/javascript">
     function carregarImg() {
 
-        var target = document.getElementById('target');
-        var file = document.querySelector("input[type=file]").files[0];
-        var reader = new FileReader();
+        var target = document.getElementById('target'); //pega o caminho do img com id="target"
+        var file = document.querySelector("input[type=file]").files[0]; //não entendi, porém, creio que armazena a imagem para troca, ou seja, a nova imagem (do tipo file) selecionada no explorador de arquivos para troca
+        var reader = new FileReader(); //criou um objeto, ou seja, uma instância de uma classe, no caso a FileReader
 
         reader.onloadend = function() {
             target.src = reader.result;
@@ -489,7 +532,7 @@ if (@$_GET['funcao'] == 'deletar') {
 
         $('#descricao-registro').text(descricao);
         $('#categoria-registro').text(categoria);
-        $('#imagem-registro').attr('src', '../img/produtos/' + foto);
+        $('#imagem-registro').attr('src', '../img/produtos/' + foto); //muda o atributo src, antes vazio, para o caminho do segundo argumento em attr
 
         var myModal = new bootstrap.Modal(document.getElementById('modalDados'), {})
 
