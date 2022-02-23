@@ -472,6 +472,15 @@ categoria e fornecedor são INT, pois serão relacionamento entre tabelas
 
 categorias.php e produtos.php está com problema no modalDados
 
+-----03_15
+
+usou os aplicativos android
+barcode scanner (esse apenas lê o código de barras)
+androcode scanner (esse faz o papel da máquina leitora de código de barras do supermercado, ou seja, lê
+o código e executa um comando após ele)
+
+também usou um aplicativo chamado VISOR para emular o celular no pc
+
 
 PROBLEMAS
 

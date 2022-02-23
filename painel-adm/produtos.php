@@ -6,6 +6,7 @@ require_once('../conexao.php');
 require_once('verifica_permissao.php');
 
 $pag = 'produtos';
+
 ?>
 
 <!DOCTYPE html>
@@ -138,7 +139,7 @@ if (@$_GET['funcao'] == 'editar') {
         $valor_compra = $res_ed[0]['valor_compra'];
         $valor_venda = $res_ed[0]['valor_venda'];
         $fornecedor = $res_ed[0]['fornecedor'];
-        $categoria = $res_ed[0]['categoria'];
+        $categoria = $res_ed[0]['categoria']; //armazena o id da categoria
 
         $foto = $res_ed[0]['foto'];
     }
@@ -198,26 +199,47 @@ if (@$_GET['funcao'] == 'editar') {
 
 
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
 
                             <div class="form-group mb-3">
                                 <label for="categoria">Categoria</label>
                                 <select class="form-select mt-1" aria-label="Default select example" name="categoria">
 
-                                    <option <?php if (@$tipo_pessoa == 'Fisica') { ?> selected <?php } ?> value="Física">Física</option>
+                                    <?php
+
+                                    $query_ed = $pdo->query("SELECT * FROM categorias ORDER BY nome asc");
+                                    $res_ed = $query_ed->fetchAll(PDO::FETCH_ASSOC);
+                                    $total_res_ed = @count($res_ed);
+
+                                    if ($total_res_ed > 0) {
+
+                                        //$categoria armazena o id da categoria conforme query realizada lá em cima
+                                    ?>
+
+                                        <option <?php
+                                                if (@$categoria == $res[0]['id']) { ?> selected <?php } ?> value="<?php echo $res[0]['id'] ?>"><?php echo $res[0]['nome'] ?></option>
 
                                 </select>
+
+                            <?php
+                                    }
+                            ?>
+
                             </div>
 
                         </div>
 
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <!-- INPUT PARA UPLOAD DE IMAGEM -->
                             <div class="form-group">
                                 <label>Foto</label>
                                 <input type="file" value="<?php echo @$foto ?>" class="form-control-file" id="imagem" name="imagem" onChange="carregarImg();">
                             </div>
 
+                        </div>
+
+
+                        <div class="col-md-4">
                             <div id="divImgConta" class="mt-4">
                                 <?php if (@$foto != "") { //se a imagem já existir 
                                 ?>
@@ -232,8 +254,9 @@ if (@$_GET['funcao'] == 'editar') {
 
                     </div>
 
+                </div>
 
-
+                <div id="codigoBarra">
 
                 </div>
 
@@ -390,7 +413,7 @@ if (@$_GET['funcao'] == 'deletar') {
 
 <!--AJAX PARA INSERÇÃO E EDIÇÃO DOS DADOS COM IMAGEM -->
 <script type="text/javascript">
-    $("#form").submit(function() {
+    $("#form").submit(function() { //executa uma função com base na submissão (envio) do formulário
         var pag = "<?= $pag ?>"; //não sei porque não colocou < ?php $pag ?>, ou seja trocou php por =
         event.preventDefault();
         /*
@@ -537,6 +560,37 @@ if (@$_GET['funcao'] == 'deletar') {
         var myModal = new bootstrap.Modal(document.getElementById('modalDados'), {})
 
         myModal.show();
+
+    }
+</script>
+
+
+
+<!--AJAX PARA MOSTRAR CÓDIGO DE BARRAS AO DIGITAR CAMPO CÓDIGO EM NOVO PRODUTO -->
+<script type="text/javascript">
+    $('#codigo').keyup(function() {
+        /*
+        função change só funciona para campo select, se for para input tem que ser keyup
+        */
+        gerarCodigo();
+    });
+</script>
+
+<script type="text/javascript">
+    var pag = "<?= $pag ?>";
+
+    function gerarCodigo() {
+        $.ajax({
+            url: pag + '/barras.php',
+            method: 'POST',
+            data: $('#form').serialize(),
+            dataType: "html",
+
+            success: function(result) {
+                $('#codigoBarra').html(result); //mostra no campo com id=codigoBarra, o resultado html do ajax gerarCodigo
+            }
+
+        });
 
     }
 </script>
