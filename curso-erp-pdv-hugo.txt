@@ -541,3 +541,7 @@ não entendi o script de carregar imagem em produtos.php e categorias.php
 não entendi
 
         $('#imagem-registro').attr('src', '../img/produtos/' + foto);
+
+----- 03_15
+
+o código de barras que o barcode leu é diferente do que eu digitei.

@@ -207,11 +207,11 @@ if (@$_GET['funcao'] == 'editar') {
 
                                     <?php
 
-                                    $query_ed = $pdo->query("SELECT * FROM categorias ORDER BY nome asc");
-                                    $res_ed = $query_ed->fetchAll(PDO::FETCH_ASSOC);
-                                    $total_res_ed = @count($res_ed);
+                                    $query = $pdo->query("SELECT * FROM categorias ORDER BY nome asc");
+                                    $res = $query->fetchAll(PDO::FETCH_ASSOC);
+                                    $total_res = @count($res_ed);
 
-                                    if ($total_res_ed > 0) {
+                                    if ($total_res > 0) {
 
                                         //$categoria armazena o id da categoria conforme query realizada lá em cima
                                     ?>
@@ -243,10 +243,10 @@ if (@$_GET['funcao'] == 'editar') {
                             <div id="divImgConta" class="mt-4">
                                 <?php if (@$foto != "") { //se a imagem já existir 
                                 ?>
-                                    <img src="../img/produtos/<?php echo $foto ?>" width="200px" id="target">
+                                    <img src="../img/produtos/<?php echo $foto ?>" width="150px" id="target">
                                 <?php  } else { //se for a primeira inserção da categoria, e não tiver sido escolhida uma imagem 
                                 ?>
-                                    <img src="../img/produtos/sem-foto.jpg" width="200px" id="target">
+                                    <img src="../img/produtos/sem-foto.jpg" width="150px" id="target">
                                 <?php } ?>
                             </div>
 
