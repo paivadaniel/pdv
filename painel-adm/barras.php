@@ -75,5 +75,4 @@ echo '<img src="imagens/b.gif" width="'.$fino.'" height="'.$altura.'" border="0"
 echo '<img src="imagens/p.gif" width="1" height="'.$altura.'" border="0" />';
 }
 
-geraCodigoBarra('7896004744971');
 ?>

@@ -213,17 +213,22 @@ if (@$_GET['funcao'] == 'editar') {
 
                                     if ($total_res > 0) {
 
+                                        for ($i = 0; $i < $total_reg_tab; $i++) {
+                                            foreach ($res_tab[$i] as $key => $value) {
+                                            } //fechamento do foreach                
+
                                         //$categoria armazena o id da categoria conforme query realizada lá em cima
                                     ?>
 
                                         <option <?php
-                                                if (@$categoria == $res[0]['id']) { ?> selected <?php } ?> value="<?php echo $res[0]['id'] ?>"><?php echo $res[0]['nome'] ?></option>
+                                        /*
+                                        para edição, se a categoria que já estava lá for igual ao id que está vindo, é para deixar ela selecionada, pois o produto que está sendo editado pertence àquela categoria
+                                        */
+                                                if (@$categoria == $res[$i]['id']) { //chave de abertura do if ?> selected <?php } ?> value="<?php echo $res[$i]['id'] ?>"><?php echo $res[$i]['nome'] ?></option>
+
+                                                <?php }} //fechamento do if seguido do fechamento do for ?>
 
                                 </select>
-
-                            <?php
-                                    }
-                            ?>
 
                             </div>
 
