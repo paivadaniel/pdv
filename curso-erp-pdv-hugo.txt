@@ -545,3 +545,9 @@ não entendi
 ----- 03_15
 
 o código de barras que o barcode leu é diferente do que eu digitei.
+
+----- 03_19
+
+não está abrindo a modal de inserir produto, nem a de deletar, nem a de exibir os dados do produto.
+
+outra coisa, o datatable não está mostrando o listando produtos (paginação), apenas quando clico em editar, daí mostrando.

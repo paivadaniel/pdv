@@ -62,7 +62,7 @@ $pag = 'categorias';
                                 <td><?php echo $res_tab[$i]['nome']; ?></td>
                                 <td></td>
                                 <td>
-                                    <img src="../img/categorias/<?php echo $res_tab[$i]['foto'] ?>" width="50px">
+                                    <img src="../img/<?php echo $pag ?>/<?php echo $res_tab[$i]['foto'] ?>" width="50px">
                                 </td>
                                 <td>
 
@@ -142,10 +142,10 @@ if (@$_GET['funcao'] == 'editar') {
                     <div id="divImgConta" class="mt-4">
                         <?php if (@$foto != "") { //se a imagem já existir 
                         ?>
-                            <img src="../img/categorias/<?php echo $foto ?>" width="200px" id="target">
+                            <img src="../img/<?php echo $pag ?>/<?php echo $foto ?>" width="200px" id="target">
                         <?php  } else { //se for a primeira inserção da categoria, e não tiver sido escolhida uma imagem 
                         ?>
-                            <img src="../img/categorias/sem-foto.jpg" width="200px" id="target">
+                            <img src="../img/<?php echo $pag ?>/sem-foto.jpg" width="200px" id="target">
                         <?php } ?>
                     </div>
 
