@@ -65,15 +65,27 @@ $pag = 'produtos';
                             $nome_cat = $res_2[0]['nome']; //nome da categoria, só vai ter uma linha, por isso usou posição [0]
 
 
+                            $id_fornecedor = $res_tab[$i]['fornecedor'];
+                            //BUSCAR OS DADOS DO FORNECEDOR
+                            $query_fornecedor = $pdo->query("SELECT * FROM fornecedores WHERE id = '$id_fornecedor'");
+                            $res_fornecedor = $query_fornecedor->fetchAll(PDO::FETCH_ASSOC);
+                            $total_reg_fornecedor = @count($res_fornecedor);
+
+                            if($total_reg_fornecedor > 0) {
+                                $nome_fornecedor = $res_fornecedor[0]['nome'];
+                            } else {
+                                $nome_fornecedor = 'Fornecedor não cadastrado';
+                            }
+
                         ?>
 
                             <tr>
                                 <td><?php echo $res_tab[$i]['nome']; ?></td>
                                 <td><?php echo $res_tab[$i]['codigo']; ?></td>
                                 <td><?php echo $res_tab[$i]['estoque']; ?></td>
-                                <td><?php echo str_replace('.', ',', $res_tab[$i]['valor_compra']); ?></td>
-                                <td><?php echo str_replace('.', ',', $res_tab[$i]['valor_venda']); ?></td>
-                                <td><?php echo $res_tab[$i]['fornecedor']; ?></td>
+                                <td>R$ <?php echo number_format($res_tab[$i]['valor_compra'], 2, ',', '.'); ?></td>
+                                <td>R$ <?php echo number_format($res_tab[$i]['valor_venda'], 2, ',', '.'); ?></td>
+                                <td><?php echo @$nome_fornecedor; ?></td>
 
                                 <!-- FOTO -->
 
@@ -335,7 +347,7 @@ $pag = 'produtos';
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Dados do Fornecedor</h5>
+                    <h5 class="modal-title">Dados do Produto</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
@@ -345,7 +357,15 @@ $pag = 'produtos';
                     <b>Categoria: </b>
                     <span id="categoria-registro"></span>
 
+
+
+                    <b>Fornecedor: </b>
+                    <div class="row">
+                        <div class="col-md-6"></div>
+                    </div>
+
                     <hr>
+
                     <b>Descrição: </b>
                     <span id="descricao-registro"></span>
 
