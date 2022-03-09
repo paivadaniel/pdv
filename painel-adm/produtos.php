@@ -729,7 +729,6 @@ if (@$_GET['funcao'] == 'deletar') {
     }
 </script>
 
-
 <script type="text/javascript">
     function comprarProdutos(id) {
 
