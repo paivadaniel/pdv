@@ -71,10 +71,12 @@ $pag = 'produtos';
                             $res_fornecedor = $query_fornecedor->fetchAll(PDO::FETCH_ASSOC);
                             $total_reg_fornecedor = @count($res_fornecedor);
 
-                            if($total_reg_fornecedor > 0) {
+                            if ($total_reg_fornecedor > 0) {
                                 $nome_fornecedor = $res_fornecedor[0]['nome'];
+                                $tel_fornecedor = $res_fornecedor[0]['telefone'];
                             } else {
                                 $nome_fornecedor = 'Fornecedor não cadastrado';
+                                $tel_fornecedor = 'Telefone não cadastrado';
                             }
 
                         ?>
@@ -96,18 +98,21 @@ $pag = 'produtos';
                                 <!-- AÇÕES -->
                                 <td>
 
-                                    <a href="index.php?pagina=<?php echo $pag; ?>&funcao=editar&id=<?php echo $res_tab[$i]['id']; ?>" type="button" title="Editar Registro">
+                                    <a href="index.php?pagina=<?php echo $pag; ?>&funcao=editar&id=<?php echo $res_tab[$i]['id']; ?>" type="button" title="Editar Registro" style="text-decoration:none">
                                         <i class="bi bi-pencil-square text-primary me-2"></i>
                                     </a>
 
-                                    <a href="index.php?pagina=<?php echo $pag; ?>&funcao=deletar&id=<?php echo $res_tab[$i]['id']; ?>" type="button" title="Excluir Registro">
+                                    <a href="index.php?pagina=<?php echo $pag; ?>&funcao=deletar&id=<?php echo $res_tab[$i]['id']; ?>" type="button" title="Excluir Registro" style="text-decoration:none">
                                         <i class="bi bi-archive text-danger"></i>
                                     </a>
 
-                                    <a href="#" onclick="mostrarDados('<?php echo $res_tab[$i]['descricao']; ?>, <?php echo $res_tab[$i]['foto']; ?>, <?php echo $nome_cat; ?>')" title="Ver Dados">
+                                    <a href="#" onclick="mostrarDados('<?php echo $res_tab[$i]['nome']; ?>', '<?php echo $res_tab[$i]['descricao']; ?>', '<?php echo $res_tab[$i]['foto']; ?>', '<?php echo $nome_cat; ?>', '<?php echo $res_fornecedor[0]['nome']; ?>', '<?php echo $res_fornecedor[0]['telefone']; ?> ')" title="Ver Dados" style="text-decoration:none">
                                         <i class="bi bi-card-text text-dark ms-2"></i>
+                                    </a>
 
 
+                                    <a href="#" onclick="comprarProdutos('<?php echo $res_tab[$i]['id']; ?>')" title="Fazer Pedido" style="text-decoration:none">
+                                        <i class="bi bi-bag text-success ms-2"></i>
                                     </a>
 
 
@@ -184,7 +189,7 @@ $pag = 'produtos';
 
                                 <div class="mb-3">
                                     <label for="codigo" class="form-label">Código</label>
-                                    <input type="text" class="form-control" id="codigo" name="codigo" placeholder="Código" required value="<?php echo @$codigo; ?>">
+                                    <input type="number" class="form-control" id="codigo" name="codigo" placeholder="Código" required value="<?php echo @$codigo; ?>"> <!-- input do código de barras deve ser do tipo number, e não text, o tipo number aceita letras, mas não permite apertar o botão salvar, ou seja, precisa ser número -->
                                 </div>
 
                             </div>
@@ -192,7 +197,7 @@ $pag = 'produtos';
 
                                 <div class="mb-3">
                                     <label for="valor_venda" class="form-label">Valor venda</label>
-                                    <input type="text" class="form-control" id="valor_venda" name="valor_venda" placeholder="Código" required value="<?php echo @$valor_venda; ?>">
+                                    <input type="text" class="form-control" id="valor_venda" name="valor_venda" placeholder="Valor da Venda" required value="<?php echo @$valor_venda; ?>">
                                 </div>
 
                             </div>
@@ -332,6 +337,7 @@ $pag = 'produtos';
                             <input type="hidden" name="id" value="<?php echo @$_GET['id']; ?>">
 
                         </div>
+                    </div>
                 </form>
 
             </div>
@@ -347,7 +353,7 @@ $pag = 'produtos';
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Dados do Produto</h5>
+                    <h5 class="modal-title"><span id="nomeRegistro"></span></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
@@ -355,28 +361,122 @@ $pag = 'produtos';
                 <div class="modal-body">
 
                     <b>Categoria: </b>
-                    <span id="categoria-registro"></span>
+                    <span id="categoriaRegistro"></span>
+                    <hr>
 
+                    <div id="div-forn">
 
+                        <span class="mr-4" id="nomeFornecedorRegistro">
+                            <b>Fornecedor: </b>
+                        </span>
+                        <hr>
 
-                    <b>Fornecedor: </b>
-                    <div class="row">
-                        <div class="col-md-6"></div>
+                        <span class="mr-4" id="telefoneFornecedorRegistro">
+                            <b>Telefone: </b>
+                        </span>
+                        <hr>
+
                     </div>
 
-                    <hr>
-
                     <b>Descrição: </b>
-                    <span id="descricao-registro"></span>
-
+                    <span id="descricaoRegistro"></span>
                     <hr>
-                    <img id="imagem-registro" src="" class="mt-4" width="200px">
+
+                    <img id="imagemRegistro" src="" class="mt-4" width="200px">
 
                 </div>
             </div>
         </div>
 
     </div>
+
+
+    <!-- MODAL PARA COMPRAR PRODUTOS -->
+
+    <div class="modal fade" tabindex="-1" id="modalComprar">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Fazer Pedido</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <form method="POST" id="form-comprar">
+
+                    <div class="modal-body">
+
+                        <div class="form-group mb-3">
+                            <label for="categoria">Fornecedor</label>
+                            <select class="form-select mt-1" aria-label="Default select example" name="fornecedor">
+
+                                <?php
+
+                                $query = $pdo->query("SELECT * FROM fornecedores ORDER BY nome asc");
+                                $res = $query->fetchAll(PDO::FETCH_ASSOC);
+                                $total_res = @count($res_ed);
+
+                                if ($total_res > 0) {
+
+                                    for ($i = 0; $i < $total_reg_tab; $i++) {
+                                        foreach ($res_tab[$i] as $key => $value) {
+                                        }
+
+                                ?>
+
+                                        <option value="<?php echo $res[$i]['id'] ?>"><?php echo $res[$i]['nome'] ?></option>
+
+                                <?php }
+                                } else { //fechamento do if seguido do fechamento do for 
+                                    echo '<option value="">Cadastre um Fornecedor</option>'; //caso não haja fornecedor cadastrado
+                                }
+                                ?>
+
+                            </select>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6">
+
+
+                                <div class="mb-3">
+                                    <label for="valor_compra" class="form-label">Valor da compra</label>
+                                    <input type="number" class="form-control" id="valor_compra" name="valor_compra" placeholder="Valor da compra" required>">
+                                </div>
+
+
+                            </div>
+                            <div class="col-6">
+
+                                <div class="mb-3">
+                                    <label for="quantidade" class="form-label">Quantidade</label>
+                                    <input type="number" class="form-control" id="quantidade" name="quantidade" placeholder="Quantidade" required>">
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <small>
+                            <div align="center" class="mb-3" id="mensagem-comprar">
+                            </div>
+                        </small>
+
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-fechar-comprar">Fechar</button>
+                            <button type="submit" class="btn btn-success" name="btn-salvar-comprar" id="btn-salvar-comprar">Comprar</button>
+
+                            <input type="hidden" name="id-comprar" id="id-comprar">
+
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
 
 
 </body>
@@ -540,6 +640,9 @@ if (@$_GET['funcao'] == 'deletar') {
 <!-- SCRIPT PARA DATATABLE -->
 <script>
     $(document).ready(function() {
+        gerarCodigo();
+        /*o código de barras se clicar em editar o registro, tem que aparecer, por isso adiciona a função que o chama aqui, e fazendo dessa forma, ao clicar em inserir um novo registro, ele irá gerar um código de barras representando o vazio
+         */
         $('#usuarios').DataTable({
             'ordering': false
         });
@@ -571,13 +674,24 @@ if (@$_GET['funcao'] == 'deletar') {
 
 <!-- SCRIPT PARA MOSTRAR DADOS -->
 <script type="text/javascript">
-    function mostrarDados(descricao, foto, categoria) {
+    function mostrarDados(nome, descricao, foto, categoria, nome_fornecedor, telefone_fornecedor) {
 
         event.preventDefault();
 
-        $('#descricao-registro').text(descricao);
-        $('#categoria-registro').text(categoria);
-        $('#imagem-registro').attr('src', '../img/produtos/' + foto); //muda o atributo src, antes vazio, para o caminho do segundo argumento em attr
+        $('#nomeRegistro').text(nome);
+        $('#descricaoRegistro').text(descricao);
+        $('#categoriaRegistro').text(categoria);
+
+        if (nome_fornecedor.trim() === '') { //trim() é para desconsiderar caso haja espaço vazio na palavra que se está testando
+            document.getElementById('div-forn').style.display = 'none';
+            //$(#div-forn).style.display = 'none' não funcionará acima, pois propriedades como style só aceitam document.getElementById
+            /* caso fornecedor seja diferente de vazio, não exibirá os campos de nome e telefone no modal mostrarDados*/
+        } else {
+            document.getElementById('div-forn').style.display = 'block';
+        }
+
+
+        $('#imagemRegistro').attr('src', '../img/produtos/' + foto); //muda o atributo src, antes vazio, para o caminho do segundo argumento em attr
 
         var myModal = new bootstrap.Modal(document.getElementById('modalDados'), {})
 
@@ -613,4 +727,79 @@ if (@$_GET['funcao'] == 'deletar') {
         });
 
     }
+</script>
+
+
+<script type="text/javascript">
+    function comprarProdutos(id) {
+
+        event.preventDefault();
+
+        $('#id-comprar').val(id);
+        // tem que ser com val(), com text não dá certo, $('#id-comprar').text(id);
+
+
+        var myModal = new bootstrap.Modal(document.getElementById('modalComprar'), {})
+
+        myModal.show();
+
+    }
+</script>
+
+
+
+<!--AJAX PARA COMPRAR PRODUTO -->
+<script type="text/javascript">
+    $("#form-comprar").submit(function() { //executa uma função com base na submissão (envio) do formulário
+        var pag = "<?= $pag ?>"; //não sei porque não colocou < ?php $pag ?>, ou seja trocou php por =
+        event.preventDefault();
+        /*
+        toda vez que submetemos uma página por um formulário, ela atualiza,
+        o event.preventDefault() evita que a página seja atualizada,
+        essa é a principal função do ajax
+        */
+        var formData = new FormData(this);
+
+        $.ajax({
+            url: pag + "/comprar-produto.php",
+            type: 'POST',
+            data: formData,
+
+            success: function(mensagem) {
+
+                $('#mensagem').removeClass()
+
+                if (mensagem.trim() == "Salvo com Sucesso!") {
+
+                    $('#nome').val('');
+                    $('#cpf').val('');
+                    $('#btn-fechar').click();
+                    window.location = "index.php?pagina=" + pag; //atualiza a página
+                    /*não precisou colocar $pag, e sim apenas pag, pois é javascript,
+                    e não php, e acima var pag = < ?php $pag ?>
+                    */
+
+                } else { //se não devolver "Salvo com Sucesso!", ou seja, se der errado
+
+                    $('#mensagem').addClass('text-danger')
+                }
+
+                $('#mensagem').text(mensagem)
+
+            },
+
+            cache: false,
+            contentType: false,
+            processData: false,
+            xhr: function() { // Custom XMLHttpRequest
+                var myXhr = $.ajaxSettings.xhr();
+                if (myXhr.upload) { // Avalia se tem suporte a propriedade upload
+                    myXhr.upload.addEventListener('progress', function() {
+                        /* faz alguma coisa durante o progresso do upload */
+                    }, false);
+                }
+                return myXhr;
+            }
+        });
+    });
 </script>

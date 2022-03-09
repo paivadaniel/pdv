@@ -481,6 +481,12 @@ o código e executa um comando após ele)
 
 também usou um aplicativo chamado VISOR para emular o celular no pc
 
+----03_28
+
+é preciso fazer um tratamento para não apagarmos uma categoria que tenha produtos cadastrados,
+pois excluindo essa categoria, na página de produtos teremos um erro ao listar os
+produtos, já que teremos um produto cadastrado sem categoria cadastrada.
+
 
 PROBLEMAS
 
@@ -551,3 +557,11 @@ o código de barras que o barcode leu é diferente do que eu digitei.
 não está abrindo a modal de inserir produto, nem a de deletar, nem a de exibir os dados do produto.
 
 outra coisa, o datatable não está mostrando o listando produtos (paginação), apenas quando clico em editar, daí mostrando.
+
+-----
+
+03_26
+
+não excluiu o produto em no menu de produtos ao clicar na opção de excluir da lista,
+o código está em "painel-adm/produtos/excluir.php" e é idêntico ao de "painel-adm/categorias/excluir.php",
+trocando apenas "categorias" por "produtos"
