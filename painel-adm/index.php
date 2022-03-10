@@ -14,6 +14,7 @@ $menu2 = 'usuarios';
 $menu3 = 'fornecedores';
 $menu4 = 'categorias';
 $menu5 = 'produtos';
+$menu6 = 'compras';
 
 //RECUPERAR DADOS DO USUÁRIO
 $query = $pdo->query("SELECT * FROM usuarios WHERE id = '$_SESSION[id_usuario]'");
@@ -103,7 +104,7 @@ $id_usu = $res[0]['id'];
                                 <a class="dropdown-item" href="index.php?pagina=<?php echo $menu4; ?>">Cadastro de categorias</a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="index.php?pagina=<?php echo $menu6; ?>">Lista de compras</a>
                             </li>
                             <li>
                                 <hr class="dropdown-divider">
@@ -159,6 +160,8 @@ $id_usu = $res[0]['id'];
         require_once($menu4 . '.php');
     } else if (@$_GET['pagina'] == $menu5) {
         require_once($menu5 . '.php');
+    } else if (@$_GET['pagina'] == $menu6) {
+        require_once($menu6 . '.php');
     } else {
         //caso não for nenhuma das páginas do GET, e tiver algum lixo nele, carrega a home.php
         require_once($menu1 . '.php');

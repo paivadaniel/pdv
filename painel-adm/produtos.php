@@ -441,7 +441,8 @@ $pag = 'produtos';
 
                                 <div class="mb-3">
                                     <label for="valor_compra" class="form-label">Valor da compra</label>
-                                    <input type="number" class="form-control" id="valor_compra" name="valor_compra" placeholder="Valor da compra" required>">
+                                    <input type="text" class="form-control" id="valor_compra" name="valor_compra" placeholder="Valor da compra" required>">
+                                    <!-- alterei de type="number" para "text" para poder receber valores quebrados, como 14,50, que tem vírgula -->
                                 </div>
 
 
@@ -735,7 +736,8 @@ if (@$_GET['funcao'] == 'deletar') {
         event.preventDefault();
 
         $('#id-comprar').val(id);
-        // tem que ser com val(), com text não dá certo, $('#id-comprar').text(id);
+        //coloca o id do produto, ou seja, res_tab[$i]['id'] no elemento que tem id="id-comprar"
+        //tem que ser com val(), com text não dá certo, $('#id-comprar').text(id);
 
 
         var myModal = new bootstrap.Modal(document.getElementById('modalComprar'), {})
@@ -749,14 +751,9 @@ if (@$_GET['funcao'] == 'deletar') {
 
 <!--AJAX PARA COMPRAR PRODUTO -->
 <script type="text/javascript">
-    $("#form-comprar").submit(function() { //executa uma função com base na submissão (envio) do formulário
-        var pag = "<?= $pag ?>"; //não sei porque não colocou < ?php $pag ?>, ou seja trocou php por =
+    $("#form-comprar").submit(function() {
+        var pag = "<?= $pag ?>";
         event.preventDefault();
-        /*
-        toda vez que submetemos uma página por um formulário, ela atualiza,
-        o event.preventDefault() evita que a página seja atualizada,
-        essa é a principal função do ajax
-        */
         var formData = new FormData(this);
 
         $.ajax({
@@ -766,24 +763,19 @@ if (@$_GET['funcao'] == 'deletar') {
 
             success: function(mensagem) {
 
-                $('#mensagem').removeClass()
+                $('#mensagem-comprar').removeClass()
 
                 if (mensagem.trim() == "Salvo com Sucesso!") {
 
                     $('#nome').val('');
                     $('#cpf').val('');
                     $('#btn-fechar').click();
-                    window.location = "index.php?pagina=" + pag; //atualiza a página
-                    /*não precisou colocar $pag, e sim apenas pag, pois é javascript,
-                    e não php, e acima var pag = < ?php $pag ?>
-                    */
-
-                } else { //se não devolver "Salvo com Sucesso!", ou seja, se der errado
-
-                    $('#mensagem').addClass('text-danger')
+                    window.location = "index.php?pagina=" + pag;
+                } else {
+                    $('#mensagem-comprar').addClass('text-danger')
                 }
 
-                $('#mensagem').text(mensagem)
+                $('#mensagem-comprar').text(mensagem)
 
             },
 
