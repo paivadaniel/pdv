@@ -31,10 +31,9 @@ $query->bindValue(":valor_compra", $valor_compra);
 $query->bindValue(":id", $id);
 $query->execute();
 
-$query = $pdo->prepare("INSERT INTO compras SET total = :total, data = curDate(), usuario = :usuario, valor = :valor_compra, fornecedor = :fornecedor, pago = 'Não'");
+$query = $pdo->prepare("INSERT INTO compras SET total = :total, data = curDate(), usuario = :usuario, fornecedor = :fornecedor, pago = 'Não'");
 $query->bindValue(":total", $total_compra);
 $query->bindValue(":usuario", $id_usuario);
-$query->bindValue(":valor_compra", $valor_compra);
 $query->bindValue(":fornecedor", $fornecedor);
 $query->execute();
 
