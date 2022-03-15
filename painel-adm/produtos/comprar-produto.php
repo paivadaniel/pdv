@@ -39,7 +39,7 @@ $query->bindValue(":fornecedor", $fornecedor);
 $query->execute();
 
 //inserir na tabela contas_pagar
-$query = $pdo->prepare("INSERT INTO compras SET valor = :valor, data = curDate(), usuario = :usuario, pago = 'Não', arquivo = 'sem-foto.jpg'");
+$query = $pdo->prepare("INSERT INTO contas_pagar SET descricao = 'Compra de Produtos', valor = :valor, data = curDate(), usuario = :usuario, pago = 'Não', arquivo = 'sem-foto.jpg'");
 $query->bindValue(":valor", $total_compra);
 $query->bindValue(":usuario", $id_usuario);
 $query->execute();

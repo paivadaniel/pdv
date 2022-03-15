@@ -42,6 +42,7 @@ $pag = 'contas_pagar';
                     <thead>
                         <tr>
                             <th>Pago</th>
+                            <th>Descrição</th>
                             <th>Valor</th>
                             <th>Usuário</th>
                             <th>Data</th>
@@ -58,8 +59,8 @@ $pag = 'contas_pagar';
                             foreach ($res_tab[$i] as $key => $value) {
                             } //fechamento do foreach
 
-                            $id_usu = res_tab[0]['id'];
-                            $data = res_tab[$i]['data'];
+                            $id_usu = $res_tab[0]['usuario'];
+                            $data = $res_tab[$i]['data'];
 
                             if ($res_tab[$i]['pago'] == 'Sim') {
                                 $classe = 'text-sucess';
@@ -68,7 +69,7 @@ $pag = 'contas_pagar';
                             }
 
                             //encontra o usuário responsável pela compra
-                            $query_p = $pdo->query("SELECT * FROM usuarios WHERE id = $id_usu");
+                            $query_p = $pdo->query("SELECT * FROM usuarios WHERE id = '$id_usu'");
                             $res_p = $query_p->fetchAll(PDO::FETCH_ASSOC);
                             $nome_usu = $res_p[0]['nome'];
 
@@ -79,7 +80,14 @@ $pag = 'contas_pagar';
                                     <i class="bi bi-square-fill <?php echo $classe; ?>"></i>
                                 </td>
 
-                                <td><?php echo $res_tab[$i]['valor']; ?></td>
+                                <td>
+                                <?php echo $res_tab[$i]['descricao']; ?>
+                                </td>
+
+                                <td>
+                                    R$ <?php echo number_format($res_tab[$i]['valor'], 2, ',', '.'); ?>
+                                </td>
+
                                 <td><?php echo $nome_usu ?></td>
                                 <td>
                                     <?php echo implode('/', array_reverse(explode('-', $data)));
@@ -92,13 +100,19 @@ $pag = 'contas_pagar';
                                 </td>
                                 <td>
 
-                                    <a href="index.php?pagina=<?php echo $pag; ?>&funcao=editar&id=<?php echo $res_tab[$i]['id']; ?>" type="button" title="Editar Registro">
+                                    <a href="index.php?pagina=<?php echo $pag; ?>&funcao=editar&id=<?php echo $res_tab[$i]['id']; ?>" type="button" title="Editar Registro" style="text-decoration: none">
                                         <i class="bi bi-pencil-square text-primary me-2"></i>
                                     </a>
 
-                                    <a href="index.php?pagina=<?php echo $pag; ?>&funcao=deletar&id=<?php echo $res_tab[$i]['id']; ?>" type="button" title="Excluir Registro">
+                                    <a href="index.php?pagina=<?php echo $pag; ?>&funcao=deletar&id=<?php echo $res_tab[$i]['id']; ?>" type="button" title="Excluir Registro" style="text-decoration: none">
                                         <i class="bi bi-archive text-danger"></i>
                                     </a>
+
+                                    <a href="index.php?pagina=<?php echo $pag; ?>&funcao=baixar&id=<?php echo $res_tab[$i]['id']; ?>" type="button" title="Baixar Registro">
+                                        <i class="bi bi-check-square-fill text-success" style="text-decoration: none"></i>
+                                    </a>
+
+
                                 </td>
                             </tr>
 
@@ -124,14 +138,17 @@ $pag = 'contas_pagar';
 if (@$_GET['funcao'] == 'editar') {
     $titulo_modal = "Editar Registro";
 
-    $query_ed = $pdo->query("SELECT * FROM categorias WHERE id = '$_GET[id]'");
+    $query_ed = $pdo->query("SELECT * FROM contas_pagar WHERE id = '$_GET[id]'");
     $res_ed = $query_ed->fetchAll(PDO::FETCH_ASSOC);
     $total_res_ed = @count($res_ed);
 
-    if ($total_res_ed > 0) {
+    if ($total_res_ed > 0) { 
         //recupera dados do usuário, os quais foram inseridos no banco de dados
-        $nome = $res_ed[0]['nome'];
-        $foto = $res_ed[0]['foto'];
+        $valor = $res_ed[0]['valor'];
+        $valor = $res_ed[0]['descricao'];
+        $arquivo = $res_ed[0]['arquivo'];
+        //usuário, data e pago não precisam ser recuperados, pois não poderão ser alterados
+
     }
 } else {
     $titulo_modal = "Inserir Registro";
@@ -155,14 +172,20 @@ if (@$_GET['funcao'] == 'editar') {
                 <div class="modal-body">
 
                     <div class="mb-3">
-                        <label for="nome" class="form-label">Nome</label>
-                        <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite seu nome" required value="<?php echo @$nome; ?>">
+                        <label for="descricao" class="form-label">Descrição</label>
+                        <input type="text" class="form-control" id="descricao" name="descricao" placeholder="Digite a descrição" required value="<?php echo @$descricao; ?>">
                     </div>
+
+                    <div class="mb-3">
+                        <label for="valor" class="form-label">Valor</label>
+                        <input type="text" class="form-control" id="valor" name="valor" placeholder="Digite o valor" required value="<?php echo @$valor; ?>">
+                    </div>
+
 
                     <!-- INPUT PARA UPLOAD DE IMAGEM -->
                     <div class="form-group">
-                        <label>Foto</label>
-                        <input type="file" value="<?php echo @$foto ?>" class="form-control-file" id="imagem" name="imagem" onChange="carregarImg();">
+                        <label>Arquivo</label>
+                        <input type="file" value="<?php echo @$arquivo ?>" class="form-control-file" id="arquivo" name="arquivo" onChange="carregarImg();">
                     </div>
 
                     <div id="divImgConta" class="mt-4">
@@ -193,8 +216,6 @@ if (@$_GET['funcao'] == 'editar') {
                     -->
 
                     <input type="hidden" name="id" value="<?php echo @$_GET['id']; ?>">
-
-                    <input type="hidden" name="antigoNome" value="<?php echo @$nome; ?>">
 
                 </div>
             </form>
