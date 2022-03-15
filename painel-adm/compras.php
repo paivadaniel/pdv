@@ -31,7 +31,7 @@ $pag = 'compras';
                         <th>Data</th>
                         <th>Comprador</th>
                         <th>Fornecedor</th>
-                        <th>Telefone Forn.</th>
+                        <th>Tel. Fornecedor</th>
                     </tr>
                 </thead>
 
@@ -43,6 +43,9 @@ $pag = 'compras';
                         foreach ($res_tab[$i] as $key => $value) {
                         } //fechamento do foreach
 
+
+                        //SALVA DATA DA COMPRA  
+                        $data = $res_tab[$i]['data'];
 
                         //BUSCAR OS DADOS DO USUÁRIO
                         $id_usuario = $res_tab[$i]['usuario'];
@@ -63,29 +66,34 @@ $pag = 'compras';
                         if ($total_reg_fornecedor > 0) {
                             $nome_fornecedor = $res_fornecedor[0]['nome'];
                             $telefone_fornecedor = $res_fornecedor[0]['telefone'];
-
                         }
 
-
-
-
+                        if ($res_tab[$i]['pago'] == 'Sim') {
+                            $classe = 'text-sucess';
+                        } else {
+                            $class = 'text-danger';
+                        }
 
                     ?>
 
                         <tr>
                             <td>
-                                <?php if ($res_tab[$i]['pago'] == 'Sim') {?>
 
-                                <i class="bi bi-square-fill"></i>
+                                <i class="bi bi-square-fill <?php echo $classe; ?>"></i>
 
-                                <?php } ?>
                             </td>
                             <td>
                                 R$ <?php echo number_format($res_tab[$i]['total'], 2, ',', '.'); ?>
                             </td>
 
                             <td>
-                                <?php echo $res_tab[$i]['data']; ?>
+                                <?php echo implode('/', array_reverse(explode('-', $data))); 
+                                /*substitui '-' por '/', e array_reverse inverte a ordem da data,
+                                do padrão americano com ANO, MÊS E DIA, para DIA, MÊS E ANO
+                                essa conversão é feita somente para listagem, e não para salvar
+                                no banco de dados
+                                */
+                                ?>
                             </td>
 
                             <td>
@@ -96,7 +104,7 @@ $pag = 'compras';
                                 <?php echo $nome_fornecedor; ?>
                             </td>
 
-                            
+
                             <td>
                                 <?php echo $telefone_fornecedor; ?>
                             </td>

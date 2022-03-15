@@ -19,7 +19,11 @@ if(@count($res_p) > 0) {
 
 //EXCLUIR A IMAGEM DA PASTA
 $imagem = $res_con[0]['foto'];
-unlink('../../img/categorias/'.$imagem);
+
+
+if($imagem != 'sem-foto.jpg') {
+    unlink('../../img/categorias/'.$imagem);
+}
 
 //EXCLUSÃO DA CATEGORIA
 $query_verif = $pdo->query("DELETE FROM categorias WHERE id = '$id'"); 
@@ -29,5 +33,3 @@ os dados não estão vindo de um formulário
 */
 
 echo "Excluído com Sucesso!";
-
-?>

@@ -565,3 +565,8 @@ outra coisa, o datatable não está mostrando o listando produtos (paginação),
 não excluiu o produto em no menu de produtos ao clicar na opção de excluir da lista,
 o código está em "painel-adm/produtos/excluir.php" e é idêntico ao de "painel-adm/categorias/excluir.php",
 trocando apenas "categorias" por "produtos"
+
+---- 03_40
+
+como os botões na página admin de produtos não estão funcionando, incluindo o "fazer pedido", não há nada em "compras.php"
+dentro do painel-adm.

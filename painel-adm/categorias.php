@@ -56,11 +56,19 @@ $pag = 'categorias';
                             foreach ($res_tab[$i] as $key => $value) {
                             } //fechamento do foreach
 
+                            $id_cat = $res_tab[$i]['id']; 
+                            /*aproveita a query passada, de categoria, poderia ser feito também como $id_cat = $res_p[$i]['categoria'], porém, $res_p é definida na query seguinte, ou seja, até essa linha ainda não existe
+                            */
+                            //conta quantos produtos tem cada categoria
+                            $query_p = $pdo->query("SELECT * FROM produtos WHERE categoria = $id_cat"); //nome é o campo da tabela
+                            $res_p = $query_p->fetchAll(PDO::FETCH_ASSOC);
+                            $produtos = @count($res_p);                  
+
                         ?>
 
                             <tr>
                                 <td><?php echo $res_tab[$i]['nome']; ?></td>
-                                <td></td>
+                                <td><?php echo $produtos ?></td>
                                 <td>
                                     <img src="../img/<?php echo $pag ?>/<?php echo $res_tab[$i]['foto'] ?>" width="50px">
                                 </td>
