@@ -570,3 +570,9 @@ trocando apenas "categorias" por "produtos"
 
 como os botões na página admin de produtos não estão funcionando, incluindo o "fazer pedido", não há nada em "compras.php"
 dentro do painel-adm.
+
+---- 04_04
+
+não estou conseguindo inserir na tabela de compras_pagar uma compra feita ná página painel-adm/produtos.php, pois a modal do botão fazer pedido não
+está funcionando
+

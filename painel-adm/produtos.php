@@ -300,6 +300,7 @@ $pag = 'produtos';
                         <input type="hidden" name="id" value="<?php echo @$_GET['id']; ?>">
 
                         <input type="hidden" name="antigoNome" value="<?php echo @$nome; ?>">
+                        <input type="hidden" name="antigoCodigo" value="<?php echo @$codigo; ?>">
 
                     </div>
                 </form>

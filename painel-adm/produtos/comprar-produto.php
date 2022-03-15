@@ -31,12 +31,18 @@ $query->bindValue(":valor_compra", $valor_compra);
 $query->bindValue(":id", $id);
 $query->execute();
 
+//inserir na tabela compras
 $query = $pdo->prepare("INSERT INTO compras SET total = :total, data = curDate(), usuario = :usuario, fornecedor = :fornecedor, pago = 'Não'");
 $query->bindValue(":total", $total_compra);
 $query->bindValue(":usuario", $id_usuario);
 $query->bindValue(":fornecedor", $fornecedor);
 $query->execute();
 
+//inserir na tabela contas_pagar
+$query = $pdo->prepare("INSERT INTO compras SET valor = :valor, data = curDate(), usuario = :usuario, pago = 'Não', arquivo = 'sem-foto.jpg'");
+$query->bindValue(":valor", $total_compra);
+$query->bindValue(":usuario", $id_usuario);
+$query->execute();
 
 
 echo "Salvo com Sucesso!";

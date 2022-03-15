@@ -25,6 +25,7 @@ if ($total_reg > 0) {
     $_SESSION['nivel_usuario'] = $res[0]['nivel'];
     $_SESSION['id_usuario'] = $res[0]['id'];
 
+    //redireciona o usuário para o painel correspondente
     if($nivel == "Admin") {
         echo "<script language='javascript'>window.location='painel-adm'</script>";
     } else if ($nivel == "Operador") {

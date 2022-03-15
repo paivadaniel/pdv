@@ -19,6 +19,7 @@ $id = $_POST['id'];
 
 //edição
 $antigoNome = $_POST['antigoNome'];
+$antigoCodigo = $_POST['antigoCodigo'];
  
 //evitar nome produto duplicado
 if (@$antigoNome != $nome) {
@@ -33,10 +34,30 @@ if (@$antigoNome != $nome) {
     $total_reg_verif = @count($res_verif);
 
     if ($total_reg_verif > 0) {
-        echo "Nome já cadastrado";
+        echo "Nome do produto já cadastrado";
         exit();
     }
 }
+
+
+ //evitar produto com código de barras duplicado
+if (@$antigoCodigo != $codigo) {
+    /*quando $antigoNome não existir, ou seja, for uma inserção, vai cair aqui também, já que $antigoNome será diferente de $nome, este último existe
+    */
+
+    $query_verif = $pdo->prepare("SELECT * FROM produtos WHERE codigo = :codigo");
+    $query_verif->bindValue(":codigo", $codigo);
+    $query_verif->execute();
+
+    $res_verif = $query_verif->fetchAll(PDO::FETCH_ASSOC);
+    $total_reg_verif = @count($res_verif);
+
+    if ($total_reg_verif > 0) {
+        echo "Código do produto já cadastrado";
+        exit();
+    }
+}
+
 
 //SCRIPT PARA SUBIR FOTO NO BANCO
 
