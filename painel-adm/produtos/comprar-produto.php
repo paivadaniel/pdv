@@ -44,5 +44,4 @@ $query->bindValue(":valor", $total_compra);
 $query->bindValue(":usuario", $id_usuario);
 $query->execute();
 
-
 echo "Salvo com Sucesso!";

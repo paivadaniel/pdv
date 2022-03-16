@@ -71,7 +71,7 @@ $pag = 'compras';
                         if ($res_tab[$i]['pago'] == 'Sim') {
                             $classe = 'text-sucess';
                         } else {
-                            $class = 'text-danger';
+                            $classe = 'text-danger';
                         }
 
                     ?>

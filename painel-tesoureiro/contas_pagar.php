@@ -63,9 +63,17 @@ $pag = 'contas_pagar';
                             $data = $res_tab[$i]['data'];
 
                             if ($res_tab[$i]['pago'] == 'Sim') {
-                                $classe = 'text-sucess';
+                                $classe = 'text-success';
                             } else {
-                                $class = 'text-danger';
+                                $classe = 'text-danger';
+                            }
+
+
+                            $extensao = strchr($res_tab[$i]['arquivo'], '.'); //separa a partir do ponto para frente, por exemplo, "teste.pdf" e "foto.jpg" vai guardar ".pdf" e ".jpg"
+                            if($extensao == '.pdf') {
+                                $arquivo_pasta = 'pdf.png';
+                            } else {
+                                $arquivo_pasta = $res_tab[$i]['arquivo'];
                             }
 
                             //encontra o usuário responsável pela compra
@@ -96,7 +104,7 @@ $pag = 'contas_pagar';
 
 
                                 <td>
-                                    <img src="../img/<?php echo $pag ?>/<?php echo $res_tab[$i]['arquivo'] ?>" width="50px">
+                                    <img src="../img/<?php echo $pag ?>/<?php echo $arquivo_pasta ?>" width="50px">
                                 </td>
                                 <td>
 
@@ -105,11 +113,11 @@ $pag = 'contas_pagar';
                                     </a>
 
                                     <a href="index.php?pagina=<?php echo $pag; ?>&funcao=deletar&id=<?php echo $res_tab[$i]['id']; ?>" type="button" title="Excluir Registro" style="text-decoration: none">
-                                        <i class="bi bi-archive text-danger"></i>
+                                        <i class="bi bi-archive text-danger me-2"></i>
                                     </a>
 
                                     <a href="index.php?pagina=<?php echo $pag; ?>&funcao=baixar&id=<?php echo $res_tab[$i]['id']; ?>" type="button" title="Baixar Registro">
-                                        <i class="bi bi-check-square-fill text-success" style="text-decoration: none"></i>
+                                        <i class="bi bi-check-square-fill text-success me-2" style="text-decoration: none"></i>
                                     </a>
 
 
@@ -145,9 +153,18 @@ if (@$_GET['funcao'] == 'editar') {
     if ($total_res_ed > 0) { 
         //recupera dados do usuário, os quais foram inseridos no banco de dados
         $valor = $res_ed[0]['valor'];
-        $valor = $res_ed[0]['descricao'];
+        $descricao = $res_ed[0]['descricao'];
         $arquivo = $res_ed[0]['arquivo'];
         //usuário, data e pago não precisam ser recuperados, pois não poderão ser alterados
+
+        //mesmo tratamento aplicado na inserção, para mostrar imagem de um pdf se o arquivo que foi feito o upload for um pdf, ou a própria imagem, se for uma imagem
+        $extensao2 = strchr($arquivo, '.');
+
+        if($extensao2 == '.pdf') {
+            $arquivo_pasta2 = 'pdf.png';
+        } else {
+            $arquivo_pasta2 = $arquivo;
+        }
 
     }
 } else {
@@ -189,9 +206,9 @@ if (@$_GET['funcao'] == 'editar') {
                     </div>
 
                     <div id="divImgConta" class="mt-4">
-                        <?php if (@$foto != "") { //se a imagem já existir 
+                        <?php if (@$arquivo != "") { //se a imagem já existir 
                         ?>
-                            <img src="../img/<?php echo $pag ?>/<?php echo $foto ?>" width="200px" id="target">
+                            <img src="../img/<?php echo $pag ?>/<?php echo @$arquivo_pasta2;?>" width="200px" id="target"> <!-- arquivo_pasta2 é para mostrar imagem de um pdf se for feito o upload de um arquivo pdf ou a própria imagem se for feito o upload de uma imagem -->
                         <?php  } else { //se for a primeira inserção da categoria, e não tiver sido escolhida uma imagem 
                         ?>
                             <img src="../img/<?php echo $pag ?>/sem-foto.jpg" width="200px" id="target">
@@ -438,6 +455,17 @@ if (@$_GET['funcao'] == 'deletar') {
 
         var target = document.getElementById('target');
         var file = document.querySelector("input[type=file]").files[0];
+
+        //o código a seguir, até o if, serve para mostrar a imagem de um pdf quando for feito o upload de um arquivo pdf
+		var arquivo = file['name'];
+		resultado = arquivo.split(".", 2); //quebra o arquivo em dois vetores, separando pelo ponto, por exemplo, minhafoto.pdf, vira "minhafoto" e "pdf"
+        
+        if(resultado[1] === 'pdf'){ //na posição 1 terá "pdf" do split acima
+        	$('#target').attr('src', "../img/contas_pagar/pdf.png"); //atribui ao campo source a imagem "pdf.png"
+        	return;
+        }
+
+
         var reader = new FileReader();
 
         reader.onloadend = function() {
