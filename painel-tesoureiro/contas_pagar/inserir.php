@@ -10,8 +10,24 @@ $descricao = $_POST['descricao'];
 $valor = $_POST['valor'];
 $id = $_POST['id'];
 
-//SCRIPT PARA SUBIR FOTO NO BANCO
+$query = $pdo->query("SELECT * FROM contas_pagar WHERE id = '$id'");
+$res = $query->fetchAll(PDO::FETCH_ASSOC);
+$total_reg = @count($res);
 
+if ($total_reg > 0) {
+    $pago = $res[0]['pago'];
+
+    if ($pago == 'Sim') {
+        echo 'Essa conta já está paga, você não pode editá-la';
+        /*
+    fazendo isso não tem como o usuário digitar o id na url e abrir o modal da conta para editá-la,
+    mesmo desabilitando mostrar o botão de edição   
+    */
+        exit();
+    }
+}
+
+//SCRIPT PARA SUBIR FOTO NO BANCO
 $nome_img = date('d-m-Y H:i:s') . '-' . @$_FILES['arquivo']['name'];
 $nome_img = preg_replace('/[ :]+/', '-', $nome_img); //['arquivo'] refere-se ao elemento com name="arquivo" em contas_pagar.php, e ['name'] refere-se ao nome ("minha-foto.jpg", por exemplo) do arquivo do elemento 'imagem' 
 //tudo que for espaço ou dois pontos substitui por traço

@@ -70,7 +70,7 @@ $pag = 'contas_pagar';
 
 
                             $extensao = strchr($res_tab[$i]['arquivo'], '.'); //separa a partir do ponto para frente, por exemplo, "teste.pdf" e "foto.jpg" vai guardar ".pdf" e ".jpg"
-                            if($extensao == '.pdf') {
+                            if ($extensao == '.pdf') {
                                 $arquivo_pasta = 'pdf.png';
                             } else {
                                 $arquivo_pasta = $res_tab[$i]['arquivo'];
@@ -89,7 +89,7 @@ $pag = 'contas_pagar';
                                 </td>
 
                                 <td>
-                                <?php echo $res_tab[$i]['descricao']; ?>
+                                    <?php echo $res_tab[$i]['descricao']; ?>
                                 </td>
 
                                 <td>
@@ -108,17 +108,24 @@ $pag = 'contas_pagar';
                                 </td>
                                 <td>
 
-                                    <a href="index.php?pagina=<?php echo $pag; ?>&funcao=editar&id=<?php echo $res_tab[$i]['id']; ?>" type="button" title="Editar Registro" style="text-decoration: none">
-                                        <i class="bi bi-pencil-square text-primary me-2"></i>
-                                    </a>
+                                    <?php
 
-                                    <a href="index.php?pagina=<?php echo $pag; ?>&funcao=deletar&id=<?php echo $res_tab[$i]['id']; ?>" type="button" title="Excluir Registro" style="text-decoration: none">
-                                        <i class="bi bi-archive text-danger me-2"></i>
-                                    </a>
+                                    if ($res_tab[$i]['pago'] != 'Sim') {
+                                    ?>
 
-                                    <a href="index.php?pagina=<?php echo $pag; ?>&funcao=baixar&id=<?php echo $res_tab[$i]['id']; ?>" type="button" title="Baixar Registro">
-                                        <i class="bi bi-check-square-fill text-success me-2" style="text-decoration: none"></i>
-                                    </a>
+                                        <a href="index.php?pagina=<?php echo $pag; ?>&funcao=editar&id=<?php echo $res_tab[$i]['id']; ?>" type="button" title="Editar Registro" style="text-decoration: none">
+                                            <i class="bi bi-pencil-square text-primary me-2"></i>
+                                        </a>
+
+                                        <a href="index.php?pagina=<?php echo $pag; ?>&funcao=deletar&id=<?php echo $res_tab[$i]['id']; ?>" type="button" title="Excluir Registro" style="text-decoration: none">
+                                            <i class="bi bi-archive text-danger me-2"></i>
+                                        </a>
+
+                                        <a href="index.php?pagina=<?php echo $pag; ?>&funcao=baixar&id=<?php echo $res_tab[$i]['id']; ?>" type="button" title="Baixar Registro">
+                                            <i class="bi bi-check-square-fill text-success me-2" style="text-decoration: none"></i>
+                                        </a>
+
+                                    <?php } ?>
 
 
                                 </td>
@@ -150,7 +157,7 @@ if (@$_GET['funcao'] == 'editar') {
     $res_ed = $query_ed->fetchAll(PDO::FETCH_ASSOC);
     $total_res_ed = @count($res_ed);
 
-    if ($total_res_ed > 0) { 
+    if ($total_res_ed > 0) {
         //recupera dados do usuário, os quais foram inseridos no banco de dados
         $valor = $res_ed[0]['valor'];
         $descricao = $res_ed[0]['descricao'];
@@ -160,12 +167,11 @@ if (@$_GET['funcao'] == 'editar') {
         //mesmo tratamento aplicado na inserção, para mostrar imagem de um pdf se o arquivo que foi feito o upload for um pdf, ou a própria imagem, se for uma imagem
         $extensao2 = strchr($arquivo, '.');
 
-        if($extensao2 == '.pdf') {
+        if ($extensao2 == '.pdf') {
             $arquivo_pasta2 = 'pdf.png';
         } else {
             $arquivo_pasta2 = $arquivo;
         }
-
     }
 } else {
     $titulo_modal = "Inserir Registro";
@@ -208,15 +214,12 @@ if (@$_GET['funcao'] == 'editar') {
                     <div id="divImgConta" class="mt-4">
                         <?php if (@$arquivo != "") { //se a imagem já existir 
                         ?>
-                            <img src="../img/<?php echo $pag ?>/<?php echo @$arquivo_pasta2;?>" width="200px" id="target"> <!-- arquivo_pasta2 é para mostrar imagem de um pdf se for feito o upload de um arquivo pdf ou a própria imagem se for feito o upload de uma imagem -->
+                            <img src="../img/<?php echo $pag ?>/<?php echo @$arquivo_pasta2; ?>" width="200px" id="target"> <!-- arquivo_pasta2 é para mostrar imagem de um pdf se for feito o upload de um arquivo pdf ou a própria imagem se for feito o upload de uma imagem -->
                         <?php  } else { //se for a primeira inserção da categoria, e não tiver sido escolhida uma imagem 
                         ?>
                             <img src="../img/<?php echo $pag ?>/sem-foto.jpg" width="200px" id="target">
                         <?php } ?>
                     </div>
-
-
-
                 </div>
 
                 <small>
@@ -457,12 +460,12 @@ if (@$_GET['funcao'] == 'deletar') {
         var file = document.querySelector("input[type=file]").files[0];
 
         //o código a seguir, até o if, serve para mostrar a imagem de um pdf quando for feito o upload de um arquivo pdf
-		var arquivo = file['name'];
-		resultado = arquivo.split(".", 2); //quebra o arquivo em dois vetores, separando pelo ponto, por exemplo, minhafoto.pdf, vira "minhafoto" e "pdf"
-        
-        if(resultado[1] === 'pdf'){ //na posição 1 terá "pdf" do split acima
-        	$('#target').attr('src', "../img/contas_pagar/pdf.png"); //atribui ao campo source a imagem "pdf.png"
-        	return;
+        var arquivo = file['name'];
+        resultado = arquivo.split(".", 2); //quebra o arquivo em dois vetores, separando pelo ponto, por exemplo, minhafoto.pdf, vira "minhafoto" e "pdf"
+
+        if (resultado[1] === 'pdf') { //na posição 1 terá "pdf" do split acima
+            $('#target').attr('src', "../img/contas_pagar/pdf.png"); //atribui ao campo source a imagem "pdf.png"
+            return;
         }
 
 
