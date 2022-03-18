@@ -32,6 +32,7 @@ $pag = 'compras';
                         <th>Comprador</th>
                         <th>Fornecedor</th>
                         <th>Tel. Fornecedor</th>
+                        <th>Excluir</th>
                     </tr>
                 </thead>
 
@@ -87,7 +88,7 @@ $pag = 'compras';
                             </td>
 
                             <td>
-                                <?php echo implode('/', array_reverse(explode('-', $data))); 
+                                <?php echo implode('/', array_reverse(explode('-', $data)));
                                 /*substitui '-' por '/', e array_reverse inverte a ordem da data,
                                 do padrão americano com ANO, MÊS E DIA, para DIA, MÊS E ANO
                                 essa conversão é feita somente para listagem, e não para salvar
@@ -109,6 +110,18 @@ $pag = 'compras';
                                 <?php echo $telefone_fornecedor; ?>
                             </td>
 
+                            <td>
+
+                                <?php
+                                if ($res_tab[$i]['pago'] != 'Sim') {
+                                ?>
+                                    <a href="index.php?pagina=<?php echo $pag; ?>&funcao=deletar&id=<?php echo $res_tab[$i]['id']; ?>" type="button" title="Excluir Registro" style="text-decoration: none">
+                                        <i class="bi bi-archive text-danger me-2"></i>
+                                    </a>
+                                <?php } ?>
+                            </td>
+
+
 
                         </tr>
 
@@ -126,6 +139,105 @@ $pag = 'compras';
 
 
 </div>
+
+<!-- MODAL PARA DELEÇÃO DOS DADOS -->
+
+<div class="modal fade" tabindex="-1" id="modalDeletar">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Deletar Registro</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form method="POST" id="form-excluir">
+
+                <div class="modal-body">
+
+                    <p>Deseja realmente excluir o registro?</p>
+
+                    <small>
+                        <div align="center" class="mb-3" id="mensagem-excluir">
+                        </div>
+                    </small>
+
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-fechar">Fechar</button>
+                        <button type="submit" class="btn btn-danger" name="btn-excluir" id="btn-excluir">Excluir</button>
+
+                        <input type="hidden" name="id" value="<?php echo @$_GET['id']; ?>">
+
+                    </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<!--SCRIPT QUE CHAMA A MODAL DELETAR -->
+<?php
+
+if (@$_GET['funcao'] == 'deletar') {
+?>
+
+    <script>
+        var myModal = new bootstrap.Modal(document.getElementById('modalDeletar'), {})
+
+        myModal.show();
+    </script>
+
+<?php
+
+}
+?>
+
+<!--AJAX PARA DELEÇÃO DOS DADOS -->
+
+<script type="text/javascript">
+    $("#form-excluir").submit(function() {
+        var pag = "<?= $pag ?>"; //não sei porque não colocou < ?php $pag ?>, ou seja trocou php por =
+        event.preventDefault();
+        /*
+        toda vez que submetemos uma página por um formulário, ela atualiza,
+        o event.preventDefault() evita que a página seja atualizada,
+        essa é a principal função do ajax
+        */
+        var formData = new FormData(this);
+
+        $.ajax({
+            url: pag + "/excluir.php",
+            type: 'POST',
+            data: formData,
+
+            success: function(mensagem) {
+
+                $('#mensagem-excluir').removeClass()
+
+                if (mensagem.trim() == "Excluído com Sucesso!") {
+
+                    $('#mensagem-excluir').addClass('text-success');
+
+                    $('#btn-fechar').click();
+                    window.location = "index.php?pagina=" + pag;
+
+
+
+                } else { //se não devolver "Excluído com Sucesso!", ou seja, se der errado a deleção
+
+                    $('#mensagem-excluir').addClass('text-danger')
+                }
+
+                $('#mensagem-excluir').text(mensagem)
+
+            },
+            cache: false,
+            contentType: false,
+            processData: false,
+
+        });
+    });
+</script>
 
 <!-- SCRIPT PARA DATATABLE -->
 <script>

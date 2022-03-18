@@ -104,7 +104,9 @@ $pag = 'contas_pagar';
 
 
                                 <td>
-                                    <img src="../img/<?php echo $pag ?>/<?php echo $arquivo_pasta ?>" width="50px">
+                                    <a href="../img/<?php echo $pag ?>/<?php echo $res_tab[$i]['arquivo'] ?>" type="button" title="Ver Arquivo" style="text-decoration: none" target="_blank">
+                                        <img src="../img/<?php echo $pag ?>/<?php echo $arquivo_pasta ?>" width="50px">
+                                    </a>
                                 </td>
                                 <td>
 

@@ -16,15 +16,22 @@ $total_reg = @count($res);
 
 if ($total_reg > 0) {
     $pago = $res[0]['pago'];
+    $descricao = $res[0]['descricao']; //precisa comparar a descrição também da conta, para ver se é "Compra de Produtos"
 
     if ($pago == 'Sim') {
-        echo 'Essa conta já está paga, você não pode editá-la';
+        echo 'Essa conta já está paga, você não pode editá-la.';
         /*
     fazendo isso não tem como o usuário digitar o id na url e abrir o modal da conta para editá-la,
     mesmo desabilitando mostrar o botão de edição   
     */
         exit();
     }
+
+    if ($descricao == 'Compra de Produtos') {
+        echo 'Essa conta foi lançada pelo gerentes / administrador, você não pode editá-la.';
+        exit();
+    }
+
 }
 
 //SCRIPT PARA SUBIR FOTO NO BANCO
