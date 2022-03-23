@@ -1,5 +1,5 @@
 <?php
-$pag = 'contas_pagar';
+$pag = 'contas_receber';
 @session_start();
 
 require_once('../conexao.php');
@@ -11,7 +11,7 @@ require_once('verifica_permissao.php');
 
 <div class="mt-4" style="margin-right:25px">
     <?php
-    $query = $pdo->query("SELECT * from contas_pagar order by id desc");
+    $query = $pdo->query("SELECT * from contas_receber order by id desc");
     $res = $query->fetchAll(PDO::FETCH_ASSOC);
     $total_reg = @count($res);
     if ($total_reg > 0) {
@@ -38,7 +38,7 @@ require_once('verifica_permissao.php');
                         foreach ($res[$i] as $key => $value) {
                         } //fechamento do foreach
 
-                        $id_usu = $res[$i]['usuario'];
+                        $id_usu = $res[$i]['usuario']; //antes estava $res[$0]['usuario'], ele pegava sempre o usuário que estava logado
 
                         //encontra o usuário responsável pela compra
                         $query2 = $pdo->query("SELECT * from usuarios where id = '$id_usu'");
@@ -130,7 +130,7 @@ require_once('verifica_permissao.php');
 <?php
 if (@$_GET['funcao'] == 'editar') {
     $titulo_modal = "Editar Registro";
-    $query = $pdo->query("SELECT * from contas_pagar WHERE id = '$_GET[id]'");
+    $query = $pdo->query("SELECT * from contas_receber WHERE id = '$_GET[id]'");
     $res = $query->fetchAll(PDO::FETCH_ASSOC);
     $total_reg = @count($res);
 
@@ -213,6 +213,7 @@ if (@$_GET['funcao'] == 'editar') {
                     -->
 
                     <input type="hidden" name="id" value="<?php echo @$_GET['id'] ?>">
+                    <!-- creio que isso não vale para uma nova conta criada, pois para passar o id a conta já deve existir no banco de dados, portanto, deve valer apenas para edição, deleção e baixar -->
 
                 </div>
             </form>

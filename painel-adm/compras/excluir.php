@@ -21,17 +21,14 @@ if ($total_reg > 0) {
         exit();
     }
 
-    if ($descricao == 'Compra de Produtos') {
-        echo 'Essa conta foi lançada pelo gerentes / administrador, você não pode excluí-la.';
-        exit();
-    }
-
 }
 
+$query2 = $pdo->query("DELETE FROM contas_pagar WHERE id_compra = '$id'");
+//deve excluir primeiro da tabela contas_pagar, que recebe o id da tabela de compras
 
+$query1 = $pdo->query("DELETE FROM compras WHERE id = '$id'"); 
+//em seguida, exclui da tabela de compras
 
-
-$query_verif = $pdo->query("DELETE FROM compras WHERE id = '$id'"); 
 /*
 não preciso passar parâmetro com bindValue pois não estou usando prepare, e isso pois
 os dados não estão vindo de um formulário

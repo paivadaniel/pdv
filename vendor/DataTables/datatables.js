@@ -11590,7 +11590,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sInfoFiltered": "(filtered from _MAX_ total entries)",
+			"sInfoFiltered": "(Filtrando _MAX_ registros no total)",
 	
 	
 			/**
@@ -11846,7 +11846,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sZeroRecords": "No matching records found"
+			"sZeroRecords": "Nenhum registro encontrado!"
 		},
 	
 	

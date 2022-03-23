@@ -192,7 +192,7 @@ if (@$_GET['funcao'] == 'editar') {
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Deletar Registro</h5>
+                <h5 class="modal-title">Excluir Registro</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
@@ -207,7 +207,7 @@ if (@$_GET['funcao'] == 'editar') {
                         </div>
                     </small>
 
-
+                </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-fechar">Fechar</button>
                         <button type="submit" class="btn btn-danger" name="btn-excluir" id="btn-excluir">Excluir</button>

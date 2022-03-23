@@ -70,7 +70,7 @@ $pag = 'compras';
                         }
 
                         if ($res_tab[$i]['pago'] == 'Sim') {
-                            $classe = 'text-sucess';
+                            $classe = 'text-success';
                         } else {
                             $classe = 'text-danger';
                         }
@@ -146,7 +146,7 @@ $pag = 'compras';
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Deletar Registro</h5>
+                <h5 class="modal-title">Excluir Registro</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
@@ -160,7 +160,7 @@ $pag = 'compras';
                         <div align="center" class="mb-3" id="mensagem-excluir">
                         </div>
                     </small>
-
+                </div>
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-fechar">Fechar</button>
@@ -175,7 +175,7 @@ $pag = 'compras';
     </div>
 </div>
 
-<!--SCRIPT QUE CHAMA A MODAL DELETAR -->
+<!--SCRIPT QUE CHAMA A MODAL DELETAR, TEM QUER SER COLOCADO DEPOIS DO CÓDIGO DA MODAL DELETAR -->
 <?php
 
 if (@$_GET['funcao'] == 'deletar') {

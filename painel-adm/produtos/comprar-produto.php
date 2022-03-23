@@ -19,7 +19,7 @@ if($quantidade == 0) {
 $total_compra = $quantidade * $valor_compra;
 
 //INCREMENTA ESTOQUE APÓS UM NOVO PEDIDO CONSIDERANDO O QUE JÁ TEM DE ESTOQUE DESSE PRODUTO
-$query_q = $pdo->query("SELECT * from produtos WHERE id = :id");
+$query_q = $pdo->query("SELECT * from produtos WHERE id = '$id'");
 $res_q = $query_q->fetchAll(PDO::FETCH_ASSOC);
 $estoque = $res_q[0]['estoque'];
 $quantidade += $estoque;
@@ -37,11 +37,13 @@ $query->bindValue(":total", $total_compra);
 $query->bindValue(":usuario", $id_usuario);
 $query->bindValue(":fornecedor", $fornecedor);
 $query->execute();
+$id_compra = $pdo->lastInsertId(); //o id do último registro inserido no banco de dados é armazenado na variável $id_compra
 
 //inserir na tabela contas_pagar
-$query = $pdo->prepare("INSERT INTO contas_pagar SET descricao = 'Compra de Produtos', valor = :valor, data = curDate(), usuario = :usuario, pago = 'Não', arquivo = 'sem-foto.jpg'");
+$query = $pdo->prepare("INSERT INTO contas_pagar SET descricao = 'Compra de Produtos', valor = :valor, data = curDate(), usuario = :usuario, pago = 'Não', arquivo = 'sem-foto.jpg', id_compra = '$id_compra'");
 $query->bindValue(":valor", $total_compra);
 $query->bindValue(":usuario", $id_usuario);
 $query->execute();
 
 echo "Salvo com Sucesso!";
+

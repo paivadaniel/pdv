@@ -61,11 +61,11 @@ $pag = 'fornecedores';
                         ?>
 
                             <tr>
-                                <td><?php echo $res_tab[$i]['nome']; ?></td>
-                                <td><?php echo $res_tab[$i]['tipo_pessoa']; ?></td>
-                                <td><?php echo $res_tab[$i]['email']; ?></td>
-                                <td><?php echo $res_tab[$i]['cpf']; ?></td>
-                                <td><?php echo $res_tab[$i]['telefone']; ?></td>
+                                <td><?php echo $res_tab[$i]['nome'] ?></td>
+                                <td><?php echo $res_tab[$i]['tipo_pessoa'] ?></td>
+                                <td><?php echo $res_tab[$i]['email'] ?></td>
+                                <td><?php echo $res_tab[$i]['cpf'] ?></td>
+                                <td><?php echo $res_tab[$i]['telefone'] ?></td>
                                 <td>
 
                                     <ahref="index.php?pagina=<?php echo $pag; ?>&funcao=editar&id=<?php echo $res_tab[$i]['id']; ?>" type="button" title="Editar Registro">
@@ -80,10 +80,13 @@ $pag = 'fornecedores';
                                     <!--
                                         se não colocar # no href não irá funcionar, e irá dar um refresh (atualizar) a página
                                      -->
-                                    <a href="#" onclick="mostrarDados('<?php echo $res_tab[$i]['endereco']; ?>, <?php echo $res_tab[$i]['nome']; ?>')" title="Ver Endereço">
+                                    <a href="#" onclick="mostrarDados('<?php echo $res_tab[$i]['endereco'] ?>', '<?php echo $res_tab[$i]['nome'] ?>')" title="Ver Endereço">
+                                    <!-- eu não estava colocando '' entre os argumentos inseridos com php acima, para cada argumento tem que inserir um '', e daí não estava aparecendo o nome do fornecedor, que é o segundo argumento -->
                                         <i class="bi bi-house text-dark ms-2"></i>
 
                                     </a>
+
+
                                 </td>
                             </tr>
 
@@ -236,7 +239,7 @@ if (@$_GET['funcao'] == 'editar') {
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Deletar Registro</h5>
+                <h5 class="modal-title">Excluir Registro</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
@@ -250,7 +253,8 @@ if (@$_GET['funcao'] == 'editar') {
                         <div align="center" class="mb-3" id="mensagem-excluir">
                         </div>
                     </small>
-
+                </div>
+                <!-- não fechar a div do modal-body me custou 40 minutos para encontrar porque as modais não estavam abrindo, isso estava acontecendo em todos os arquivos, pois o código havia sido copiado -->
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-fechar">Fechar</button>
@@ -260,6 +264,8 @@ if (@$_GET['funcao'] == 'editar') {
 
                     </div>
             </form>
+
+            <!-- outro problema que me custou muito tempo para descobrir, foi colocar o form fora do modal-content, também não abriu as modais a partir da de Deletar -->
 
         </div>
     </div>

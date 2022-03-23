@@ -490,32 +490,6 @@ produtos, já que teremos um produto cadastrado sem categoria cadastrada.
 
 PROBLEMAS
 
------ 02_57/02_60
-
-no meu teste está com um problema, na página categorias dentro do painel do adm, quando eu adiciono crio uma categoria
-e adiciona uma foto à ela, depois quando eu clico para editar a categoria não está carregando a foto dela, apesar
-de que está funcionando direito, a foto está sendo mantida ao clicar em salvar as edições.
-
-na pagina de fornecedores dentro do painel-adm não está funcionando meu botão de ver endereço. se eu copiar o código do
-hugo e colocar em fornecedores.php daí funciona, tentei substituir pelo código dele três trechos:
-
-1. codigo do botao
-
-                                    <a href="#" onclick="mostrarDados('<?php echo $res_tab[$i]['endereco']; ?>, <?php echo $res_tab[$i]['nome']; ?>')" title="Ver Endereço">
-                                        <i class="bi bi-house text-dark ms-2"></i>
-
-                                    </a>
-
-
-2. codigo do modal
-3. codigo do script que chama o modal
-
-todos não funcionaram.
-
------ 03_07
-
-mesmo problema passado, não abriu o modal para mostrar os dados dos produtos
-
 ---- 03_07 (ou 03_08)
 
 não entendi o script de carregar imagem em produtos.php e categorias.php
@@ -542,37 +516,6 @@ não entendi o script de carregar imagem em produtos.php e categorias.php
     }
 </script>
 
------ 03_08
-
-não entendi
-
-        $('#imagem-registro').attr('src', '../img/produtos/' + foto);
-
 ----- 03_15
 
 o código de barras que o barcode leu é diferente do que eu digitei.
-
------ 03_19
-
-não está abrindo a modal de inserir produto, nem a de deletar, nem a de exibir os dados do produto.
-
-outra coisa, o datatable não está mostrando o listando produtos (paginação), apenas quando clico em editar, daí mostrando.
-
------
-
-03_26
-
-não excluiu o produto em no menu de produtos ao clicar na opção de excluir da lista,
-o código está em "painel-adm/produtos/excluir.php" e é idêntico ao de "painel-adm/categorias/excluir.php",
-trocando apenas "categorias" por "produtos"
-
----- 03_40
-
-como os botões na página admin de produtos não estão funcionando, incluindo o "fazer pedido", não há nada em "compras.php"
-dentro do painel-adm.
-
----- 04_04
-
-não estou conseguindo inserir na tabela de compras_pagar uma compra feita ná página painel-adm/produtos.php, pois a modal do botão fazer pedido não
-está funcionando
-

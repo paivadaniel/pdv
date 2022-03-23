@@ -13,7 +13,7 @@ $menu1 = 'home';
 $menu2 = 'contas_pagar';
 $menu3 = 'contas_receber';
 $menu4 = 'movimentacoes';
-$menu5 = 'produtos';
+$menu5 = 'vendas';
 $menu6 = 'compras';
 
 //RECUPERAR DADOS DO USUÁRIO
@@ -83,28 +83,41 @@ $id_usu = $res[0]['id'];
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="index.php?pagina=<?php echo $menu1; ?>">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.php?pagina=<?php echo $menu2; ?>">Contas à Pagar</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.php?pagina=<?php echo $menu3; ?>">Contas à Receber</a>
-                    </li>
+
+
 
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Produtos
+                            Contas
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.php?pagina=<?php echo $menu2; ?>">Contas à Pagar</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.php?pagina=<?php echo $menu3; ?>">Contas à Receber</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                                <a class="nav-link" href="index.php?pagina=<?php echo $menu4; ?>">Movimentações</a>
+                            </li>
+
+
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Vendas / Compras
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li>
-                                <a class="dropdown-item" href="index.php?pagina=<?php echo $menu5; ?>">Cadastro de produtos</a>
+                                <a class="dropdown-item" href="index.php?pagina=<?php echo $menu5; ?>">Lista de Vendas</a>
                             </li>
 
                             <li>
-                                <a class="dropdown-item" href="index.php?pagina=<?php echo $menu4; ?>">Cadastro de categorias</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="index.php?pagina=<?php echo $menu6; ?>">Lista de compras</a>
+                                <a class="dropdown-item" href="index.php?pagina=<?php echo $menu6; ?>">Lista de Compras</a>
                             </li>
                             <li>
                                 <hr class="dropdown-divider">

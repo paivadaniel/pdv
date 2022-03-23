@@ -230,7 +230,7 @@ if (@$_GET['funcao'] == 'editar') {
                         <div align="center" class="mb-3" id="mensagem-excluir">
                         </div>
                     </small>
-
+                </div>
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-fechar">Fechar</button>
