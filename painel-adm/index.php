@@ -269,7 +269,7 @@ $id_usu = $res[0]['id'];
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Editar Perfil</h5>
+                <h5 class="modal-title">Relatório de Compras</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 

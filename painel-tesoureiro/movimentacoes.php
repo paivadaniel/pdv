@@ -10,7 +10,6 @@ $pag = 'movimentacoes';
 
 <div class="mt-4" style="margin-right: 25px">
 
-
     <?php
 
     $query_tab = $pdo->query("SELECT * FROM movimentacoes order by id desc"); //nome é o campo da tabela
@@ -55,6 +54,13 @@ $pag = 'movimentacoes';
                             $nome_usuario = $res_usuario[0]['nome'];
                         }
 
+                        if ($res_tab[$i]['tipo'] == 'Entrada') {
+                            $classe = 'text-success';
+                        } else if ($res_tab[$i]['tipo'] == 'Saída') {
+                            $classe = 'text-danger';
+                        }
+                
+
                     ?>
 
                         <tr>
@@ -96,21 +102,6 @@ $pag = 'movimentacoes';
 
                 </tbody>
             </table>
-            <div class="row bg-light mt-4 py-2">
-                <!-- o padding é para não ficar muito colocado no topo e base do bg-light -->
-                <div class="col-md-8">
-                    <span><b>Entradas:</b> <span class="text-success"> R$<?php echo number_format($entradas, 2, ',', '.') ?> </span></span>
-                    <span class="mx-4"><b>Saídas:</b> <span class="text-danger"> R$<?php echo number_format($saidas, 2, ',', '.') ?> </span></span>
-                </div>
-                <div align="right" class="col-md-4">
-
-                    <!-- abaixo ele atribui uma variável php para uma classe -->
-                    <span class="mx-4"><b>Saldo:</b> <span class="<?php echo $classeSaldo ?>"> R$<?php echo number_format($saldo, 2, ',', '.') ?> </span></span>
-
-
-                </div>
-            </div>
-
         </small>
     <?php } else { //fechamento do if
         echo "Não existem dados para serem exibidos!";
@@ -125,23 +116,21 @@ $entradas = 0;
 $saidas = 0;
 $saldo = 0;
 
-$query_tab = $pdo->query("SELECT * FROM movimentacoes where data = curDate() order by id desc"); //nome é o campo da tabela
-$res_tab = $query_tab->fetchAll(PDO::FETCH_ASSOC);
-$total_reg_tab = @count($res_tab);
+$query2 = $pdo->query("SELECT * FROM movimentacoes where data = curDate() order by id desc"); //nome é o campo da tabela
+$res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
+$total_reg2 = @count($res2);
 
-if ($total_reg_tab > 0) {
+if ($total_reg2 > 0) {
 
-    for ($i = 0; $i < $total_reg_tab; $i++) {
-        foreach ($res_tab[$i] as $key => $value) {
+    for ($i = 0; $i < $total_reg2; $i++) {
+        foreach ($res2[$i] as $key => $value) {
         } //fechamento do foreach
 
 
-        if ($res_tab[$i]['tipo'] == 'Entrada') {
-            $classe = 'text-success';
-            $entradas += $res_tab[$i]['valor'];
-        } else if ($res_tab[$i]['tipo'] == 'Saída') {
-            $classe = 'text-danger';
-            $saidas += $res_tab[$i]['valor'];
+        if ($res2[$i]['tipo'] == 'Entrada') {
+            $entradas += $res2[$i]['valor'];
+        } else if ($res2[$i]['tipo'] == 'Saída') {
+            $saidas += $res2[$i]['valor'];
         }
 
         $saldo = $entradas - $saidas;
@@ -155,6 +144,22 @@ if ($total_reg_tab > 0) {
 }
 
 ?>
+<small>
+    <div class="row bg-light mt-4 py-2">
+        <!-- o padding é para não ficar muito colocado no topo e base do bg-light -->
+        <div class="col-md-8">
+            <span><b>Entradas do dia:</b> <span class="text-success"> R$<?php echo number_format($entradas, 2, ',', '.') ?> </span></span>
+            <span class="mx-4"><b>Saídas do dia:</b> <span class="text-danger"> R$<?php echo number_format($saidas, 2, ',', '.') ?> </span></span>
+        </div>
+        <div align="right" class="col-md-4">
+
+            <!-- abaixo ele atribui uma variável php para uma classe -->
+            <span class="mx-4"><b>Saldo do dia:</b> <span class="<?php echo $classeSaldo ?>"> R$<?php echo number_format($saldo, 2, ',', '.') ?> </span></span>
+
+
+        </div>
+    </div>
+</small>
 
 <!-- SCRIPT PARA DATATABLE -->
 <script>

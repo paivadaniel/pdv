@@ -102,8 +102,8 @@ $id_usu = $res[0]['id'];
                     </li>
 
                     <li class="nav-item">
-                                <a class="nav-link" href="index.php?pagina=<?php echo $menu4; ?>">Movimentações</a>
-                            </li>
+                        <a class="nav-link" href="index.php?pagina=<?php echo $menu4; ?>">Movimentações</a>
+                    </li>
 
 
 
@@ -134,12 +134,11 @@ $id_usu = $res[0]['id'];
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li>
-                                <a class="dropdown-item" href="../rel/relProdutos_class.php" target="_blank">Relatório de Produtos</a>
+                                <a class="dropdown-item" href="" data-bs-toggle="modal" data-bs-target="#ModalRelMov">Relatório de Movimentações</a>
                             </li>
 
-
                             <li>
-                                <a class="dropdown-item" href="" data-bs-toggle="modal" data-bs-target="#ModalRelCompras">Relatório de Compras</a>
+                                <a class="dropdown-item" href="" data-bs-toggle="modal" data-bs-target="#ModalRelContasPagar">Relatório de Contas à Pagar</a>
                             </li>
 
 
@@ -276,18 +275,18 @@ $id_usu = $res[0]['id'];
     </div>
 </div>
 
-<!--  Modal Rel Compras-->
+<!--  Modal Rel Mov -->
 
-<div class="modal fade" tabindex="-1" id="ModalRelCompras">
+<div class="modal fade" tabindex="-1" id="ModalRelMov">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Editar Perfil</h5>
+                <h5 class="modal-title">Relatório de Movimentações</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
 
-            <form action="../rel/relCompras_class.php" method="POST" target="_blank">
+            <form action="../rel/relMov_class.php" method="POST" target="_blank">
                 <div class="modal-body">
 
                     <div class="row">
@@ -310,12 +309,12 @@ $id_usu = $res[0]['id'];
                         <div class="col-md-4">
 
                             <div class="form-group">
-                                <label>Pago</label>
+                                <label>Status</label>
                                 <!-- a classe "form-select" aplicada abaixo, difere da "form-control" ao apresentar uma flecha para mudar a opção da caixa seletora  -->
                                 <select class="form-select mt-1" name="status">
                                     <option value="">Todas</option>
-                                    <option value="Sim">Sim</option>
-                                    <option value="Não">Não</option>
+                                    <option value="Entradas">Entradas</option>
+                                    <option value="Saídas">Saídas</option>
 
                                 </select>
                             </div>
