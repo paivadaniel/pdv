@@ -254,7 +254,7 @@ if ($dataInicial != $dataFinal) {
             }
 
 
-            if ($tipo == 'Entrada') {
+            if ($res[$i]['tipo'] == 'Entrada') {
                 $foto = 'verde.jpg';
             } else {
                 $foto = 'vermelho.jpg';
