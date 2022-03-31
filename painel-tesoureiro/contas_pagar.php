@@ -25,7 +25,7 @@ require_once('verifica_permissao.php');
                         <th>Descrição</th>
                         <th>Valor</th>
                         <th>Usuário</th>
-                        <th>Data</th>
+                        <th>Vencimento</th>
                         <th>Arquivo</th>
                         <th>Ações</th>
                     </tr>
@@ -45,7 +45,7 @@ require_once('verifica_permissao.php');
                         $res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
                         $nome_usu = $res2[0]['nome'];
 
-                        $data = $res[$i]['data'];
+                        $vencimento = $res[$i]['vencimento'];
 
                         if ($res[$i]['pago'] == 'Sim') {
                             $classe = 'text-success';
@@ -79,7 +79,7 @@ require_once('verifica_permissao.php');
                             <td><?php echo $nome_usu ?></td>
 
                             <td>
-                                <?php echo implode('/', array_reverse(explode('-', $data)));
+                                <?php echo implode('/', array_reverse(explode('-', $vencimento)));
                                 ?>
                             </td>
 
@@ -139,6 +139,8 @@ if (@$_GET['funcao'] == 'editar') {
         $valor = $res[0]['valor'];
         $descricao = $res[0]['descricao'];
         $arquivo = $res[0]['arquivo'];
+        $vencimento = $res[0]['vencimento'];
+
         //usuário, data e pago não precisam ser recuperados, pois não poderão ser alterados
 
         //mesmo tratamento aplicado na inserção, para mostrar imagem de um pdf se o arquivo que foi feito o upload for um pdf, ou a própria imagem, se for uma imagem
@@ -176,11 +178,29 @@ if (@$_GET['funcao'] == 'editar') {
                         <input type="text" class="form-control" id="descricao" name="descricao" placeholder="Digite a descrição" required value="<?php echo @$descricao ?>">
                     </div>
 
-                    <div class="mb-3">
-                        <label for="valor" class="form-label">Valor</label>
-                        <input type="text" class="form-control" id="valor" name="valor" placeholder="Digite o valor" required value="<?php echo @$valor ?>">
-                    </div>
+                    <div class="row">
 
+                        <div class="col-md-6">
+
+                            <div class="mb-3">
+                                <label for="valor" class="form-label">Valor</label>
+                                <input type="text" class="form-control" id="valor" name="valor" placeholder="Digite o valor" required value="<?php echo @$valor ?>">
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <div class="mb-3">
+                                <label for="valor" class="form-label">Vencimento</label>
+                                <input type="date" class="form-control" id="vencimento" name="vencimento" placeholder="Digite o vencimento" required value="<?php echo @$vencimento ?>">
+                                <!-- o value é se o valor já existir, ou seja, se for uma edição, ele já puxa ele na tela, e assim o usuário pode editá-lo
+                            se não existir, não puxa nada, o value ficará vazio-->
+                            </div>
+
+                        </div>
+
+                    </div>
 
                     <!-- INPUT PARA UPLOAD DE IMAGEM -->
                     <div class="form-group">
@@ -244,13 +264,13 @@ if (@$_GET['funcao'] == 'editar') {
                     </small>
                 </div>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-fechar">Fechar</button>
-                        <button type="submit" class="btn btn-danger" name="btn-excluir" id="btn-excluir">Excluir</button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-fechar">Fechar</button>
+                    <button type="submit" class="btn btn-danger" name="btn-excluir" id="btn-excluir">Excluir</button>
 
-                        <input type="hidden" name="id" value="<?php echo @$_GET['id'] ?>">
+                    <input type="hidden" name="id" value="<?php echo @$_GET['id'] ?>">
 
-                    </div>
+                </div>
             </form>
 
         </div>

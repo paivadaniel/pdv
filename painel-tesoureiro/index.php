@@ -313,8 +313,8 @@ $id_usu = $res[0]['id'];
                                 <!-- a classe "form-select" aplicada abaixo, difere da "form-control" ao apresentar uma flecha para mudar a opção da caixa seletora  -->
                                 <select class="form-select mt-1" name="status">
                                     <option value="">Todas</option>
-                                    <option value="Entradas">Entradas</option>
-                                    <option value="Saídas">Saídas</option>
+                                    <option value="Entrada">Entradas</option>
+                                    <option value="Saída">Saídas</option>
 
                                 </select>
                             </div>
@@ -334,6 +334,68 @@ $id_usu = $res[0]['id'];
         </div>
     </div>
 </div>
+
+
+<!--  Modal Rel Contas Pagar -->
+
+<div class="modal fade" tabindex="-1" id="ModalRelContasPagar">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Relatório de Contas à Pagar</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+
+            <form action="../rel/relContasPagar_class.php" method="POST" target="_blank">
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Data Inicial</label>
+                                <input value="<?php echo date('Y-m-d') ?>" type="date" class="form-control mt-1" name="dataInicial">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+
+                            <div class="form-group">
+                                <label>Data Final</label>
+                                <input value="<?php echo date('Y-m-d') ?>" type="date" class="form-control mt-1" name="dataFinal">
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <div class="form-group">
+                                <label>Pago</label>
+                                <!-- a classe "form-select" aplicada abaixo, difere da "form-control" ao apresentar uma flecha para mudar a opção da caixa seletora  -->
+                                <select class="form-select mt-1" name="status">
+                                    <option value="">Todas</option>
+                                    <option value="Sim">Sim</option>
+                                    <option value="Não">Não</option>
+
+                                </select>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+
+                    <button type="submit" class="btn btn-primary">Gerar Relatório</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
 
 </html>
 

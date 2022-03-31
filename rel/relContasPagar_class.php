@@ -8,11 +8,7 @@ $dataFinal = $_POST['dataFinal'];
 $status = $_POST['status'];
 
 //ALIMENTAR OS DADOS NO RELATÓRIO
-$html = file_get_contents($url_sistema."rel/relMov.php?dataInicial=".$dataInicial."&dataFinal=".$dataFinal."&status=".$status);
-
-/* outra forma de escrever o caminho acima
-$html = file_get_contents($url_sistema."rel/relMov.php?dataInicial=$dataInicial&dataFinal=$dataFinal&status=$status");
-*/
+$html = file_get_contents($url_sistema."rel/relContasPagar.php?dataInicial=".$dataInicial."&dataFinal=".$dataFinal."&status=".$status);
 
 //utf8_encode para acentuação
 //file_get_contents() incorpora página

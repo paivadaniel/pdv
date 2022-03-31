@@ -4,7 +4,6 @@ require_once("../conexao.php");
 setlocale(LC_TIME, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
 date_default_timezone_set('America/Sao_Paulo');
 $data_hoje = utf8_encode(strftime('%A, %d de %B de %Y', strtotime('today')));
-
 //strtoupper() deixa todo o conteúdo em maíusculo, em caixa alta
 
 
@@ -19,10 +18,10 @@ selecionar TODOS e não passar nada lá, ele buscará por qualquer status
 $dataInicialF = implode('/', array_reverse(explode('-', $dataInicial)));
 $dataFinalF = implode('/', array_reverse(explode('-', $dataFinal)));
 
-if ($status == 'Entrada') {
-    $status_serv = 'Entradas';
-} else if ($status == 'Saída') {
-    $status_serv = 'Saídas';
+if ($status == 'Sim') {
+    $status_serv = 'Pagas ';
+} else if ($status == 'Não') {
+    $status_serv = 'Pendentes';
 } else {
     $status_serv = ''; //para o caso de mostrar tanto as pagas quanto as não pagas
 }
@@ -41,7 +40,7 @@ if ($dataInicial != $dataFinal) {
 <html>
 
 <head>
-    <title>Relatório de Movimentações</title>
+    <title>Relatório de Contas à Pagar</title>
 
     <link rel="shortcut icon" href="../img/favicon.ico" />
 
@@ -204,6 +203,8 @@ if ($dataInicial != $dataFinal) {
                 <div class="areaSubtituloCabecalho">
 
                     <h6 class="subtitulo"><?php echo $endereco_sistema . ' Tel: ' . $telefone_sistema ?></h6>
+
+                    <h6 class="subtitulo"><?php echo $data_hoje ?></h6>
                 </div>
 
             </div>
@@ -215,135 +216,103 @@ if ($dataInicial != $dataFinal) {
     <div class="container">
 
         <div align="center" class="">
-            <span class="titulorel">Relatório de Movimentações <?php echo $status_serv ?></span>
+            <span class="titulorel">Contas à Pagar <?php echo $status_serv ?></span>
         </div>
-
-
-        <hr>
-
-        <table class='table' width='100%' cellspacing='0' cellpadding='3'>
-            <tr bgcolor='#f9f9f9'>
-
-                <th>Tipo</th>
-                <th>Descrição</th>
-                <th>Valor</th>
-                <th>Usuário</th>
-                <th>Data</th>
-
-            </tr>
-            <?php
-            $entradas = 0;
-            $saidas = 0;
-            $saldo = 0;
-
-            $query = $pdo->query("SELECT * FROM movimentacoes WHERE data >= '$dataInicial' AND data <= '$dataFinal' and tipo LIKE '$status_like' ORDER BY id desc");
-            $res = $query->fetchAll(PDO::FETCH_ASSOC);
-
-            for ($i = 0; $i < @count($res); $i++) {
-                foreach ($res[$i] as $key => $value) {
-                }
-
-                //BUSCAR OS DADOS DO USUÁRIO
-                $id_usuario = $res[$i]['usuario'];
-                $query_usuario = $pdo->query("SELECT * FROM usuarios WHERE id = '$id_usuario'");
-                $res_usuario = $query_usuario->fetchAll(PDO::FETCH_ASSOC);
-                $total_reg_usuario = @count($res_usuario);
-
-                if ($total_reg_usuario > 0) {
-                    $nome_usuario = $res_usuario[0]['nome'];
-                }
-
-
-                if ($res[$i]['tipo'] == 'Entrada') {
-                    $foto = 'verde.jpg';
-                    $entradas += $res[$i]['valor'];
-                } else {
-                    $foto = 'vermelho.jpg';
-                    $saidas += $res[$i]['valor'];
-                }
-
-                $saldo = $entradas - $saidas;
-
-                $entradasF = number_format($entradas, 2, ',', '.');
-                $saidasF = number_format($saidas, 2, ',', '.');
-                $saldoF = number_format($saldo, 2, ',', '.');
-
-                if ($saldo < 0) {
-                    $classeSaldo = 'text-danger';
-                } else {
-                    $classeSaldo = 'text-success';
-                }
-
-            ?>
-
-                <tr>
-                    <td><img src="<?php echo $url_sistema ?>img/<?php echo $foto ?>" width="10px"> </td>
-                    <td>
-                        <?php echo $res[$i]['descricao'] ?>
-                    </td>
-
-                    <td>
-                        R$ <?php echo number_format($res[$i]['valor'], 2, ',', '.') ?>
-                    </td>
-
-                    <td>
-                        <?php echo $nome_usuario ?>
-                    </td>
-
-                    <td>
-                        <?php echo implode('/', array_reverse(explode('-', $data_hoje))) ?>
-                        <!--substitui '-' por '/', e array_reverse inverte a ordem da data,
-                                do padrão americano com ANO, MÊS E DIA, para DIA, MÊS E ANO
-                                essa conversão é feita somente para listagem, e não para salvar
-                                no banco de dados
-                                -->
-
-                    </td>
-
-                </tr>
-            <?php } ?>
-
-
-
-        </table>
-
-        <hr>
-
-        <small>
-            <div class="row">
-                <div class="col-sm-8 esquerda">
-                    <span class=""> <b> Entradas: </b> <span class="text-success">R$ <?php echo $entradasF ?></span> </span>
-
-                    <span class=""> <b> Saídas: </b> <span class="text-danger">R$ <?php echo $saidasF ?></span> </span>
-                </div>
-                <div class="col-sm-4 direita" align="right">
-                    <span class=""> <b> Saldo Total:</b><span class="<?php echo $classeSaldo ?>"> R$ <?php echo $saldoF ?></span> </span>
-                </div>
-            </div>
-        </small>
-
-
-        <hr>
-
-        <small>
-            <div class="row" align="left">
-                <div class="col-sm-6 esquerda">
-                    <span class=""> <b> Período da Apuração </b> </span>
-                    <span class=""> <?php echo $apuracao ?> </span>
-                </div>
-
-                <div class="col-sm-6 direita" align="right">
-                    <span class=""><b>Gerado em: </b><?php echo $data_hoje ?></span>
-                </div>
-            </div>
-        </small>
-        <hr>
     </div>
 
 
-        <div class="footer">
-            <p style="font-size:14px" align="center"><?php echo $rodape_relatorios ?></p>
+    <hr>
+
+    <table class='table' width='100%' cellspacing='0' cellpadding='3'>
+        <tr bgcolor='#f9f9f9'>
+            <th>Pago</th>
+            <th>Descrição</th>
+            <th>Valor</th>
+            <th>Usuário</th>
+            <th>Data</th>
+        </tr>
+        <?php
+        $saldo = 0;
+
+        $query = $pdo->query("SELECT * FROM contas_pagar WHERE data >= '$dataInicial' AND data <= '$dataFinal' and pago LIKE '$status_like' ORDER BY id desc");
+        $res = $query->fetchAll(PDO::FETCH_ASSOC);
+
+        for ($i = 0; $i < @count($res); $i++) {
+            foreach ($res[$i] as $key => $value) {
+            }
+            $usuario = $res[$i]['usuario']; //id do usuário
+            $pago = $res[$i]['pago'];
+            $total = $res[$i]['valor'];
+            $data = $res[$i]['data'];
+
+            $id = $res[$i]['id'];
+
+            $saldo += $total;
+            $saldoF = number_format($saldo, 2, ',', '.'); //"F" vem de formatado
+
+            $totalF = number_format($total, 2, ',', '.'); //"F" vem de formatado
+
+            $data = implode('/', array_reverse(explode('-', $data)));
+
+            //BUSCA USUÁRIO QUE FEZ O PEDIDO
+            $query_usu = $pdo->query("SELECT * FROM usuarios WHERE id = '$usuario'");
+            $res_usu = $query_usu->fetchAll(PDO::FETCH_ASSOC);
+            $nome_usu = $res_usu[0]['nome'];
+
+            if ($pago == 'Sim') {
+                $foto = 'verde.jpg';
+            } else {
+                $foto = 'vermelho.jpg';
+            }
+
+        ?>
+
+            <tr>
+
+                <td><img src="<?php echo $url_sistema ?>img/<?php echo $foto ?>" width="10px"> </td>
+                <td>
+                    <?php echo $res[$i]['descricao']; ?>
+                </td>
+
+                <td>
+                    R$ <?php echo number_format($res[$i]['valor'], 2, ',', '.'); ?>
+                </td>
+
+                <td><?php echo $nome_usu ?></td>
+
+                <td>
+                    <?php echo implode('/', array_reverse(explode('-', $data)));
+                    ?>
+                </td>
+
+            </tr>
+        <?php } ?>
+
+
+
+    </table>
+
+    <hr>
+
+
+    <div class="row" align="left">
+        <div class="col-sm-8 esquerda">
+            <span class=""> <b> Período da Apuração </b> </span>
+            <span class=""> <?php echo $apuracao ?> </span>
         </div>
+
+        <div class="col-sm-4 direita" align="right">
+            <span class=""> <b> Total R$: <?php echo $saldoF ?> </b> </span>
+        </div>
+    </div>
+
+    <hr>
+
+
+
+    <div class="footer">
+        <p style="font-size:14px" align="center"><?php echo $rodape_relatorios ?></p>
+    </div>
 
 
 
