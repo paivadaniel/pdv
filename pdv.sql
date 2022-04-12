@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 22-Mar-2022 às 05:22
+-- Tempo de geração: 12-Abr-2022 às 05:05
 -- Versão do servidor: 10.4.21-MariaDB
 -- versão do PHP: 8.0.10
 
@@ -62,10 +62,8 @@ CREATE TABLE `compras` (
 --
 
 INSERT INTO `compras` (`id`, `total`, `data`, `usuario`, `fornecedor`, `pago`) VALUES
-(2, '423.00', '2022-03-21', 1, 1, 'Sim'),
-(3, '23.00', '2022-03-11', 1, 1, 'Não'),
-(4, '424.00', '2022-03-21', 1, 1, 'Não'),
-(6, '20.00', '2022-03-21', 2, 1, 'Sim');
+(1, '40.00', '2022-04-11', 2, 1, 'Sim'),
+(2, '15.00', '2022-04-11', 2, 1, 'Sim');
 
 -- --------------------------------------------------------
 
@@ -80,6 +78,7 @@ CREATE TABLE `contas_pagar` (
   `usuario` int(11) NOT NULL,
   `pago` varchar(5) NOT NULL,
   `data` date NOT NULL,
+  `vencimento` date NOT NULL,
   `arquivo` varchar(150) DEFAULT NULL,
   `id_compra` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -88,12 +87,20 @@ CREATE TABLE `contas_pagar` (
 -- Extraindo dados da tabela `contas_pagar`
 --
 
-INSERT INTO `contas_pagar` (`id`, `descricao`, `valor`, `usuario`, `pago`, `data`, `arquivo`, `id_compra`) VALUES
-(3, 'trenildo', '32.00', 12, 'Sim', '2022-03-16', '16-03-2022-00-10-58-13.jpg', 0),
-(8, 'rwrw', '42.00', 12, 'Não', '2022-03-16', '16-03-2022-00-35-17-contrato-atleta.pdf', 0),
-(11, 'Compra de Produtos', '20.00', 2, 'Sim', '2022-03-21', 'sem-foto.jpg', 6),
-(12, 'Continha para novo teste', '29.00', 12, 'Não', '2022-03-22', '22-03-2022-01-06-29-galinha-pintadinha-ouvindo-musica.jpg', 0),
-(13, 'jubileu', '12.00', 12, 'Não', '2022-03-22', '22-03-2022-01-07-38-pdf_janela.pdf', 0);
+INSERT INTO `contas_pagar` (`id`, `descricao`, `valor`, `usuario`, `pago`, `data`, `vencimento`, `arquivo`, `id_compra`) VALUES
+(1, 'Conta de luz', '50.00', 12, 'Sim', '2022-04-11', '2022-04-11', '11-04-2022-09-44-14-144fb3e2-9225-486a-8e5d-8de16fff3564.pdf', 0),
+(2, 'Conta de água', '100.00', 12, 'Não', '2022-04-11', '2022-04-18', '11-04-2022-09-46-31-2020-11_125,74.pdf', 0),
+(3, 'Compra de Produtos', '40.00', 12, 'Sim', '2022-04-11', '0000-00-00', 'sem-foto.jpg', 1),
+(4, 'Compra de Produtos', '15.00', 12, 'Sim', '2022-04-11', '2022-04-11', 'sem-foto.jpg', 2),
+(5, 'Nova conta', '42.00', 12, 'Não', '2022-04-11', '2022-04-30', 'sem-foto.jpg', 0),
+(6, 'Nova conta 02', '90.00', 12, 'Não', '2022-04-11', '2022-05-30', 'sem-foto.jpg', 0),
+(7, 'fafafsfs', '242.00', 12, 'Não', '2022-04-11', '2022-05-15', 'sem-foto.jpg', 0),
+(8, 'eeetetete', '256.00', 12, 'Não', '2022-04-11', '2022-04-15', 'sem-foto.jpg', 0),
+(9, 'Conta vencida no dia 10', '120.00', 12, 'Sim', '2022-04-11', '2022-04-10', 'sem-foto.jpg', 0),
+(10, 'Conta a pagar Hoje', '900.00', 12, 'Sim', '2022-04-11', '2022-04-11', 'sem-foto.jpg', 0),
+(11, 'fsfsfsfs', '42.00', 12, 'Não', '2022-04-11', '2022-04-10', 'sem-foto.jpg', 0),
+(12, 'czgdgdgdgd', '45.00', 12, 'Não', '2022-04-12', '2022-04-12', 'sem-foto.jpg', 0),
+(13, 'e664747575', '64.00', 12, 'Não', '2022-04-12', '2022-04-04', 'sem-foto.jpg', 0);
 
 -- --------------------------------------------------------
 
@@ -108,8 +115,21 @@ CREATE TABLE `contas_receber` (
   `usuario` int(5) NOT NULL,
   `pago` varchar(5) NOT NULL,
   `data` date NOT NULL,
+  `vencimento` date NOT NULL,
   `arquivo` varchar(150) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `contas_receber`
+--
+
+INSERT INTO `contas_receber` (`id`, `descricao`, `valor`, `usuario`, `pago`, `data`, `vencimento`, `arquivo`) VALUES
+(1, 'Marcelo Medeiros', '430.00', 12, 'Não', '2022-04-11', '2022-04-16', 'sem-foto.jpg'),
+(2, 'Conta a Receber 01', '100.00', 12, 'Sim', '2022-04-11', '2022-04-30', '11-04-2022-18-28-24-5285cadf-df60-4a21-bf57-173c0abd6292.pdf'),
+(3, 'Conta Receber Vencida', '543.00', 12, 'Sim', '2022-04-11', '2022-04-01', 'sem-foto.jpg'),
+(4, 'daaadadadaggrt43', '1500.00', 12, 'Sim', '2022-04-11', '2022-04-16', 'sem-foto.jpg'),
+(5, '52535353', '42.00', 12, 'Não', '2022-04-12', '2022-04-08', 'sem-foto.jpg'),
+(6, 'fsfs3etete', '425.00', 12, 'Não', '2022-04-12', '2022-04-12', 'sem-foto.jpg');
 
 -- --------------------------------------------------------
 
@@ -137,6 +157,36 @@ INSERT INTO `fornecedores` (`id`, `nome`, `tipo_pessoa`, `cpf`, `email`, `telefo
 -- --------------------------------------------------------
 
 --
+-- Estrutura da tabela `movimentacoes`
+--
+
+CREATE TABLE `movimentacoes` (
+  `id` int(11) NOT NULL,
+  `tipo` varchar(15) NOT NULL,
+  `descricao` varchar(50) NOT NULL,
+  `valor` decimal(8,2) NOT NULL,
+  `usuario` int(11) NOT NULL,
+  `data` date NOT NULL,
+  `id_mov` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `movimentacoes`
+--
+
+INSERT INTO `movimentacoes` (`id`, `tipo`, `descricao`, `valor`, `usuario`, `data`, `id_mov`) VALUES
+(1, 'Saída', 'Conta de luz', '50.00', 12, '2022-04-11', 1),
+(2, 'Saída', 'Compra de Produtos', '15.00', 12, '2022-04-11', 4),
+(3, 'Entrada', 'Conta a Receber 01', '100.00', 12, '2022-04-11', 2),
+(4, 'Saída', 'Conta vencida no dia 10', '120.00', 12, '2022-04-11', 9),
+(5, 'Saída', 'Compra de Produtos', '40.00', 12, '2022-04-11', 3),
+(6, 'Saída', 'Conta a pagar Hoje', '900.00', 12, '2022-04-11', 10),
+(7, 'Entrada', 'Conta Receber Vencida', '543.00', 12, '2022-04-11', 3),
+(8, 'Entrada', 'daaadadadaggrt43', '1500.00', 12, '2022-04-11', 4);
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura da tabela `produtos`
 --
 
@@ -158,7 +208,8 @@ CREATE TABLE `produtos` (
 --
 
 INSERT INTO `produtos` (`id`, `codigo`, `nome`, `descricao`, `estoque`, `valor_compra`, `valor_venda`, `fornecedor`, `categoria`, `foto`) VALUES
-(2, '12', 'teste', '  ffsfsfs  ', 29, '5.00', '29.99', 1, 12, '09-03-2022-16-15-16-curso-de-aplicativo-de-tarefas-com-react.jpeg');
+(2, '12', 'teste', '  ffsfsfs  ', 44, '3.00', '29.99', 1, 12, '09-03-2022-16-15-16-curso-de-aplicativo-de-tarefas-com-react.jpeg'),
+(5, '12345', 'teste 02', '  novo teste', 13, '10.00', '40.00', 1, 18, 'sem-foto.jpg');
 
 -- --------------------------------------------------------
 
@@ -223,6 +274,12 @@ ALTER TABLE `fornecedores`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Índices para tabela `movimentacoes`
+--
+ALTER TABLE `movimentacoes`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Índices para tabela `produtos`
 --
 ALTER TABLE `produtos`
@@ -248,7 +305,7 @@ ALTER TABLE `categorias`
 -- AUTO_INCREMENT de tabela `compras`
 --
 ALTER TABLE `compras`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `contas_pagar`
@@ -260,7 +317,7 @@ ALTER TABLE `contas_pagar`
 -- AUTO_INCREMENT de tabela `contas_receber`
 --
 ALTER TABLE `contas_receber`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de tabela `fornecedores`
@@ -269,10 +326,16 @@ ALTER TABLE `fornecedores`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT de tabela `movimentacoes`
+--
+ALTER TABLE `movimentacoes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
 -- AUTO_INCREMENT de tabela `produtos`
 --
 ALTER TABLE `produtos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios`

@@ -5,9 +5,9 @@ require_once('../../conexao.php');
 @session_start();
 
 $id_usuario = $_SESSION['id_usuario'];
-
 $descricao = $_POST['descricao'];
 $valor = $_POST['valor'];
+$vencimento = $_POST['vencimento'];
 $id = $_POST['id'];
 
 //recupera o id da conta para saber se ela já está paga, para que não possa editá-la
@@ -59,9 +59,10 @@ if ($ext == 'png' or $ext == 'jpg' or $ext == 'jpeg' or $ext == 'gif' or $ext ==
 
 if ($id == '') { //se o id não tiver sido criado, é inserção
 
-    $query = $pdo->prepare("INSERT INTO contas_receber SET pago = 'Não', data = curDate(), usuario = '$id_usuario', descricao = :descricao, valor = :valor, arquivo = :arquivo");
+    $query = $pdo->prepare("INSERT INTO contas_receber SET vencimento = :vencimento, pago = 'Não', data = curDate(), usuario = '$id_usuario', descricao = :descricao, valor = :valor, arquivo = :arquivo");
 
     $query->bindValue(":descricao", $descricao);
+    $query->bindValue(":vencimento", $vencimento);
     $query->bindValue(":valor", $valor);
     $query->bindValue(":arquivo", $imagem);
 
@@ -69,18 +70,19 @@ if ($id == '') { //se o id não tiver sido criado, é inserção
 } else { //se o id já existir, é edição
 
     if ($imagem != 'sem-foto.jpg') { //se já tiver foto
-        $query = $pdo->prepare("UPDATE contas_receber SET usuario = '$id_usuario', descricao = :descricao, valor = :valor, arquivo = :arquivo WHERE id = :id");
+        $query = $pdo->prepare("UPDATE contas_receber SET vencimento = :vencimento, usuario = '$id_usuario', descricao = :descricao, valor = :valor, arquivo = :arquivo WHERE id = :id");
         //campos pago e data não entram na edição
 
         $query->bindValue(":arquivo", $imagem);
-    } else { //no caso de não ter imagem (sem-foto.jpg)
-        $query = $pdo->prepare("UPDATE contas_receber SET usuario = '$id_usuario', descricao = :descricao, valor = :valor WHERE id = :id");
+    } else { //se não tiver foto (sem-foto.jpg)
+        $query = $pdo->prepare("UPDATE contas_receber SET vencimento = :vencimento, usuario = '$id_usuario', descricao = :descricao, valor = :valor WHERE id = :id");
         //exatamente, não faz nada, ou seja, não atualiza no banco o arquivo (que é uma imagem ou um pdf)
     
     }
 
     $query->bindValue(":descricao", $descricao);
     $query->bindValue(":valor", $valor);
+    $query->bindValue(":vencimento", $vencimento);
     $query->bindValue(":id", $id);
     $query->execute();
 }

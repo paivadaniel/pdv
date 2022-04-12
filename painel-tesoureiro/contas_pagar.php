@@ -11,7 +11,9 @@ require_once('verifica_permissao.php');
 
 <div class="mt-4" style="margin-right:25px">
     <?php
-    $query = $pdo->query("SELECT * from contas_pagar order by id desc");
+    $query = $pdo->query("SELECT * from contas_pagar order by pago asc, vencimento asc"); //o "s" de "sim" vem primeiro que o "n" de "não", por isso pago ascendente
+    //$query = $pdo->query("SELECT * from contas_pagar order by id desc");
+
     $res = $query->fetchAll(PDO::FETCH_ASSOC);
     $total_reg = @count($res);
     if ($total_reg > 0) {

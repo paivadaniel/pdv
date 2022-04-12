@@ -190,6 +190,14 @@ if ($dataInicial != $dataFinal) {
 
 <body>
 
+<?php if($cabecalho_img_rel == 'Sim') { ?>
+
+<div class="img-cabecalho">
+<img src="<?php echo $url_sistema ?>img/topo-relatorio.jpg" width="100%">
+
+</div>
+
+<?php } else { ?>
 
     <div class="cabecalho">
 
@@ -213,6 +221,8 @@ if ($dataInicial != $dataFinal) {
 
     </div>
 
+    <?php } ?>
+
     <div class="container">
 
         <div align="center" class="">
@@ -230,11 +240,13 @@ if ($dataInicial != $dataFinal) {
             <th>Valor</th>
             <th>Usuário</th>
             <th>Data</th>
+            <th>Vencimento</th>
+
         </tr>
         <?php
         $saldo = 0;
 
-        $query = $pdo->query("SELECT * FROM contas_pagar WHERE data >= '$dataInicial' AND data <= '$dataFinal' and pago LIKE '$status_like' ORDER BY id desc");
+        $query = $pdo->query("SELECT * FROM contas_pagar WHERE data >= '$dataInicial' AND data <= '$dataFinal' and pago LIKE '$status_like' ORDER BY data asc");
         $res = $query->fetchAll(PDO::FETCH_ASSOC);
 
         for ($i = 0; $i < @count($res); $i++) {
@@ -244,6 +256,7 @@ if ($dataInicial != $dataFinal) {
             $pago = $res[$i]['pago'];
             $total = $res[$i]['valor'];
             $data = $res[$i]['data'];
+            $vencimento = $res[$i]['vencimento'];
 
             $id = $res[$i]['id'];
 
@@ -253,6 +266,7 @@ if ($dataInicial != $dataFinal) {
             $totalF = number_format($total, 2, ',', '.'); //"F" vem de formatado
 
             $data = implode('/', array_reverse(explode('-', $data)));
+            $vencimento = implode('/', array_reverse(explode('-', $vencimento)));
 
             //BUSCA USUÁRIO QUE FEZ O PEDIDO
             $query_usu = $pdo->query("SELECT * FROM usuarios WHERE id = '$usuario'");
@@ -267,25 +281,31 @@ if ($dataInicial != $dataFinal) {
 
         ?>
 
-            <tr>
+            <small>
+                <tr>
 
-                <td><img src="<?php echo $url_sistema ?>img/<?php echo $foto ?>" width="10px"> </td>
-                <td>
-                    <?php echo $res[$i]['descricao']; ?>
-                </td>
+                    <td><img src="<?php echo $url_sistema ?>img/<?php echo $foto ?>" width="10px"> </td>
+                    <td>
+                        <?php echo $res[$i]['descricao']; ?>
+                    </td>
 
-                <td>
-                    R$ <?php echo number_format($res[$i]['valor'], 2, ',', '.'); ?>
-                </td>
+                    <td>
+                        R$ <?php echo number_format($res[$i]['valor'], 2, ',', '.'); ?>
+                    </td>
 
-                <td><?php echo $nome_usu ?></td>
+                    <td><?php echo $nome_usu ?></td>
 
-                <td>
-                    <?php echo implode('/', array_reverse(explode('-', $data)));
-                    ?>
-                </td>
+                    <td>
+                        <?php echo $data ?>
+                    </td>
 
-            </tr>
+                    <td>
+                        <?php echo $vencimento ?>
+                    </td>
+
+                </tr>
+
+            </small>
         <?php } ?>
 
 

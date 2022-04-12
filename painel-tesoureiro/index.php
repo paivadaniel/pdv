@@ -15,6 +15,10 @@ $menu3 = 'contas_receber';
 $menu4 = 'movimentacoes';
 $menu5 = 'vendas';
 $menu6 = 'compras';
+$menu7 = 'contas_pagar_vencidas';
+$menu8 = 'contas_pagar_hoje';
+$menu9 = 'contas_receber_vencidas';
+
 
 //RECUPERAR DADOS DO USUÁRIO
 $query = $pdo->query("SELECT * FROM usuarios WHERE id = '$_SESSION[id_usuario]'");
@@ -95,8 +99,25 @@ $id_usu = $res[0]['id'];
                             <li class="nav-item">
                                 <a class="nav-link" href="index.php?pagina=<?php echo $menu2; ?>">Contas à Pagar</a>
                             </li>
+
                             <li class="nav-item">
                                 <a class="nav-link" href="index.php?pagina=<?php echo $menu3; ?>">Contas à Receber</a>
+                            </li>
+
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.php?pagina=<?php echo $menu7; ?>">Contas à Pagar Vencidas</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.php?pagina=<?php echo $menu8; ?>">Contas à Pagar Hoje</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.php?pagina=<?php echo $menu9; ?>">Contas à Receber Vencidas</a>
                             </li>
                         </ul>
                     </li>
@@ -195,6 +216,12 @@ $id_usu = $res[0]['id'];
         require_once($menu5 . '.php');
     } else if (@$_GET['pagina'] == $menu6) {
         require_once($menu6 . '.php');
+    } else if (@$_GET['pagina'] == $menu7) {
+        require_once($menu7 . '.php');
+    } else if (@$_GET['pagina'] == $menu8) {
+        require_once($menu8 . '.php');
+    } else if (@$_GET['pagina'] == $menu9) {
+        require_once($menu9 . '.php');
     } else {
         //caso não for nenhuma das páginas do GET, e tiver algum lixo nele, carrega a home.php
         require_once($menu1 . '.php');

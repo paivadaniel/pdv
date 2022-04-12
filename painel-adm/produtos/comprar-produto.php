@@ -40,7 +40,7 @@ $query->execute();
 $id_compra = $pdo->lastInsertId(); //o id do último registro inserido no banco de dados é armazenado na variável $id_compra
 
 //inserir na tabela contas_pagar
-$query = $pdo->prepare("INSERT INTO contas_pagar SET descricao = 'Compra de Produtos', valor = :valor, data = curDate(), usuario = :usuario, pago = 'Não', arquivo = 'sem-foto.jpg', id_compra = '$id_compra'");
+$query = $pdo->prepare("INSERT INTO contas_pagar SET vencimento = curDate(), descricao = 'Compra de Produtos', valor = :valor, data = curDate(), usuario = :usuario, pago = 'Não', arquivo = 'sem-foto.jpg', id_compra = '$id_compra'");
 $query->bindValue(":valor", $total_compra);
 $query->bindValue(":usuario", $id_usuario);
 $query->execute();

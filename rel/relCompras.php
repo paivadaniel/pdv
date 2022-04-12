@@ -190,125 +190,134 @@ if ($dataInicial != $dataFinal) {
 
 <body>
 
+    <?php if ($cabecalho_img_rel == 'Sim') { ?>
 
-    <div class="cabecalho">
+        <div class="img-cabecalho">
+            <img src="<?php echo $url_sistema ?>img/topo-relatorio.jpg" width="100%">
 
-        <div class="row titulos">
-            <div class="col-sm-2 esquerda_float image">
-                <img src="<?php echo $url_sistema ?>img/logo.jpg" width="92px">
-            </div>
-            <div class="col-sm-10 esquerda_float">
-                <h2 class="titulo"><b><?php echo strtoupper($nome_sistema) ?></b></h2>
+        </div>
 
-                <div class="areaSubtituloCabecalho">
+    <?php } else { ?>
 
-                    <h6 class="subtitulo"><?php echo $endereco_sistema . ' Tel: ' . $telefone_sistema ?></h6>
+        <div class="cabecalho">
 
-                    <h6 class="subtitulo"><?php echo $data_hoje ?></h6>
+            <div class="row titulos">
+                <div class="col-sm-2 esquerda_float image">
+                    <img src="<?php echo $url_sistema ?>img/logo.jpg" width="92px">
                 </div>
+                <div class="col-sm-10 esquerda_float">
+                    <h2 class="titulo"><b><?php echo strtoupper($nome_sistema) ?></b></h2>
 
+                    <div class="areaSubtituloCabecalho">
+
+                        <h6 class="subtitulo"><?php echo $endereco_sistema . ' Tel: ' . $telefone_sistema ?></h6>
+
+                        <h6 class="subtitulo"><?php echo $data_hoje ?></h6>
+                    </div>
+
+                </div>
             </div>
-        </div>
 
-
-    </div>
-
-    <div class="container">
-
-        <div align="center" class="">
-            <span class="titulorel">Relatório de Compras <?php echo $status_serv ?></span>
-        </div>
-    </div>
-
-
-    <hr>
-
-    <table class='table' width='100%' cellspacing='0' cellpadding='3'>
-        <tr bgcolor='#f9f9f9'>
-            <th>Total</th>
-            <th>Data</th>
-            <th>Usuário</th>
-            <th>Fornecedor</th>
-            <th>Pago</th>
-        </tr>
-        <?php
-        $saldo=0;
-
-        $query = $pdo->query("SELECT * FROM compras WHERE data >= '$dataInicial' AND data <= '$dataFinal' and pago LIKE '$status_like' ORDER BY id desc");
-        $res = $query->fetchAll(PDO::FETCH_ASSOC);
-
-        for ($i = 0; $i < @count($res); $i++) {
-            foreach ($res[$i] as $key => $value) {
-            }
-            $total = $res[$i]['total'];
-            $data = $res[$i]['data'];
-            $usuario = $res[$i]['usuario']; //id do usuário
-            $fornecedor = $res[$i]['fornecedor']; //id do fornecedor
-            $pago = $res[$i]['pago'];
-
-            $id = $res[$i]['id'];
-
-            $saldo+=$total;
-            $saldoF = number_format($saldo, 2, ',', '.'); //"F" vem de formatado
-
-            $totalF = number_format($total, 2, ',', '.'); //"F" vem de formatado
-            
-            $data = implode('/', array_reverse(explode('-', $data)));
-
-            //BUSCA USUÁRIO QUE FEZ O PEDIDO
-            $query_usu = $pdo->query("SELECT * FROM usuarios WHERE id = '$usuario'");
-            $res_usu = $query_usu->fetchAll(PDO::FETCH_ASSOC);
-            $nome_usu = $res_usu[0]['nome'];
-
-            //BUSCA O FORNECEDOR QUE ENTREGARÁ O PEDIDO
-            $query_fornecedor = $pdo->query("SELECT * FROM fornecedor WHERE id = '$fornecedor'");
-            $res_fornecedor = $query_fornecedor->fetchAll(PDO::FETCH_ASSOC);
-            $nome_fornecedor = $res_fornecedor[0]['nome'];
-
-            if($pago == 'Sim') {
-                $foto = 'verde.jpg';
-            } else {
-                $foto = 'vermelho.jpg';
-            }
-
-        ?>
-
-            <tr>
-
-                <td><?php echo $totalF ?> </td>
-                <td><?php echo $data ?> </td>
-                <td><?php echo $nome_usu ?> </td>
-                <td><?php echo $nome_fornecedor ?> </td>
-                <td><img src="<?php echo $url_sistema ?>img/<?php echo $foto ?>" width="10px"> </td>
-
-            </tr>
         <?php } ?>
 
-
-
-    </table>
-
-    <hr>
-
-
-    <div class="row" align="left">
-        <div class="col-sm-8 esquerda">
-            <span class=""> <b> Período da Apuração </b> </span>
-            <span class=""> <?php echo $apuracao ?> </span>
         </div>
 
-        <div class="col-sm-4 direita" align="right">
-            <span class=""> <b> Total R$: <?php echo $saldoF ?> </b> </span>
+        <div class="container">
+
+            <div align="center" class="">
+                <span class="titulorel">Relatório de Compras <?php echo $status_serv ?></span>
+            </div>
         </div>
-    </div>
-
-    <hr>
 
 
+        <hr>
 
-    <div class="footer">
-        <p style="font-size:14px" align="center"><?php echo $rodape_relatorios ?></p>
-    </div>
+        <table class='table' width='100%' cellspacing='0' cellpadding='3'>
+            <tr bgcolor='#f9f9f9'>
+                <th>Total</th>
+                <th>Data</th>
+                <th>Usuário</th>
+                <th>Fornecedor</th>
+                <th>Pago</th>
+            </tr>
+            <?php
+            $saldo = 0;
+
+            $query = $pdo->query("SELECT * FROM compras WHERE data >= '$dataInicial' AND data <= '$dataFinal' and pago LIKE '$status_like' ORDER BY id desc");
+            $res = $query->fetchAll(PDO::FETCH_ASSOC);
+
+            for ($i = 0; $i < @count($res); $i++) {
+                foreach ($res[$i] as $key => $value) {
+                }
+                $total = $res[$i]['total'];
+                $data = $res[$i]['data'];
+                $usuario = $res[$i]['usuario']; //id do usuário
+                $fornecedor = $res[$i]['fornecedor']; //id do fornecedor
+                $pago = $res[$i]['pago'];
+
+                $id = $res[$i]['id'];
+
+                $saldo += $total;
+                $saldoF = number_format($saldo, 2, ',', '.'); //"F" vem de formatado
+
+                $totalF = number_format($total, 2, ',', '.'); //"F" vem de formatado
+
+                $data = implode('/', array_reverse(explode('-', $data)));
+
+                //BUSCA USUÁRIO QUE FEZ O PEDIDO
+                $query_usu = $pdo->query("SELECT * FROM usuarios WHERE id = '$usuario'");
+                $res_usu = $query_usu->fetchAll(PDO::FETCH_ASSOC);
+                $nome_usu = $res_usu[0]['nome'];
+
+                //BUSCA O FORNECEDOR QUE ENTREGARÁ O PEDIDO
+                $query_fornecedor = $pdo->query("SELECT * FROM fornecedor WHERE id = '$fornecedor'");
+                $res_fornecedor = $query_fornecedor->fetchAll(PDO::FETCH_ASSOC);
+                $nome_fornecedor = $res_fornecedor[0]['nome'];
+
+                if ($pago == 'Sim') {
+                    $foto = 'verde.jpg';
+                } else {
+                    $foto = 'vermelho.jpg';
+                }
+
+            ?>
+
+                <tr>
+
+                    <td><?php echo $totalF ?> </td>
+                    <td><?php echo $data ?> </td>
+                    <td><?php echo $nome_usu ?> </td>
+                    <td><?php echo $nome_fornecedor ?> </td>
+                    <td><img src="<?php echo $url_sistema ?>img/<?php echo $foto ?>" width="10px"> </td>
+
+                </tr>
+            <?php } ?>
+
+
+
+        </table>
+
+        <hr>
+
+
+        <div class="row" align="left">
+            <div class="col-sm-8 esquerda">
+                <span class=""> <b> Período da Apuração </b> </span>
+                <span class=""> <?php echo $apuracao ?> </span>
+            </div>
+
+            <div class="col-sm-4 direita" align="right">
+                <span class=""> <b> Total R$: <?php echo $saldoF ?> </b> </span>
+            </div>
+        </div>
+
+        <hr>
+
+
+
+        <div class="footer">
+            <p style="font-size:14px" align="center"><?php echo $rodape_relatorios ?></p>
+        </div>
 
 
 

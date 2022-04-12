@@ -190,7 +190,14 @@ if ($dataInicial != $dataFinal) {
 </head>
 
 <body>
+<?php if($cabecalho_img_rel == 'Sim') { ?>
 
+    <div class="img-cabecalho">
+    <img src="<?php echo $url_sistema ?>img/topo-relatorio.jpg" width="100%">
+
+    </div>
+
+<?php } else { ?>
 
     <div class="cabecalho">
 
@@ -211,6 +218,8 @@ if ($dataInicial != $dataFinal) {
 
 
     </div>
+
+<?php } ?>
 
     <div class="container">
 
@@ -341,9 +350,9 @@ if ($dataInicial != $dataFinal) {
     </div>
 
 
-        <div class="footer">
-            <p style="font-size:14px" align="center"><?php echo $rodape_relatorios ?></p>
-        </div>
+    <div class="footer">
+        <p style="font-size:14px" align="center"><?php echo $rodape_relatorios ?></p>
+    </div>
 
 
 

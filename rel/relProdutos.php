@@ -14,7 +14,7 @@ $data_hoje = utf8_encode(strftime('%A, %d de %B de %Y', strtotime('today')));
 <head>
     <title>Catálogo de Produtos</title>
 
-	<link rel="shortcut icon" href="../img/favicon.ico" />
+    <link rel="shortcut icon" href="../img/favicon.ico" />
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
@@ -162,28 +162,38 @@ $data_hoje = utf8_encode(strftime('%A, %d de %B de %Y', strtotime('today')));
 
 <body>
 
+    <?php if ($cabecalho_img_rel == 'Sim') { ?>
 
-    <div class="cabecalho">
+        <div class="img-cabecalho">
+            <img src="<?php echo $url_sistema ?>img/topo-relatorio.jpg" width="100%">
 
-        <div class="row titulos">
-            <div class="col-sm-2 esquerda_float image">
-                <img src="<?php echo $url_sistema ?>img/logo.jpg" width="92px">
-            </div>
-            <div class="col-sm-10 esquerda_float">
-                <h2 class="titulo"><b><?php echo strtoupper($nome_sistema) ?></b></h2>
-
-                <div class="areaSubtituloCabecalho">
-
-                    <h6 class="subtitulo"><?php echo $endereco_sistema . ' Tel: ' . $telefone_sistema ?></h6>
-
-                    <h6 class="subtitulo"><?php echo $data_hoje ?></h6>
-                </div>
-
-            </div>
         </div>
 
+    <?php } else { ?>
 
-    </div>
+        <div class="cabecalho">
+
+            <div class="row titulos">
+                <div class="col-sm-2 esquerda_float image">
+                    <img src="<?php echo $url_sistema ?>img/logo.jpg" width="92px">
+                </div>
+                <div class="col-sm-10 esquerda_float">
+                    <h2 class="titulo"><b><?php echo strtoupper($nome_sistema) ?></b></h2>
+
+                    <div class="areaSubtituloCabecalho">
+
+                        <h6 class="subtitulo"><?php echo $endereco_sistema . ' Tel: ' . $telefone_sistema ?></h6>
+
+                        <h6 class="subtitulo"><?php echo $data_hoje ?></h6>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+
+    <?php } ?>
 
     <div class="container">
 
@@ -195,14 +205,15 @@ $data_hoje = utf8_encode(strftime('%A, %d de %B de %Y', strtotime('today')));
 
     <hr>
 
-<!-- 
+    <!-- 
     <div class="row margem-superior">
         <div class="col-md-12">
             <div class="esquerda_float margem-direita50">
                 <span class=""> <b> Período da Apuração </b> </span>
             </div>
             <div class="esquerda_float margem-direita50">
-                <span class=""> <?php //echo $apuracao ?> </span>
+                <span class=""> <?php //echo $apuracao 
+                                ?> </span>
             </div>
 
         </div>
@@ -240,7 +251,7 @@ $data_hoje = utf8_encode(strftime('%A, %d de %B de %Y', strtotime('today')));
             $valor_venda_f = number_format($valor_venda, 2, ',', '.');
             $valor_compra_f = number_format($valor_compra, 2, ',', '.');
 
-?>
+        ?>
 
             <tr>
 

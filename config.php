@@ -20,8 +20,11 @@ $senha = '';
 $banco = 'pdv';
 
 //VARIÁVEIS DE CONFIGURAÇÃO DO SISTEMA
-$relatorio_pdf = ""; 
+$relatorio_pdf = ''; 
 /*Se você utilizar "Sim", vai gerar relatórios com a biblioteca dompdf configurada para php 8.0, caso você use outra versão do php ou do dompdf pode dar errado, caso configure a variável como "Não" (ou qualquer outra coisa diferente de "Sim"), vai gerar o relatório html.
 */
+
+$cabecalho_img_rel = 'Sim';  /* Se você optar por "Sim", os relatórios serão exibidos com uma imagem de cabeçalho, você terá de alterar o arquivo PSD para alterar as informações referentes à sua empresa, caso não queira, basta deixar em branco, e ele pegará os valores das variáveis globais declaradas acima, como $nome_sistema e $endereco_sistema */
+
 
 ?>
