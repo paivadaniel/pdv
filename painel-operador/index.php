@@ -8,16 +8,8 @@ pois esse arquivo usa a variável de sessão $_SESSION['nivel_usuario']
 require_once('../conexao.php');
 require_once('verifica_permissao.php');
 
-//VARIÁVEIS DO MENU ADMINISTRATIVO
+//VARIÁVEIS DO MENU OPERADOR
 $menu1 = 'home';
-$menu2 = 'contas_pagar';
-$menu3 = 'contas_receber';
-$menu4 = 'movimentacoes';
-$menu5 = 'vendas';
-$menu6 = 'compras';
-$menu7 = 'contas_pagar_vencidas';
-$menu8 = 'contas_pagar_hoje';
-$menu9 = 'contas_receber_vencidas';
 
 
 //RECUPERAR DADOS DO USUÁRIO
@@ -45,7 +37,7 @@ $id_usu = $res[0]['id'];
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel Tesouraria</title>
+    <title>Painel Operador</title>
 
     <!--bootstrap css-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -84,90 +76,9 @@ $id_usu = $res[0]['id'];
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="index.php?pagina=<?php echo $menu1; ?>">Home</a>
-                    </li>
-
-
-
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Contas
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li class="nav-item">
-                                <a class="nav-link" href="index.php?pagina=<?php echo $menu2; ?>">Contas à Pagar</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="index.php?pagina=<?php echo $menu3; ?>">Contas à Receber</a>
-                            </li>
-
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="index.php?pagina=<?php echo $menu7; ?>">Contas à Pagar Vencidas</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="index.php?pagina=<?php echo $menu8; ?>">Contas à Pagar Hoje</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="index.php?pagina=<?php echo $menu9; ?>">Contas à Receber Vencidas</a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.php?pagina=<?php echo $menu4; ?>">Movimentações</a>
-                    </li>
-
-
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Vendas / Compras
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li>
-                                <a class="dropdown-item" href="index.php?pagina=<?php echo $menu5; ?>">Lista de Vendas</a>
-                            </li>
-
-                            <li>
-                                <a class="dropdown-item" href="index.php?pagina=<?php echo $menu6; ?>">Lista de Compras</a>
-                            </li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="logout.php">Logout</a></li>
-                        </ul>
-                    </li>
-
-
-                    <li class="nav-item dropdown">
-                        <!-- pode manter o mesmo id do dropdown passado, ou seja, id="navbarDropdown" -->
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Relatórios
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li>
-                                <a class="dropdown-item" href="" data-bs-toggle="modal" data-bs-target="#ModalRelMov">Relatório de Movimentações</a>
-                            </li>
-
-                            <li>
-                                <a class="dropdown-item" href="" data-bs-toggle="modal" data-bs-target="#ModalRelContasPagar">Relatório de Contas à Pagar</a>
-                            </li>
-
-
-                        </ul>
-                    </li>
-
 
                 </ul>
+                
                 <div class="d-flex mx-3">
 
                     <img src="../img/icone-user.png" alt="Usuário" width="40px" height="40px">
@@ -206,23 +117,7 @@ $id_usu = $res[0]['id'];
     <?php
     if (@$_GET['pagina'] == $menu1) {
         require_once($menu1 . '.php');
-    } else if (@$_GET['pagina'] == $menu2) {
-        require_once($menu2 . '.php');
-    } else if (@$_GET['pagina'] == $menu3) {
-        require_once($menu3 . '.php');
-    } else if (@$_GET['pagina'] == $menu4) {
-        require_once($menu4 . '.php');
-    } else if (@$_GET['pagina'] == $menu5) {
-        require_once($menu5 . '.php');
-    } else if (@$_GET['pagina'] == $menu6) {
-        require_once($menu6 . '.php');
-    } else if (@$_GET['pagina'] == $menu7) {
-        require_once($menu7 . '.php');
-    } else if (@$_GET['pagina'] == $menu8) {
-        require_once($menu8 . '.php');
-    } else if (@$_GET['pagina'] == $menu9) {
-        require_once($menu9 . '.php');
-    } else {
+     } else {
         //caso não for nenhuma das páginas do GET, e tiver algum lixo nele, carrega a home.php
         require_once($menu1 . '.php');
     }
