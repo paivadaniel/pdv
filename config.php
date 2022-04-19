@@ -2,6 +2,7 @@
 
 //VARIÁVEIS GLOBAIS
 $nome_sistema = "PDV Paiva";
+$email_admin = "admin@gmail.com"; //caso não tenha um administrador cadastrado, cria automaticamente um com esse email
 $url_sistema = "http://localhost/dashboard/www/pdv/";
 /*
 a variável acima tem que estar apontando para a raíz do projeto, para assim

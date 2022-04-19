@@ -11,7 +11,6 @@ require_once('verifica_permissao.php');
 //VARIÁVEIS DO MENU OPERADOR
 $menu1 = 'home';
 
-
 //RECUPERAR DADOS DO USUÁRIO
 $query = $pdo->query("SELECT * FROM usuarios WHERE id = '$_SESSION[id_usuario]'");
 $res = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -78,7 +77,7 @@ $id_usu = $res[0]['id'];
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
                 </ul>
-                
+
                 <div class="d-flex mx-3">
 
                     <img src="../img/icone-user.png" alt="Usuário" width="40px" height="40px">
@@ -117,7 +116,7 @@ $id_usu = $res[0]['id'];
     <?php
     if (@$_GET['pagina'] == $menu1) {
         require_once($menu1 . '.php');
-     } else {
+    } else {
         //caso não for nenhuma das páginas do GET, e tiver algum lixo nele, carrega a home.php
         require_once($menu1 . '.php');
     }

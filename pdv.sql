@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 12-Abr-2022 às 05:05
+-- Tempo de geração: 19-Abr-2022 às 03:14
 -- Versão do servidor: 10.4.21-MariaDB
 -- versão do PHP: 8.0.10
 
@@ -20,6 +20,58 @@ SET time_zone = "+00:00";
 --
 -- Banco de dados: `pdv`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `caixa`
+--
+
+CREATE TABLE `caixa` (
+  `id` int(11) NOT NULL,
+  `data_ab` date NOT NULL,
+  `hora_ab` time NOT NULL,
+  `valor_ab` decimal(8,2) NOT NULL,
+  `gerente_ab` int(11) NOT NULL,
+  `data_fec` date DEFAULT NULL,
+  `hora_fec` time DEFAULT NULL,
+  `valor_fec` decimal(8,2) DEFAULT NULL,
+  `valor_vendido` decimal(8,2) DEFAULT NULL,
+  `valor_quebra` decimal(8,2) DEFAULT NULL,
+  `gerente_fec` int(11) DEFAULT NULL,
+  `caixa` int(11) NOT NULL,
+  `operador` int(11) NOT NULL,
+  `status` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `caixa`
+--
+
+INSERT INTO `caixa` (`id`, `data_ab`, `hora_ab`, `valor_ab`, `gerente_ab`, `data_fec`, `hora_fec`, `valor_fec`, `valor_vendido`, `valor_quebra`, `gerente_fec`, `caixa`, `operador`, `status`) VALUES
+(8, '2022-04-18', '18:27:59', '900.00', 11, NULL, NULL, NULL, NULL, NULL, NULL, 3, 3, 'Aberto');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `caixas`
+--
+
+CREATE TABLE `caixas` (
+  `id` int(11) NOT NULL,
+  `nome` varchar(60) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `caixas`
+--
+
+INSERT INTO `caixas` (`id`, `nome`) VALUES
+(1, 'Caixa 01'),
+(2, 'Caixa 02'),
+(3, 'Caixa 03'),
+(4, 'Caixa 04'),
+(5, 'Caixa 05');
 
 -- --------------------------------------------------------
 
@@ -99,8 +151,9 @@ INSERT INTO `contas_pagar` (`id`, `descricao`, `valor`, `usuario`, `pago`, `data
 (9, 'Conta vencida no dia 10', '120.00', 12, 'Sim', '2022-04-11', '2022-04-10', 'sem-foto.jpg', 0),
 (10, 'Conta a pagar Hoje', '900.00', 12, 'Sim', '2022-04-11', '2022-04-11', 'sem-foto.jpg', 0),
 (11, 'fsfsfsfs', '42.00', 12, 'Não', '2022-04-11', '2022-04-10', 'sem-foto.jpg', 0),
-(12, 'czgdgdgdgd', '45.00', 12, 'Não', '2022-04-12', '2022-04-12', 'sem-foto.jpg', 0),
-(13, 'e664747575', '64.00', 12, 'Não', '2022-04-12', '2022-04-04', 'sem-foto.jpg', 0);
+(12, 'czgdgdgdgd', '45.00', 12, 'Sim', '2022-04-12', '2022-04-12', 'sem-foto.jpg', 0),
+(13, 'e664747575', '64.00', 12, 'Não', '2022-04-12', '2022-04-04', 'sem-foto.jpg', 0),
+(14, 'conta a pagar 01 dia 12', '100.00', 12, 'Sim', '2022-04-12', '2022-04-12', 'sem-foto.jpg', 0);
 
 -- --------------------------------------------------------
 
@@ -129,7 +182,8 @@ INSERT INTO `contas_receber` (`id`, `descricao`, `valor`, `usuario`, `pago`, `da
 (3, 'Conta Receber Vencida', '543.00', 12, 'Sim', '2022-04-11', '2022-04-01', 'sem-foto.jpg'),
 (4, 'daaadadadaggrt43', '1500.00', 12, 'Sim', '2022-04-11', '2022-04-16', 'sem-foto.jpg'),
 (5, '52535353', '42.00', 12, 'Não', '2022-04-12', '2022-04-08', 'sem-foto.jpg'),
-(6, 'fsfs3etete', '425.00', 12, 'Não', '2022-04-12', '2022-04-12', 'sem-foto.jpg');
+(6, 'fsfs3etete', '425.00', 12, 'Não', '2022-04-12', '2022-04-12', 'sem-foto.jpg'),
+(7, 'conta a receber 01 dia 12', '500.00', 12, 'Sim', '2022-04-12', '2022-04-12', 'sem-foto.jpg');
 
 -- --------------------------------------------------------
 
@@ -182,7 +236,10 @@ INSERT INTO `movimentacoes` (`id`, `tipo`, `descricao`, `valor`, `usuario`, `dat
 (5, 'Saída', 'Compra de Produtos', '40.00', 12, '2022-04-11', 3),
 (6, 'Saída', 'Conta a pagar Hoje', '900.00', 12, '2022-04-11', 10),
 (7, 'Entrada', 'Conta Receber Vencida', '543.00', 12, '2022-04-11', 3),
-(8, 'Entrada', 'daaadadadaggrt43', '1500.00', 12, '2022-04-11', 4);
+(8, 'Entrada', 'daaadadadaggrt43', '1500.00', 12, '2022-04-11', 4),
+(9, 'Saída', 'conta a pagar 01 dia 12', '100.00', 12, '2022-04-12', 14),
+(10, 'Saída', 'czgdgdgdgd', '45.00', 12, '2022-04-12', 12),
+(11, 'Entrada', 'conta a receber 01 dia 12', '500.00', 12, '2022-04-12', 7);
 
 -- --------------------------------------------------------
 
@@ -244,6 +301,18 @@ INSERT INTO `usuarios` (`id`, `nome`, `email`, `cpf`, `senha`, `nivel`) VALUES
 --
 
 --
+-- Índices para tabela `caixa`
+--
+ALTER TABLE `caixa`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Índices para tabela `caixas`
+--
+ALTER TABLE `caixas`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Índices para tabela `categorias`
 --
 ALTER TABLE `categorias`
@@ -296,6 +365,18 @@ ALTER TABLE `usuarios`
 --
 
 --
+-- AUTO_INCREMENT de tabela `caixa`
+--
+ALTER TABLE `caixa`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT de tabela `caixas`
+--
+ALTER TABLE `caixas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT de tabela `categorias`
 --
 ALTER TABLE `categorias`
@@ -311,13 +392,13 @@ ALTER TABLE `compras`
 -- AUTO_INCREMENT de tabela `contas_pagar`
 --
 ALTER TABLE `contas_pagar`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de tabela `contas_receber`
 --
 ALTER TABLE `contas_receber`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de tabela `fornecedores`
@@ -329,7 +410,7 @@ ALTER TABLE `fornecedores`
 -- AUTO_INCREMENT de tabela `movimentacoes`
 --
 ALTER TABLE `movimentacoes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de tabela `produtos`
