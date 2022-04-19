@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 19-Abr-2022 às 03:14
+-- Tempo de geração: 19-Abr-2022 às 22:17
 -- Versão do servidor: 10.4.21-MariaDB
 -- versão do PHP: 8.0.10
 
@@ -211,6 +211,30 @@ INSERT INTO `fornecedores` (`id`, `nome`, `tipo_pessoa`, `cpf`, `email`, `telefo
 -- --------------------------------------------------------
 
 --
+-- Estrutura da tabela `itens_venda`
+--
+
+CREATE TABLE `itens_venda` (
+  `id` int(11) NOT NULL,
+  `produto` int(11) NOT NULL,
+  `valor_unitario` decimal(8,2) NOT NULL,
+  `quantidade` int(11) NOT NULL,
+  `valor_total_item` decimal(8,2) NOT NULL,
+  `usuario` int(11) NOT NULL,
+  `venda` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `itens_venda`
+--
+
+INSERT INTO `itens_venda` (`id`, `produto`, `valor_unitario`, `quantidade`, `valor_total_item`, `usuario`, `venda`) VALUES
+(41, 2, '29.99', 1, '29.99', 3, 0),
+(42, 5, '40.00', 1, '40.00', 3, 0);
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura da tabela `movimentacoes`
 --
 
@@ -343,6 +367,12 @@ ALTER TABLE `fornecedores`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Índices para tabela `itens_venda`
+--
+ALTER TABLE `itens_venda`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Índices para tabela `movimentacoes`
 --
 ALTER TABLE `movimentacoes`
@@ -405,6 +435,12 @@ ALTER TABLE `contas_receber`
 --
 ALTER TABLE `fornecedores`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de tabela `itens_venda`
+--
+ALTER TABLE `itens_venda`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT de tabela `movimentacoes`

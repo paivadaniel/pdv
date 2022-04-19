@@ -23,9 +23,12 @@ if ($total_reg == 0) {
 <html class="wide wow-animation" lang="pt-br">
 
 <head>
-  <title>NOME DO PDV</title>
+  <title><?php echo $nome_sistema ?></title>
   <meta name="format-detection" content="telephone=no">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+  <!-- favicon -->
+	<link rel="shortcut icon" href="../img/favicon.ico" />
 
   <!--bootstrap css-->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -49,24 +52,9 @@ if ($total_reg == 0) {
         <div class='order py-2'>
           <p class="background">LISTA DE PRODUTOS</p>
 
-          <ul class='order-list'>
+          <span id="listar">
 
-            <li><img src='../img/produtos/sem-foto.jpg'>
-              <h4>5 - NOME PRODUTO</h4>
-              <h5>50,00</h5>
-            </li>
-
-
-
-
-          </ul>
-
-          <h4 class='total mt-4'>Total de Produtos
-
-          </h4>
-
-
-          <h1>R$ <span id="sub_total">200</span></h1>
+          </span>
 
 
         </div>
@@ -106,7 +94,7 @@ if ($total_reg == 0) {
 
           <div class="col-md-6 mt-3">
 
-            <img src="../img/produtos/sem-foto.jpg" alt="produto" width="100%">
+            <img id="foto" src="" alt="produto" width="100%">
 
           </div>
         </div>
@@ -160,7 +148,10 @@ if ($total_reg == 0) {
 <!-- SCRIPT PARA MODAL DE ABERTURA E FECHAMENTO -->
 <script>
   $(document).ready(function() {
+    listarProdutos(); 
     document.getElementById('codigo').focus();
+    document.getElementById('quantidade').value = '1';
+    $('#foto').attr('src', '../img/produtos/sem-foto.jpg');
 
   });
 </script>
@@ -188,21 +179,77 @@ if ($total_reg == 0) {
 
       success: function(result) {
         console.log(result);
-        document.getElementById('quantidade').value = '1';
 
         var array = result.split("&-/");
         var estoque = array[0];
         var nome = array[1];
         var descricao = array[2];
         var foto = array[3];
+        var valor_venda = array[4];
+        var subtotal = array[5];
+
 
         document.getElementById('estoque').value = estoque;
         document.getElementById('produto').value = nome;
         document.getElementById('descricao').value = descricao;
-        document.getElementById('foto').value = foto;
+
+        valor_format = "R$ " + valor_venda.replace(".", ",");
+        document.getElementById('total_item').value = valor_format;
+
+        subtotal_format = "R$ " + subtotal.replace(".", ",");
+
+        array_subtotal = subtotal_format.split(",");
+
+        if (array_subtotal.length == 1 && subtotal != "") {
+          subtotal_format = subtotal_format + ",00";
+        }
+
+        document.getElementById('subtotal').value = subtotal_format;
 
 
-        //$('#quantidade').html(result); //mostra no campo com id=codigoBarra, o resultado html do ajax gerarCodigo
+        if (foto.trim() === "") { //se o caminho da imagem não existir
+          $('#foto').attr('src', '../img/produtos/sem-foto.jpg'); //não vai funcionar para o primeiro item, por isso colocamos assim que a página estiver carregada para já atribuir o sem-foto.jpg
+
+        } else {
+          $('#foto').attr('src', '../img/produtos/' + foto); //atribui o segundo argumento ao primeiro, ou seja, salva em src o caminho digitado no segundo argumento
+
+        }
+        document.getElementById('valor_unitario').value = valor_venda;
+
+        if (nome.trim() != 'Código não cadastrado') {
+          var audio = new Audio('../img/barCode.wav');
+          audio.addEventListener('canplaythrough', function() {
+            audio.play();
+          });
+        }
+
+
+      }
+
+    });
+
+  }
+</script>
+
+
+
+<!--AJAX PARA MOSTRAR OS PRODUTOS DA VENDA -->
+
+<script type="text/javascript">
+  var pag = "<?= $pag ?>";
+
+  function listarProdutos() {
+    $.ajax({
+      url: pag + '/listar-produtos.php',
+      method: 'POST',
+      data: $('#form-buscar').serialize(),
+      dataType: "html",
+
+      success: function(result) {
+        $("#listar").html(result); //joga o html do resultado do AJAX na div listar
+
+
+
       }
 
     });
