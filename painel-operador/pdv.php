@@ -28,7 +28,7 @@ if ($total_reg == 0) {
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 
   <!-- favicon -->
-	<link rel="shortcut icon" href="../img/favicon.ico" />
+  <link rel="shortcut icon" href="../img/favicon.ico" />
 
   <!--bootstrap css-->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -148,7 +148,7 @@ if ($total_reg == 0) {
 <!-- SCRIPT PARA MODAL DE ABERTURA E FECHAMENTO -->
 <script>
   $(document).ready(function() {
-    listarProdutos(); 
+    listarProdutos();
     document.getElementById('codigo').focus();
     document.getElementById('quantidade').value = '1';
     $('#foto').attr('src', '../img/produtos/sem-foto.jpg');
@@ -188,41 +188,75 @@ if ($total_reg == 0) {
         var valor_venda = array[4];
         var subtotal = array[5];
 
-
-        document.getElementById('estoque').value = estoque;
-        document.getElementById('produto').value = nome;
-        document.getElementById('descricao').value = descricao;
-
-        valor_format = "R$ " + valor_venda.replace(".", ",");
-        document.getElementById('total_item').value = valor_format;
-
-        subtotal_format = "R$ " + subtotal.replace(".", ",");
-
-        array_subtotal = subtotal_format.split(",");
-
-        if (array_subtotal.length == 1 && subtotal != "") {
-          subtotal_format = subtotal_format + ",00";
-        }
-
-        document.getElementById('subtotal').value = subtotal_format;
-
-
-        if (foto.trim() === "") { //se o caminho da imagem não existir
-          $('#foto').attr('src', '../img/produtos/sem-foto.jpg'); //não vai funcionar para o primeiro item, por isso colocamos assim que a página estiver carregada para já atribuir o sem-foto.jpg
-
-        } else {
-          $('#foto').attr('src', '../img/produtos/' + foto); //atribui o segundo argumento ao primeiro, ou seja, salva em src o caminho digitado no segundo argumento
-
-        }
-        document.getElementById('valor_unitario').value = valor_venda;
-
         if (nome.trim() != 'Código não cadastrado') {
+
+          document.getElementById('estoque').value = estoque;
+          document.getElementById('produto').value = nome;
+          document.getElementById('descricao').value = descricao;
+          document.getElementById('valor_unitario').value = valor_venda;
+
+          if (foto.trim() === "") { //se o caminho da imagem não existir
+            $('#foto').attr('src', '../img/produtos/sem-foto.jpg'); //não vai funcionar para o primeiro item, por isso colocamos assim que a página estiver carregada para já atribuir o sem-foto.jpg
+
+          } else {
+            $('#foto').attr('src', '../img/produtos/' + foto); //atribui o segundo argumento ao primeiro, ou seja, salva em src o caminho digitado no segundo argumento
+
+          }
+
           var audio = new Audio('../img/barCode.wav');
           audio.addEventListener('canplaythrough', function() {
             audio.play();
+
+          valor_format = "R$ " + valor_venda.replace(".", ",");
+          document.getElementById('total_item').value = valor_format;
+
+          //formatando subtotal
+          subtotal_format = "R$ " + subtotal.replace(".", ",");
+
+          array_subtotal = subtotal_format.split(",");
+
+          if (array_subtotal.length == 1 && subtotal != "") {
+            subtotal_format = subtotal_format + ",00";
+          }
+
+          document.getElementById('subtotal').value = subtotal_format;
+          
+
+          
+
+
+
+          //formatando total venda (corrigir)
+          total_venda_format = "R$ " + total_venda.replace(".", ",");
+
+          array_total_venda = total_venda_format.split(",");
+
+          if (array_total_venda.length == 1 && total_venda != "") {
+            total_venda_format = total_venda_format + ",00";
+          }
+
+          document.getElementById('total_venda').value = total_venda_format;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          document.getElementById('codigo').value = "";
+
+          listarProdutos();
+
+
           });
         }
-
 
       }
 
