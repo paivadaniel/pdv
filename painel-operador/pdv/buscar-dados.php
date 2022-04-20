@@ -42,9 +42,29 @@ if ($total_res > 0) {
     $query->execute();
 }
 
+//TOTALIZAR A VENDA (tudo isso para chegar à $total_venda)
+$total_venda = 0;
+
+$query_con = $pdo->query("SELECT * FROM itens_venda WHERE usuario = '$id_usuario' AND venda = 0");
+$res = $query_con->fetchAll(PDO::FETCH_ASSOC);
+$total_reg = @count($res);
+
+if ($total_reg > 0) {
+
+    for ($i = 0; $i < $total_reg; $i++) {
+        foreach ($res[$i] as $key => $value) {
+        } //fechamento do foreach
+
+        $valor_total_item = $res[$i]['valor_total_item'];
+
+        $total_venda += $valor_total_item;
+    }
+}
 
 //DEVOLVER OS DADOS PARA PASSAREM POR SPLIT
 
 $dados = $estoque . "&-/" . $nome . "&-/" . $descricao . "&-/" . $imagem  . "&-/" . $valor_venda . "&-/" . $valor_total_item . "&-/" . $total_venda;
 echo $dados;
+
+
 

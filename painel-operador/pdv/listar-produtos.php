@@ -19,14 +19,19 @@ if ($total_reg > 0) {
         foreach ($res[$i] as $key => $value) {
         } //fechamento do foreach
 
-        $produto = $res[$i]['produto'];
+        //tabela itens
+        $id_item = $res[$i]['id'];
+        $id_produto = $res[$i]['produto'];
         $quantidade = $res[$i]['quantidade'];
-        $valor_total_item = $res[$i]['valor_total_item'];
-        $total_venda += $valor_total_item;
 
+        $valor_total_item = $res[$i]['valor_total_item'];
         $valor_total_item_format = number_format($valor_total_item, 2, ',', '.');
 
-        $query_p = $pdo->query("SELECT * FROM produtos WHERE id = '$produto'");
+        $total_venda += $valor_total_item;
+        $total_venda_format = number_format($total_venda, 2, ',', '.');
+
+        //tabela produtos
+        $query_p = $pdo->query("SELECT * FROM produtos WHERE id = '$id_produto'");
         $res_p = $query_p->fetchAll(PDO::FETCH_ASSOC);
         
         $nome_produto = $res_p[0]['nome'];
@@ -34,14 +39,18 @@ if ($total_reg > 0) {
         $foto_produto = $res_p[0]['foto'];       
 
         echo '<li class="mb-1"><img src="../img/produtos/'.$foto_produto.'">
-          <h4>' . $quantidade  . ' - '. mb_strtoupper($nome_produto). '</h4>
+          <h4>' . $quantidade . ' - '. mb_strtoupper($nome_produto) . '           <a href="pdv.php?funcao=deletar&id=' . $id_item . '" title="Excluir Item" style="text-decoration:none">
+          <i class="bi bi-x text-danger mx-1"></i>
+          </a> </h4> 
           <h5>' . $valor_total_item_format . '</h5>
         </li>';
     }
 
-    $total_venda_format = number_format($total_venda, 2, ',', '.');
 
     echo '</ul>';
     echo '<h4 class="total mt-4">Total de Itens ('.$total_reg.')</h4>';
     echo '<h1>R$ <span id="sub_total"> ' . $total_venda_format . '</span></h1>';
 }
+
+
+

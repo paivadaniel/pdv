@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 19-Abr-2022 às 22:17
+-- Tempo de geração: 20-Abr-2022 às 22:12
 -- Versão do servidor: 10.4.21-MariaDB
 -- versão do PHP: 8.0.10
 
@@ -229,8 +229,7 @@ CREATE TABLE `itens_venda` (
 --
 
 INSERT INTO `itens_venda` (`id`, `produto`, `valor_unitario`, `quantidade`, `valor_total_item`, `usuario`, `venda`) VALUES
-(41, 2, '29.99', 1, '29.99', 3, 0),
-(42, 5, '40.00', 1, '40.00', 3, 0);
+(56, 5, '40.00', 1, '40.00', 3, 0);
 
 -- --------------------------------------------------------
 
@@ -289,8 +288,8 @@ CREATE TABLE `produtos` (
 --
 
 INSERT INTO `produtos` (`id`, `codigo`, `nome`, `descricao`, `estoque`, `valor_compra`, `valor_venda`, `fornecedor`, `categoria`, `foto`) VALUES
-(2, '12', 'teste', '  ffsfsfs  ', 44, '3.00', '29.99', 1, 12, '09-03-2022-16-15-16-curso-de-aplicativo-de-tarefas-com-react.jpeg'),
-(5, '12345', 'teste 02', '  novo teste', 13, '10.00', '40.00', 1, 18, 'sem-foto.jpg');
+(2, '123', 'teste', '  ffsfsfs  ', 44, '3.00', '29.99', 1, 12, '09-03-2022-16-15-16-curso-de-aplicativo-de-tarefas-com-react.jpeg'),
+(5, '321', 'teste 02', '  novo teste', 13, '10.00', '40.00', 1, 18, 'sem-foto.jpg');
 
 -- --------------------------------------------------------
 
@@ -440,7 +439,7 @@ ALTER TABLE `fornecedores`
 -- AUTO_INCREMENT de tabela `itens_venda`
 --
 ALTER TABLE `itens_venda`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT de tabela `movimentacoes`
