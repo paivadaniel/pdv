@@ -153,6 +153,7 @@ if ($total_reg == 0) {
 <script>
   $(document).ready(function() {
     listarProdutos();
+    buscarDados(); //para quando excluir um item e abrir pdv.php novamente carregar o total da venda e os outros campos sumirem
     document.getElementById('codigo').focus();
     document.getElementById('quantidade').value = '1';
     $('#foto').attr('src', '../img/produtos/sem-foto.jpg');
@@ -192,7 +193,9 @@ if ($total_reg == 0) {
         var foto = array[3];
         var valor_venda = array[4];
         var subtotal = array[5];
-        var total_venda = array[6];
+        var subtotal_format = array[6]
+        var total_venda = array[7];
+        var total_venda_format = array[8];
 
         if (nome.trim() != 'Código não cadastrado') { //se o código do produto digitado existir
 
@@ -219,28 +222,13 @@ if ($total_reg == 0) {
             valor_format = "R$ " + valor_venda.replace(".", ",");
             document.getElementById('total_item').value = valor_format;
 
-            //formatando subtotal
-            subtotal_format = "R$ " + subtotal.replace(".", ",");
+            //subtotal
+            document.getElementById('subtotal').value = "R$ " + subtotal_format;
 
-            array_subtotal = subtotal_format.split(",");
-
-            if (array_subtotal.length == 1 && subtotal != "") {
-              subtotal_format = subtotal_format + ",00";
-            }
-
-            document.getElementById('subtotal').value = subtotal_format;
+            //limpando código ao atualizar item
             document.getElementById('codigo').value = "";
 
-            //formatando total_venda
-            total_venda_format = "R$ " + total_venda.replace(".", ",");
-
-            array_total_venda = total_venda_format.split(",");
-
-            if (array_total_venda.length == 1 && total_venda != "") {
-              total_venda_format = total_venda_format + ",00";
-            }
-
-            document.getElementById('total_venda').value = total_venda_format;
+            document.getElementById('total_venda').value = "R$ " + total_venda_format;
 
             //listando produtos na sidebar esquerda
             listarProdutos();

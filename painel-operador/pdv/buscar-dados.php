@@ -28,6 +28,7 @@ if ($total_res > 0) {
     $id_produto = $res[0]['id'];
 
     $valor_total_item = $valor_venda * $quantidade;
+    $valor_total_item_format = number_format($valor_total_item, 2, ',', '.');
 
     //INSERE NA TABELA itens_venda
     $query = $pdo->prepare("INSERT INTO itens_venda SET produto = :produto, valor_unitario = :valor_venda, usuario = :usuario, venda = '0', quantidade = :quantidade, valor_total_item = :valor_total_item"); //venda=0 pois ela ainda não ocorreu, está no carrinho de compras
@@ -58,12 +59,14 @@ if ($total_reg > 0) {
         $valor_total_item = $res[$i]['valor_total_item'];
 
         $total_venda += $valor_total_item;
+        $total_venda_format = number_format($total_venda, 2, ',', '.');
+
     }
 }
 
 //DEVOLVER OS DADOS PARA PASSAREM POR SPLIT
 
-$dados = $estoque . "&-/" . $nome . "&-/" . $descricao . "&-/" . $imagem  . "&-/" . $valor_venda . "&-/" . $valor_total_item . "&-/" . $total_venda;
+$dados = $estoque . "&-/" . $nome . "&-/" . $descricao . "&-/" . $imagem  . "&-/" . $valor_venda . "&-/" . $valor_total_item . "&-/" . $valor_total_item_format . "&-/" . $total_venda . "&-/" . $total_venda_format;
 echo $dados;
 
 
