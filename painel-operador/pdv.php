@@ -197,6 +197,8 @@ if ($total_reg == 0) {
         var total_venda = array[7];
         var total_venda_format = array[8];
 
+        document.getElementById('total_venda').value = "R$ " + total_venda_format; //coloca fora do if, pois mesmo com produto com código não digitado, é para aparecer
+
         if (nome.trim() != 'Código não cadastrado') { //se o código do produto digitado existir
 
           document.getElementById('estoque').value = estoque;
@@ -217,23 +219,21 @@ if ($total_reg == 0) {
           var audio = new Audio('../img/barCode.wav');
           audio.addEventListener('canplaythrough', function() {
             audio.play();
-
-            //formatando valor_venda
-            valor_format = "R$ " + valor_venda.replace(".", ",");
-            document.getElementById('total_item').value = valor_format;
-
-            //subtotal
-            document.getElementById('subtotal').value = "R$ " + subtotal_format;
-
-            //limpando código ao atualizar item
-            document.getElementById('codigo').value = "";
-
-            document.getElementById('total_venda').value = "R$ " + total_venda_format;
-
-            //listando produtos na sidebar esquerda
-            listarProdutos();
-
           });
+
+          //formatando valor_venda
+          valor_format = "R$ " + valor_venda.replace(".", ",");
+          document.getElementById('total_item').value = valor_format;
+
+          //subtotal
+          document.getElementById('subtotal').value = "R$ " + subtotal_format;
+
+          //limpando código ao atualizar item
+          document.getElementById('codigo').value = "";
+
+          //listando produtos na sidebar esquerda
+          listarProdutos();
+
         }
 
       }
@@ -359,44 +359,44 @@ if (@$_GET['funcao'] == 'deletar') {
 
 <!--AJAX PARA DELETAR ITEM DA SIDEBAR ESQUERDA DO PDV -->
 <script type="text/javascript">
-    $("#form-excluir").submit(function() {
-        var pag = "<?= $pag ?>"; //não sei porque não colocou < ?php $pag ?>, ou seja trocou php por =
-        event.preventDefault();
-        /*
-        toda vez que submetemos uma página por um formulário, ela atualiza,
-        o event.preventDefault() evita que a página seja atualizada,
-        essa é a principal função do ajax
-        */
-        var formData = new FormData(this);
+  $("#form-excluir").submit(function() {
+    var pag = "<?= $pag ?>"; //não sei porque não colocou < ?php $pag ?>, ou seja trocou php por =
+    event.preventDefault();
+    /*
+    toda vez que submetemos uma página por um formulário, ela atualiza,
+    o event.preventDefault() evita que a página seja atualizada,
+    essa é a principal função do ajax
+    */
+    var formData = new FormData(this);
 
-        $.ajax({
-            url: pag + "/excluir-item.php",
-            type: 'POST',
-            data: formData,
+    $.ajax({
+      url: pag + "/excluir-item.php",
+      type: 'POST',
+      data: formData,
 
-            success: function(mensagem) {
+      success: function(mensagem) {
 
-                $('#mensagem-excluir').removeClass()
+        $('#mensagem-excluir').removeClass()
 
-                if (mensagem.trim() == "Excluído com Sucesso!") {
+        if (mensagem.trim() == "Excluído com Sucesso!") {
 
-                    $('#mensagem-excluir').addClass('text-success');
+          $('#mensagem-excluir').addClass('text-success');
 
-                    $('#btn-fechar').click();
-                    window.location = "pdv.php";
+          $('#btn-fechar').click();
+          window.location = "pdv.php";
 
-                } else { //se não devolver "Excluído com Sucesso!", ou seja, se der errado a deleção
+        } else { //se não devolver "Excluído com Sucesso!", ou seja, se der errado a deleção
 
-                    $('#mensagem-excluir').addClass('text-danger')
-                }
+          $('#mensagem-excluir').addClass('text-danger')
+        }
 
-                $('#mensagem-excluir').text(mensagem)
+        $('#mensagem-excluir').text(mensagem)
 
-            },
-            cache: false,
-            contentType: false,
-            processData: false,
+      },
+      cache: false,
+      contentType: false,
+      processData: false,
 
-        });
     });
+  });
 </script>
