@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 20-Abr-2022 às 22:12
+-- Tempo de geração: 26-Abr-2022 às 22:19
 -- Versão do servidor: 10.4.21-MariaDB
 -- versão do PHP: 8.0.10
 
@@ -71,7 +71,8 @@ INSERT INTO `caixas` (`id`, `nome`) VALUES
 (2, 'Caixa 02'),
 (3, 'Caixa 03'),
 (4, 'Caixa 04'),
-(5, 'Caixa 05');
+(5, 'Caixa 05'),
+(7, 'Caixa 06');
 
 -- --------------------------------------------------------
 
@@ -115,7 +116,8 @@ CREATE TABLE `compras` (
 
 INSERT INTO `compras` (`id`, `total`, `data`, `usuario`, `fornecedor`, `pago`) VALUES
 (1, '40.00', '2022-04-11', 2, 1, 'Sim'),
-(2, '15.00', '2022-04-11', 2, 1, 'Sim');
+(2, '15.00', '2022-04-11', 2, 1, 'Sim'),
+(3, '80.00', '2022-04-22', 2, 3, 'Sim');
 
 -- --------------------------------------------------------
 
@@ -153,7 +155,8 @@ INSERT INTO `contas_pagar` (`id`, `descricao`, `valor`, `usuario`, `pago`, `data
 (11, 'fsfsfsfs', '42.00', 12, 'Não', '2022-04-11', '2022-04-10', 'sem-foto.jpg', 0),
 (12, 'czgdgdgdgd', '45.00', 12, 'Sim', '2022-04-12', '2022-04-12', 'sem-foto.jpg', 0),
 (13, 'e664747575', '64.00', 12, 'Não', '2022-04-12', '2022-04-04', 'sem-foto.jpg', 0),
-(14, 'conta a pagar 01 dia 12', '100.00', 12, 'Sim', '2022-04-12', '2022-04-12', 'sem-foto.jpg', 0);
+(14, 'conta a pagar 01 dia 12', '100.00', 12, 'Sim', '2022-04-12', '2022-04-12', 'sem-foto.jpg', 0),
+(15, 'Compra de Produtos', '80.00', 12, 'Sim', '2022-04-22', '2022-04-22', 'sem-foto.jpg', 3);
 
 -- --------------------------------------------------------
 
@@ -206,7 +209,8 @@ CREATE TABLE `fornecedores` (
 --
 
 INSERT INTO `fornecedores` (`id`, `nome`, `tipo_pessoa`, `cpf`, `email`, `telefone`, `endereco`) VALUES
-(1, 'Rubaldo do Doce', 'Física', '53535353535353', 'rubaldodoces@yahoo.com', '(34) 41414-1414', 'Rua do Chocolate, 12, Vila Prestígio, Santa Toddy');
+(1, 'Rubaldo do Doce', 'Física', '53535353535353', 'rubaldodoces@yahoo.com', '(34) 41414-1414', 'Rua do Chocolate, 12, Vila Prestígio, Santa Toddy'),
+(3, 'Xing Ling', 'Jurídica', '313131313131', 'jjxxxxx@gmail.com', '(11) 11111-1122', 'Rua Long Dong, 35');
 
 -- --------------------------------------------------------
 
@@ -229,7 +233,8 @@ CREATE TABLE `itens_venda` (
 --
 
 INSERT INTO `itens_venda` (`id`, `produto`, `valor_unitario`, `quantidade`, `valor_total_item`, `usuario`, `venda`) VALUES
-(56, 5, '40.00', 1, '40.00', 3, 0);
+(124, 2, '29.99', 1, '29.99', 3, 0),
+(125, 2, '29.99', 5, '149.95', 3, 0);
 
 -- --------------------------------------------------------
 
@@ -262,7 +267,8 @@ INSERT INTO `movimentacoes` (`id`, `tipo`, `descricao`, `valor`, `usuario`, `dat
 (8, 'Entrada', 'daaadadadaggrt43', '1500.00', 12, '2022-04-11', 4),
 (9, 'Saída', 'conta a pagar 01 dia 12', '100.00', 12, '2022-04-12', 14),
 (10, 'Saída', 'czgdgdgdgd', '45.00', 12, '2022-04-12', 12),
-(11, 'Entrada', 'conta a receber 01 dia 12', '500.00', 12, '2022-04-12', 7);
+(11, 'Entrada', 'conta a receber 01 dia 12', '500.00', 12, '2022-04-12', 7),
+(12, 'Saída', 'Compra de Produtos', '80.00', 12, '2022-04-22', 15);
 
 -- --------------------------------------------------------
 
@@ -288,8 +294,9 @@ CREATE TABLE `produtos` (
 --
 
 INSERT INTO `produtos` (`id`, `codigo`, `nome`, `descricao`, `estoque`, `valor_compra`, `valor_venda`, `fornecedor`, `categoria`, `foto`) VALUES
-(2, '123', 'teste', '  ffsfsfs  ', 44, '3.00', '29.99', 1, 12, '09-03-2022-16-15-16-curso-de-aplicativo-de-tarefas-com-react.jpeg'),
-(5, '321', 'teste 02', '  novo teste', 13, '10.00', '40.00', 1, 18, 'sem-foto.jpg');
+(2, '123', 'teste', '  ffsfsfs  ', 34, '3.00', '29.99', 1, 12, '09-03-2022-16-15-16-curso-de-aplicativo-de-tarefas-com-react.jpeg'),
+(5, '321', 'teste 02', '  novo teste', 50, '10.00', '40.00', 1, 18, 'sem-foto.jpg'),
+(6, '1234598793189', 'Coca Cola 350ml', '   coca cola lata 350ml', 20, '4.00', '3.90', 3, 12, '22-04-2022-23-22-18-coca-cola-lata-350ml-min.png');
 
 -- --------------------------------------------------------
 
@@ -403,7 +410,7 @@ ALTER TABLE `caixa`
 -- AUTO_INCREMENT de tabela `caixas`
 --
 ALTER TABLE `caixas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de tabela `categorias`
@@ -415,13 +422,13 @@ ALTER TABLE `categorias`
 -- AUTO_INCREMENT de tabela `compras`
 --
 ALTER TABLE `compras`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `contas_pagar`
 --
 ALTER TABLE `contas_pagar`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de tabela `contas_receber`
@@ -433,25 +440,25 @@ ALTER TABLE `contas_receber`
 -- AUTO_INCREMENT de tabela `fornecedores`
 --
 ALTER TABLE `fornecedores`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `itens_venda`
 --
 ALTER TABLE `itens_venda`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=127;
 
 --
 -- AUTO_INCREMENT de tabela `movimentacoes`
 --
 ALTER TABLE `movimentacoes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de tabela `produtos`
 --
 ALTER TABLE `produtos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios`

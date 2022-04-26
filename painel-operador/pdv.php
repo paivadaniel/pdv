@@ -17,6 +17,12 @@ if ($total_reg == 0) {
   echo "<script language='javascript'>window.location='index.php'</script>";
 }
 
+if ($desconto_porcentagem == "Sim") {
+  $desc = "%";
+} else {
+  $desc = "R$";
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -67,10 +73,10 @@ if ($total_reg == 0) {
 
 
       <div id='payment' class='payment col-md-7'>
+        <form method="POST" id="form-buscar">
 
-        <div class="row py-2">
-          <div class="col-md-7">
-            <form method="POST" id="form-buscar">
+          <div class="row py-2">
+            <div class="col-md-7">
 
               <p class="background">CÓDIGO DE BARRAS</p>
               <input type="text" class="form-control form-control-lg" id="codigo" name="codigo" placeholder="Código de barras" required="">
@@ -93,50 +99,46 @@ if ($total_reg == 0) {
                   <p class="background mt-2">ESTOQUE</p>
                   <input type="text" class="form-control form-control-md" id="estoque" name="estoque" placeholder="Estoque" required="">
 
-            </form>
+                </div>
+
+                <div class="col-md-6 mt-3">
+
+                  <img id="foto" src="" alt="produto" width="100%">
+
+                </div>
+              </div>
+
+            </div>
+
+            <div class="col-md-5">
+              <p class="background">TOTAL DO ITEM</p>
+              <input type="text" class="form-control form-control-md" id="total_item" name="total_item" placeholder="Total do Item" required="">
+
+              <p class="background mt-3">SUBTOTAL</p>
+              <input type="text" class="form-control form-control-md" id="subtotal" name="subtotal" placeholder="Subtotal" required="">
+
+              <p class="background mt-3">DESCONTO EM <?php echo $desc ?></p>
+              <input type="text" class="form-control form-control-md" id="desconto" name="desconto" placeholder="Desconto em <?php echo $desc ?>"> <!-- não pode ter required, por não ser obrigatório -->
+
+              <p class="background mt-3">TOTAL DA VENDA</p>
+              <input type="text" class="form-control form-control-md" id="total_venda" name="total_venda" placeholder="Total da Venda" required="">
+
+              <p class="background mt-3">VALOR RECEBIDO</p>
+              <input type="text" class="form-control form-control-md" id="valor_recebido" name="valor_recebido" placeholder="R$ 0,00">
+
+              <p class="background mt-3">TROCO</p> <!-- input com id="troco" é colocado como hide no javascript abaixo -->
+              <input type="text" class="form-control form-control-md" id="troco" name="troco" placeholder="Troco" required="">
+
+
+
+            </div>
           </div>
-
-          <div class="col-md-6 mt-3">
-
-            <img id="foto" src="" alt="produto" width="100%">
-
-          </div>
-        </div>
+        </form>
 
       </div>
 
-      <div class="col-md-5">
-        <p class="background">TOTAL DO ITEM</p>
-        <input type="text" class="form-control form-control-md" id="total_item" name="total_item" placeholder="Total do Item" required="">
 
-        <p class="background mt-3">SUBTOTAL</p>
-        <input type="text" class="form-control form-control-md" id="subtotal" name="subtotal" placeholder="Subtotal" required="">
-
-        <p class="background mt-3">DESCONTO</p>
-        <input type="text" class="form-control form-control-md" id="desconto" name="desconto" placeholder="Desconto" required="">
-
-        <p class="background mt-3">TOTAL DA VENDA</p>
-        <input type="text" class="form-control form-control-md" id="total_venda" name="total_venda" placeholder="Total da Compra" required="">
-
-        <p class="background mt-3">VALOR RECEBIDO</p>
-        <input type="text" class="form-control form-control-md" id="valor_recebido" name="valor_recebido" placeholder="Valor Recebido" required="">
-
-        <p class="background mt-3">TROCO</p> <!-- input com id="troco" é colocado como hide no javascript abaixo -->
-        <input type="text" class="form-control form-control-md" id="troco" name="troco" placeholder="Troco" required="">
-
-
-
-      </div>
     </div>
-
-
-
-
-
-  </div>
-
-
-  </div>
   </div>
 
 </body>
@@ -164,7 +166,7 @@ if ($total_reg == 0) {
 <!--AJAX PARA BUSCAR DADOS PARA OS INPUTS -->
 
 <script type="text/javascript">
-  $('#codigo').keyup(function() {
+  $('#codigo').keyup(function() { //quando for digitado algo no campo código
     /*
     função change só funciona para campo select, se for para input tem que ser keyup
     */
@@ -182,57 +184,69 @@ if ($total_reg == 0) {
       data: $('#form-buscar').serialize(),
       dataType: "html",
 
-      success: function(result) {
+      success: function(result) { //result é a variável $dados de buscar-dados.php
         console.log(result);
 
         //divide e armazena em vetor o resultado vindo de "pdv/buscar-dados.php"
         var array = result.split("&-/");
-        var estoque = array[0];
-        var nome = array[1];
-        var descricao = array[2];
-        var foto = array[3];
-        var valor_venda = array[4];
-        var subtotal = array[5];
-        var subtotal_format = array[6]
-        var total_venda = array[7];
-        var total_venda_format = array[8];
 
-        document.getElementById('total_venda').value = "R$ " + total_venda_format; //coloca fora do if, pois mesmo com produto com código não digitado, é para aparecer
+        if (array.length == 2) {
+          var msg1 = array[0];
+          var msg2 = array[1];
+          window.alert(msg1 + msg2);
+        } else {
+          var estoque = array[0];
+          var nome = array[1];
+          var descricao = array[2];
+          var foto = array[3];
+          var valor_venda = array[4];
+          var subtotal = array[5];
+          var subtotal_format = array[6]
+          var total_venda = array[7];
+          var total_venda_format = array[8];
+          var troco = array[9];
+          var troco_format = array[10];
 
-        if (nome.trim() != 'Código não cadastrado') { //se o código do produto digitado existir
 
-          document.getElementById('estoque').value = estoque;
-          document.getElementById('produto').value = nome;
-          document.getElementById('descricao').value = descricao;
-          document.getElementById('valor_unitario').value = valor_venda;
+          document.getElementById('total_venda').value = "R$ " + total_venda_format; //coloca fora do if, pois mesmo com produto com código não digitado, é para aparecer
 
-          //atribuindo foto ao produto mostrado na sidebar esquerda
-          if (foto.trim() === "") { //se o caminho da imagem não existir
-            $('#foto').attr('src', '../img/produtos/sem-foto.jpg'); //não vai funcionar para o primeiro item, por isso colocamos assim que a página estiver carregada para já atribuir o sem-foto.jpg
+          document.getElementById('troco').value = "R$ " + troco_format;
 
-          } else {
-            $('#foto').attr('src', '../img/produtos/' + foto); //atribui o segundo argumento ao primeiro, ou seja, salva em src o caminho digitado no segundo argumento
+          if (nome.trim() != 'Código não cadastrado') { //se o código do produto digitado existir
 
+            document.getElementById('estoque').value = estoque;
+            document.getElementById('produto').value = nome;
+            document.getElementById('descricao').value = descricao;
+            document.getElementById('valor_unitario').value = valor_venda;
+
+            //atribuindo foto ao produto mostrado na sidebar esquerda
+            if (foto.trim() === "") { //se o caminho da imagem não existir
+              $('#foto').attr('src', '../img/produtos/sem-foto.jpg'); //não vai funcionar para o primeiro item, por isso colocamos assim que a página estiver carregada para já atribuir o sem-foto.jpg
+
+            } else {
+              $('#foto').attr('src', '../img/produtos/' + foto); //atribui o segundo argumento ao primeiro, ou seja, salva em src o caminho digitado no segundo argumento
+
+            }
+
+            //áudio ao digitar código de produto encontrado
+            var audio = new Audio('../img/barCode.wav');
+            audio.addEventListener('canplaythrough', function() {
+              audio.play();
+            });
+
+            //formatando valor_venda
+            valor_format = "R$ " + valor_venda.replace(".", ",");
+            document.getElementById('total_item').value = valor_format;
+
+            //subtotal
+            document.getElementById('subtotal').value = "R$ " + subtotal_format;
+
+            //limpando código ao atualizar item
+            document.getElementById('codigo').value = "";
+
+            //listando produtos na sidebar esquerda
+            listarProdutos();
           }
-
-          //áudio ao digitar código de produto encontrado
-          var audio = new Audio('../img/barCode.wav');
-          audio.addEventListener('canplaythrough', function() {
-            audio.play();
-          });
-
-          //formatando valor_venda
-          valor_format = "R$ " + valor_venda.replace(".", ",");
-          document.getElementById('total_item').value = valor_format;
-
-          //subtotal
-          document.getElementById('subtotal').value = "R$ " + subtotal_format;
-
-          //limpando código ao atualizar item
-          document.getElementById('codigo').value = "";
-
-          //listando produtos na sidebar esquerda
-          listarProdutos();
 
         }
 
@@ -242,8 +256,6 @@ if ($total_reg == 0) {
 
   }
 </script>
-
-
 
 <!--AJAX PARA MOSTRAR OS PRODUTOS DA VENDA -->
 
@@ -330,7 +342,7 @@ if ($total_reg == 0) {
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-fechar">Fechar</button>
           <button type="submit" class="btn btn-danger" name="btn-excluir" id="btn-excluir">Excluir</button>
 
-          <input type="hidden" name="id" value="<?php echo @$_GET['id'] ?>">
+          <input type="hidden" name="id_item_venda" id="id_item_venda"> <!-- é o id da tabela itens_venda -->
 
         </div>
       </form>
@@ -338,24 +350,6 @@ if ($total_reg == 0) {
 
   </div>
 </div>
-
-<!-- SCRIPT PARA CHAMAR A MODAL QUE VAI DELETAR ITEM DA SIDEBAR ESQUERDA DO PDV -->
-<!-- tem que ser colocado depois do código da modal que chama-->
-<?php
-
-if (@$_GET['funcao'] == 'deletar') {
-?>
-
-  <script>
-    var myModal = new bootstrap.Modal(document.getElementById('modalDeletar'), {})
-
-    myModal.show();
-  </script>
-
-<?php
-
-}
-?>
 
 <!--AJAX PARA DELETAR ITEM DA SIDEBAR ESQUERDA DO PDV -->
 <script type="text/javascript">
@@ -398,5 +392,34 @@ if (@$_GET['funcao'] == 'deletar') {
       processData: false,
 
     });
+  });
+</script>
+
+<!-- SCRIPT PARA CHAMAR A MODAL QUE VAI DELETAR ITEM DA SIDEBAR ESQUERDA DO PDV, poderia ter sido utilizado GET e o id para chamar, porém, foi usado a função onclick, ou seja, foi feito tudo por AJAX, mais rápido e sem ter que atualizar a página -->
+<!-- tem que ser colocado depois do código da modal que chama-->
+<!-- a função modalExcluir é chamada em listar-produtos.php, que por sua vez é chamado pela função listarProdutos()  -->
+<script type="text/javascript">
+  function modalExcluir(id) {
+    event.preventDefault();
+
+    document.getElementById('id_item_venda').value = id; //passa para o elemento com id="id_deletar_item" (que é um campo oculto dentro da modalDeletar), o valor de id
+
+    var myModal = new bootstrap.Modal(document.getElementById('modalDeletar'), {
+
+    })
+
+    myModal.show();
+  }
+</script>
+
+<script type="text/javascript">
+  $('#desconto').keyup(function() { //quando for digitado algo no campo desconto, aplica-se o desconto para o total da compra
+    buscarDados();
+  });
+</script>
+
+<script type="text/javascript">
+  $('#valor_recebido').keyup(function() { //quando for digitado algo no campo desconto, aplica-se o desconto para o total da compra
+    buscarDados();
   });
 </script>

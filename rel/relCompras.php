@@ -270,7 +270,7 @@ if ($dataInicial != $dataFinal) {
                 $nome_usu = $res_usu[0]['nome'];
 
                 //BUSCA O FORNECEDOR QUE ENTREGARÁ O PEDIDO
-                $query_fornecedor = $pdo->query("SELECT * FROM fornecedor WHERE id = '$fornecedor'");
+                $query_fornecedor = $pdo->query("SELECT * FROM fornecedores WHERE id = '$fornecedor'");
                 $res_fornecedor = $query_fornecedor->fetchAll(PDO::FETCH_ASSOC);
                 $nome_fornecedor = $res_fornecedor[0]['nome'];
 
