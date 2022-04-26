@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 26-Abr-2022 às 22:19
--- Versão do servidor: 10.4.21-MariaDB
--- versão do PHP: 8.0.10
+-- Tempo de geração: 27-Abr-2022 às 00:59
+-- Versão do servidor: 10.4.22-MariaDB
+-- versão do PHP: 8.0.15
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -191,6 +191,27 @@ INSERT INTO `contas_receber` (`id`, `descricao`, `valor`, `usuario`, `pago`, `da
 -- --------------------------------------------------------
 
 --
+-- Estrutura da tabela `forma_pgtos`
+--
+
+CREATE TABLE `forma_pgtos` (
+  `id` int(11) NOT NULL,
+  `codigo` int(11) NOT NULL,
+  `nome` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `forma_pgtos`
+--
+
+INSERT INTO `forma_pgtos` (`id`, `codigo`, `nome`) VALUES
+(2, 2, 'cartão de crédito'),
+(3, 3, 'cartão de débito'),
+(5, 1, 'dinheiro');
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura da tabela `fornecedores`
 --
 
@@ -326,6 +347,24 @@ INSERT INTO `usuarios` (`id`, `nome`, `email`, `cpf`, `senha`, `nivel`) VALUES
 (11, 'Marcio Petroleiro', 'marciopetroleiro@gmail.com', '042.429.429-88', '123', 'Admin'),
 (12, 'Tesoureiro Teste', 'tesoureiro@hotmail.com', '123', '123', 'Tesoureiro');
 
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `vendas`
+--
+
+CREATE TABLE `vendas` (
+  `id` int(11) NOT NULL,
+  `valor` decimal(8,2) NOT NULL,
+  `data` date NOT NULL,
+  `hora` time NOT NULL,
+  `operador` int(11) NOT NULL,
+  `valor_recebido` decimal(8,2) NOT NULL,
+  `troco` decimal(8,2) NOT NULL,
+  `forma_pgto` int(11) NOT NULL,
+  `status` varchar(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 --
 -- Índices para tabelas despejadas
 --
@@ -367,6 +406,12 @@ ALTER TABLE `contas_receber`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Índices para tabela `forma_pgtos`
+--
+ALTER TABLE `forma_pgtos`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Índices para tabela `fornecedores`
 --
 ALTER TABLE `fornecedores`
@@ -394,6 +439,12 @@ ALTER TABLE `produtos`
 -- Índices para tabela `usuarios`
 --
 ALTER TABLE `usuarios`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Índices para tabela `vendas`
+--
+ALTER TABLE `vendas`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -437,6 +488,12 @@ ALTER TABLE `contas_receber`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
+-- AUTO_INCREMENT de tabela `forma_pgtos`
+--
+ALTER TABLE `forma_pgtos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT de tabela `fornecedores`
 --
 ALTER TABLE `fornecedores`
@@ -465,6 +522,12 @@ ALTER TABLE `produtos`
 --
 ALTER TABLE `usuarios`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT de tabela `vendas`
+--
+ALTER TABLE `vendas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

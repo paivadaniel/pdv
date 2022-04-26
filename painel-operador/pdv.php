@@ -112,10 +112,10 @@ if ($desconto_porcentagem == "Sim") {
 
             <div class="col-md-5">
               <p class="background">TOTAL DO ITEM</p>
-              <input type="text" class="form-control form-control-md" id="total_item" name="total_item" placeholder="Total do Item" required="">
+              <input type="text" class="form-control form-control-md" id="total_item" name="total_item" placeholder="Total do Item">
 
               <p class="background mt-3">SUBTOTAL</p>
-              <input type="text" class="form-control form-control-md" id="subtotal" name="subtotal" placeholder="Subtotal" required="">
+              <input type="text" class="form-control form-control-md" id="subtotal" name="subtotal" placeholder="Subtotal">
 
               <p class="background mt-3">DESCONTO EM <?php echo $desc ?></p>
               <input type="text" class="form-control form-control-md" id="desconto" name="desconto" placeholder="Desconto em <?php echo $desc ?>"> <!-- não pode ter required, por não ser obrigatório -->
@@ -127,7 +127,7 @@ if ($desconto_porcentagem == "Sim") {
               <input type="text" class="form-control form-control-md" id="valor_recebido" name="valor_recebido" placeholder="R$ 0,00">
 
               <p class="background mt-3">TROCO</p> <!-- input com id="troco" é colocado como hide no javascript abaixo -->
-              <input type="text" class="form-control form-control-md" id="troco" name="troco" placeholder="Troco" required="">
+              <input type="text" class="form-control form-control-md" id="troco" name="troco" placeholder="Troco">
 
 
 
@@ -351,6 +351,69 @@ if ($desconto_porcentagem == "Sim") {
   </div>
 </div>
 
+
+<!-- MODAL PARA FECHAR A VENDA -->
+
+<div class="modal fade" tabindex="-1" id="modalVenda">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Fechar Venda</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <form method="POST" id="form-venda">
+
+        <div class="modal-body">
+
+
+          <div class="form-group mb-3">
+            <label for="caixa" class="form-label">Forma de Pagamento</label>
+            <select class="form-select mt-1" aria-label="Default select example" name="forma_pgto">
+
+              <?php
+
+              $query = $pdo->query("SELECT * from forma_pgtos ORDER BY id asc");
+              $res = $query->fetchAll(PDO::FETCH_ASSOC);
+              $total_reg = @count($res);
+
+              if ($total_reg > 0) {
+
+                for ($i = 0; $i < $total_reg; $i++) {
+                  foreach ($res[$i] as $key => $value) {
+                  } //fechamento do foreach                
+              ?>
+
+                  <option value="<?php echo $res[$i]['codigo'] ?>"><?php echo $res[$i]['nome'] ?></option>
+
+              <?php }
+              } else { //fechamento do if seguido do fechamento do for 
+                echo '<option value="">Cadastre uma Forma de Pagamento</option>'; //não consegue inserir o produto se não estiver antes cadastrado uma categoria
+
+              }
+              ?>
+
+            </select>
+          </div>
+
+          <small>
+            <div align="center" class="mb-3" id="mensagem-venda">
+            </div>
+          </small>
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-fechar-venda">Fechar</button>
+          <button type="submit" class="btn btn-danger" name="btn-venda" id="btn-venda">Concluir a Venda</button>
+
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>
+
 <!--AJAX PARA DELETAR ITEM DA SIDEBAR ESQUERDA DO PDV -->
 <script type="text/javascript">
   $("#form-excluir").submit(function() {
@@ -421,5 +484,15 @@ if ($desconto_porcentagem == "Sim") {
 <script type="text/javascript">
   $('#valor_recebido').keyup(function() { //quando for digitado algo no campo desconto, aplica-se o desconto para o total da compra
     buscarDados();
+  });
+</script>
+
+<script type="text/javascript">
+  $(document).keypress(function(e) {
+    if (e.which == 13) { //"e" vem de evento e é o parâmetro recebido na função, tecla 13 é o ENTER, após pressionada pode abrir uma modal para dar seguimento à finalização da venda no pdv
+      var myModal = new bootstrap.Modal(document.getElementById('modalVenda'), {
+      })
+      myModal.show();
+    }
   });
 </script>
