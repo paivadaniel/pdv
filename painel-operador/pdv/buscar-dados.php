@@ -28,11 +28,11 @@ $res = $query_con->fetchAll(PDO::FETCH_ASSOC);
 $total_res = @count($res);
 
 if ($total_res > 0) {
-$id_abertura = $res[0]['id'];
+    $id_abertura = $res[0]['id'];
 }
 
 //fechar a venda
-if($forma_pgto_input != "") {
+if ($forma_pgto_input != "") {
 
     $troco = $_POST['troco'];
     $troco = str_replace('R$', '', $troco); //remove R$ se tiver no troco
@@ -42,20 +42,37 @@ if($forma_pgto_input != "") {
     $total_venda = str_replace('R$', '', $total_venda); //remove R$ se tiver no total_venda
     $total_venda = str_replace(',', '.', $total_venda);
 
+    if ($valor_recebido == "") {
+        $valor_recebido = $total_venda;
+    }
+
+    if ($desconto != "") {
+        if ($desconto_porcentagem == 'Sim') {
+            $desconto = $desconto . '%';
+        } else {
+            $desconto = 'R$ ' . $desconto . ',00';
+        }
+    } else {
+        $desconto = '0.00';
+    }
+
+
     //INSERE NA TABELA vendas
     $query = $pdo->prepare("INSERT INTO vendas SET valor = :valor, data = curDate(), hora = curTime(), operador = :usuario, valor_recebido = :valor_recebido, desconto = :desconto, troco = :troco, forma_pgto = :forma_pgto, abertura = :abertura, status = 'Concluída'");
 
+    $query->bindValue(":valor", $total_venda);
+    $query->bindValue(":usuario", $id_usuario);
     $query->bindValue(":valor_recebido", $valor_recebido);
     $query->bindValue(":desconto", $desconto);
-    $query->bindValue(":valor", $total_venda);
     $query->bindValue(":troco", $troco);
     $query->bindValue(":forma_pgto", $forma_pgto_input);
     $query->bindValue(":abertura", $id_abertura);
-
     $query->execute();
+
+    //relacionar a tabela itens_venda com a tabela vendas, ou seja, mudar venda de 0 para 1 na tabela itens_venda
+
     echo 'Venda Salva!';
     exit();
-
 }
 
 $troco = 0;
@@ -80,8 +97,8 @@ if ($total_res > 0) {
     $valor_total = $valor_venda * $quantidade;
     $valor_total_format = number_format($valor_total, 2, ',', '.'); //se colocar isso junto com total_venda_format dá erro, de acordo com o autor, é porque a variável fora do if não existirá, creio que porque só aqui tem acesso a tabela de produto
 
-    if($estoque < $quantidade) {
-        echo 'Quantidade em estoque insuficiente. &-/ Temos '. $estoque . ' unidades à pronta entrega.';
+    if ($estoque < $quantidade) {
+        echo 'Quantidade em estoque insuficiente. &-/ Temos ' . $estoque . ' unidades à pronta entrega.';
         exit();
     }
 

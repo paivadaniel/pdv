@@ -129,7 +129,7 @@ if ($desconto_porcentagem == "Sim") {
               <p class="background mt-3">TROCO</p> <!-- input com id="troco" é colocado como hide no javascript abaixo -->
               <input type="text" class="form-control form-control-md" id="troco" name="troco" placeholder="Troco">
 
-              <input type="text" name="forma_pgto_input" id="forma_pgto_input">
+              <input type="hidden" name="forma_pgto_input" id="forma_pgto_input">
 
 
             </div>
@@ -507,6 +507,7 @@ if ($desconto_porcentagem == "Sim") {
     var pgto = document.getElementById('forma_pgto').value;
 
     document.getElementById('forma_pgto_input').value = pgto;
+    buscarDados();
 
   })
 </script>

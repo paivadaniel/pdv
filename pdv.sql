@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 27-Abr-2022 às 06:18
+-- Tempo de geração: 27-Abr-2022 às 21:42
 -- Versão do servidor: 10.4.21-MariaDB
 -- versão do PHP: 8.0.10
 
@@ -255,7 +255,9 @@ CREATE TABLE `itens_venda` (
 
 INSERT INTO `itens_venda` (`id`, `produto`, `valor_unitario`, `quantidade`, `valor_total_item`, `usuario`, `venda`) VALUES
 (124, 2, '29.99', 1, '29.99', 3, 0),
-(125, 2, '29.99', 5, '149.95', 3, 0);
+(125, 2, '29.99', 5, '149.95', 3, 0),
+(127, 2, '29.99', 1, '29.99', 3, 0),
+(128, 5, '40.00', 1, '40.00', 3, 0);
 
 -- --------------------------------------------------------
 
@@ -315,8 +317,8 @@ CREATE TABLE `produtos` (
 --
 
 INSERT INTO `produtos` (`id`, `codigo`, `nome`, `descricao`, `estoque`, `valor_compra`, `valor_venda`, `fornecedor`, `categoria`, `foto`) VALUES
-(2, '123', 'teste', '  ffsfsfs  ', 34, '3.00', '29.99', 1, 12, '09-03-2022-16-15-16-curso-de-aplicativo-de-tarefas-com-react.jpeg'),
-(5, '321', 'teste 02', '  novo teste', 50, '10.00', '40.00', 1, 18, 'sem-foto.jpg'),
+(2, '123', 'teste', '  ffsfsfs  ', 33, '3.00', '29.99', 1, 12, '09-03-2022-16-15-16-curso-de-aplicativo-de-tarefas-com-react.jpeg'),
+(5, '321', 'teste 02', '  novo teste', 49, '10.00', '40.00', 1, 18, 'sem-foto.jpg'),
 (6, '1234598793189', 'Coca Cola 350ml', '   coca cola lata 350ml', 20, '4.00', '3.90', 3, 12, '22-04-2022-23-22-18-coca-cola-lata-350ml-min.png');
 
 -- --------------------------------------------------------
@@ -505,7 +507,7 @@ ALTER TABLE `fornecedores`
 -- AUTO_INCREMENT de tabela `itens_venda`
 --
 ALTER TABLE `itens_venda`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=127;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=129;
 
 --
 -- AUTO_INCREMENT de tabela `movimentacoes`
@@ -529,7 +531,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de tabela `vendas`
 --
 ALTER TABLE `vendas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
