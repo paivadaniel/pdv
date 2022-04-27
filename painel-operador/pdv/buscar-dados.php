@@ -19,6 +19,45 @@ $desconto = str_replace(',', '.', $desconto); //se o desconto for digitado com v
 
 $valor_recebido = $_POST['valor_recebido'];
 $valor_recebido = str_replace(',', '.', $valor_recebido);
+
+$forma_pgto_input = $_POST['forma_pgto_input'];
+
+//recuperar o id da abertura
+$query_con = $pdo->query("SELECT * FROM caixa WHERE operador = '$id_usuario' and status = 'Aberto'");
+$res = $query_con->fetchAll(PDO::FETCH_ASSOC);
+$total_res = @count($res);
+
+if ($total_res > 0) {
+$id_abertura = $res[0]['id'];
+}
+
+//fechar a venda
+if($forma_pgto_input != "") {
+
+    $troco = $_POST['troco'];
+    $troco = str_replace('R$', '', $troco); //remove R$ se tiver no troco
+    $troco = str_replace(',', '.', $troco);
+
+    $total_venda = $_POST['total_venda'];
+    $total_venda = str_replace('R$', '', $total_venda); //remove R$ se tiver no total_venda
+    $total_venda = str_replace(',', '.', $total_venda);
+
+    //INSERE NA TABELA vendas
+    $query = $pdo->prepare("INSERT INTO vendas SET valor = :valor, data = curDate(), hora = curTime(), operador = :usuario, valor_recebido = :valor_recebido, desconto = :desconto, troco = :troco, forma_pgto = :forma_pgto, abertura = :abertura, status = 'Concluída'");
+
+    $query->bindValue(":valor_recebido", $valor_recebido);
+    $query->bindValue(":desconto", $desconto);
+    $query->bindValue(":valor", $total_venda);
+    $query->bindValue(":troco", $troco);
+    $query->bindValue(":forma_pgto", $forma_pgto_input);
+    $query->bindValue(":abertura", $id_abertura);
+
+    $query->execute();
+    echo 'Venda Salva!';
+    exit();
+
+}
+
 $troco = 0;
 $troco_format = 0;
 

@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 27-Abr-2022 às 00:59
--- Versão do servidor: 10.4.22-MariaDB
--- versão do PHP: 8.0.15
+-- Tempo de geração: 27-Abr-2022 às 06:18
+-- Versão do servidor: 10.4.21-MariaDB
+-- versão do PHP: 8.0.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -360,8 +360,10 @@ CREATE TABLE `vendas` (
   `hora` time NOT NULL,
   `operador` int(11) NOT NULL,
   `valor_recebido` decimal(8,2) NOT NULL,
+  `desconto` varchar(30) NOT NULL,
   `troco` decimal(8,2) NOT NULL,
   `forma_pgto` int(11) NOT NULL,
+  `abertura` int(11) NOT NULL,
   `status` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

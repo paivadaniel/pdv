@@ -129,6 +129,7 @@ if ($desconto_porcentagem == "Sim") {
               <p class="background mt-3">TROCO</p> <!-- input com id="troco" é colocado como hide no javascript abaixo -->
               <input type="text" class="form-control form-control-md" id="troco" name="troco" placeholder="Troco">
 
+              <input type="text" name="forma_pgto_input" id="forma_pgto_input">
 
 
             </div>
@@ -358,7 +359,7 @@ if ($desconto_porcentagem == "Sim") {
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Fechar Venda</h5>
+        <h4 class="modal-title">Fechar Venda</h4>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
@@ -369,7 +370,7 @@ if ($desconto_porcentagem == "Sim") {
 
           <div class="form-group mb-3">
             <label for="caixa" class="form-label">Forma de Pagamento</label>
-            <select class="form-select mt-1" aria-label="Default select example" name="forma_pgto">
+            <select class="form-select mt-1" aria-label="Default select example" name="forma_pgto" id="forma_pgto">
 
               <?php
 
@@ -405,7 +406,7 @@ if ($desconto_porcentagem == "Sim") {
 
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-fechar-venda">Fechar</button>
-          <button type="submit" class="btn btn-danger" name="btn-venda" id="btn-venda">Concluir a Venda</button>
+          <button type="submit" class="btn btn-success" name="btn-venda" id="btn-venda">Concluir a Venda</button>
 
         </div>
       </form>
@@ -495,4 +496,17 @@ if ($desconto_porcentagem == "Sim") {
       myModal.show();
     }
   });
+</script>
+
+
+<!--AJAX PARA DELETAR ITEM DA SIDEBAR ESQUERDA DO PDV -->
+<script type="text/javascript">
+  $("#form-venda").submit(function() {
+    event.preventDefault();
+
+    var pgto = document.getElementById('forma_pgto').value;
+
+    document.getElementById('forma_pgto_input').value = pgto;
+
+  })
 </script>
