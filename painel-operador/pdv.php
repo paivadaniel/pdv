@@ -186,6 +186,21 @@ if ($desconto_porcentagem == "Sim") {
       dataType: "html",
 
       success: function(result) { //result é a variável $dados de buscar-dados.php
+        $('#mensagem-venda').text("");
+        
+        if (result.trim() == 'Venda Salva!') {
+          $('#btn-fechar-venda').click();
+          window.location = "pdv.php";
+          return; //para sair fora do código (não entendi porque nãõ usou exit())
+        }
+
+        if (result.trim() == 'Não é possível efetuar uma venda sem itens!') {
+          $('#mensagem-venda').addClass('text-danger');
+          $('#mensagem-venda').text(result);
+          document.getElementById('forma_pgto_input').value = ""; //não pode ser = 0, hidden é texto. tem que ser nulto para limpar o input e ele não ficar preso no if ($forma_pgto_input != "") em buscar-dados.php
+          return;
+        }
+
         console.log(result);
 
         //divide e armazena em vetor o resultado vindo de "pdv/buscar-dados.php"
@@ -491,8 +506,7 @@ if ($desconto_porcentagem == "Sim") {
 <script type="text/javascript">
   $(document).keypress(function(e) {
     if (e.which == 13) { //"e" vem de evento e é o parâmetro recebido na função, tecla 13 é o ENTER, após pressionada pode abrir uma modal para dar seguimento à finalização da venda no pdv
-      var myModal = new bootstrap.Modal(document.getElementById('modalVenda'), {
-      })
+      var myModal = new bootstrap.Modal(document.getElementById('modalVenda'), {})
       myModal.show();
     }
   });

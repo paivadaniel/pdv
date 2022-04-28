@@ -42,6 +42,11 @@ if ($forma_pgto_input != "") {
     $total_venda = str_replace('R$', '', $total_venda); //remove R$ se tiver no total_venda
     $total_venda = str_replace(',', '.', $total_venda);
 
+    if($total_venda <= 0) { //não pode ser $total_venda == '', pois $total_venda é um decimal, e '' é uma string
+        echo 'Não é possível efetuar uma venda sem itens!';
+        exit();
+    }
+
     if ($valor_recebido == "") {
         $valor_recebido = $total_venda;
     }
@@ -70,6 +75,10 @@ if ($forma_pgto_input != "") {
     $query->execute();
 
     //relacionar a tabela itens_venda com a tabela vendas, ou seja, mudar venda de 0 para 1 na tabela itens_venda
+    $id_venda = $pdo->lastInsertId(); //pega o último id inserido no banco de dados
+    $query_con = $pdo->query("UPDATE itens_venda SET venda = '$id_venda' WHERE usuario = '$id_usuario' and venda = 0"); //venda atual tem os itens no campo venda igual à zero
+
+
 
     echo 'Venda Salva!';
     exit();

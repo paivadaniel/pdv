@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 27-Abr-2022 às 21:42
+-- Tempo de geração: 28-Abr-2022 às 22:11
 -- Versão do servidor: 10.4.21-MariaDB
 -- versão do PHP: 8.0.10
 
@@ -117,7 +117,10 @@ CREATE TABLE `compras` (
 INSERT INTO `compras` (`id`, `total`, `data`, `usuario`, `fornecedor`, `pago`) VALUES
 (1, '40.00', '2022-04-11', 2, 1, 'Sim'),
 (2, '15.00', '2022-04-11', 2, 1, 'Sim'),
-(3, '80.00', '2022-04-22', 2, 3, 'Sim');
+(3, '80.00', '2022-04-22', 2, 3, 'Sim'),
+(4, '4000.00', '2022-04-28', 3, 1, 'Não'),
+(5, '3500.00', '2022-04-28', 2, 1, 'Não'),
+(6, '25272.00', '2022-04-28', 2, 1, 'Não');
 
 -- --------------------------------------------------------
 
@@ -156,7 +159,10 @@ INSERT INTO `contas_pagar` (`id`, `descricao`, `valor`, `usuario`, `pago`, `data
 (12, 'czgdgdgdgd', '45.00', 12, 'Sim', '2022-04-12', '2022-04-12', 'sem-foto.jpg', 0),
 (13, 'e664747575', '64.00', 12, 'Não', '2022-04-12', '2022-04-04', 'sem-foto.jpg', 0),
 (14, 'conta a pagar 01 dia 12', '100.00', 12, 'Sim', '2022-04-12', '2022-04-12', 'sem-foto.jpg', 0),
-(15, 'Compra de Produtos', '80.00', 12, 'Sim', '2022-04-22', '2022-04-22', 'sem-foto.jpg', 3);
+(15, 'Compra de Produtos', '80.00', 12, 'Sim', '2022-04-22', '2022-04-22', 'sem-foto.jpg', 3),
+(16, 'Compra de Produtos', '4000.00', 3, 'Não', '2022-04-28', '2022-04-28', 'sem-foto.jpg', 4),
+(17, 'Compra de Produtos', '3500.00', 2, 'Não', '2022-04-28', '2022-04-28', 'sem-foto.jpg', 5),
+(18, 'Compra de Produtos', '25272.00', 2, 'Não', '2022-04-28', '2022-04-28', 'sem-foto.jpg', 6);
 
 -- --------------------------------------------------------
 
@@ -254,10 +260,13 @@ CREATE TABLE `itens_venda` (
 --
 
 INSERT INTO `itens_venda` (`id`, `produto`, `valor_unitario`, `quantidade`, `valor_total_item`, `usuario`, `venda`) VALUES
-(124, 2, '29.99', 1, '29.99', 3, 0),
-(125, 2, '29.99', 5, '149.95', 3, 0),
-(127, 2, '29.99', 1, '29.99', 3, 0),
-(128, 5, '40.00', 1, '40.00', 3, 0);
+(124, 2, '29.99', 1, '29.99', 3, 7),
+(125, 2, '29.99', 5, '149.95', 3, 7),
+(129, 2, '29.99', 1, '29.99', 3, 10),
+(130, 5, '40.00', 1, '40.00', 3, 10),
+(131, 2, '29.99', 1, '29.99', 3, 11),
+(134, 2, '29.99', 1, '29.99', 3, 12),
+(135, 5, '40.00', 1, '40.00', 3, 12);
 
 -- --------------------------------------------------------
 
@@ -317,9 +326,12 @@ CREATE TABLE `produtos` (
 --
 
 INSERT INTO `produtos` (`id`, `codigo`, `nome`, `descricao`, `estoque`, `valor_compra`, `valor_venda`, `fornecedor`, `categoria`, `foto`) VALUES
-(2, '123', 'teste', '  ffsfsfs  ', 33, '3.00', '29.99', 1, 12, '09-03-2022-16-15-16-curso-de-aplicativo-de-tarefas-com-react.jpeg'),
-(5, '321', 'teste 02', '  novo teste', 49, '10.00', '40.00', 1, 18, 'sem-foto.jpg'),
-(6, '1234598793189', 'Coca Cola 350ml', '   coca cola lata 350ml', 20, '4.00', '3.90', 3, 12, '22-04-2022-23-22-18-coca-cola-lata-350ml-min.png');
+(2, '123', 'teste', '  ffsfsfs  ', 30, '3.00', '29.99', 1, 12, '09-03-2022-16-15-16-curso-de-aplicativo-de-tarefas-com-react.jpeg'),
+(5, '321', 'teste 02', '  novo teste', 47, '10.00', '40.00', 1, 18, 'sem-foto.jpg'),
+(6, '1234598793189', 'Coca Cola 350ml', '   coca cola lata 350ml', 20, '4.00', '3.90', 3, 12, '22-04-2022-23-22-18-coca-cola-lata-350ml-min.png'),
+(7, '7898934925093', 'novo teste 01', '  novo teste 01 descrição', 324, '78.00', '5.00', 1, 12, 'sem-foto.jpg'),
+(8, '898934925093', 'novo teste 02', '  novo teste 02', 350, '10.00', '10.00', 1, 13, 'sem-foto.jpg'),
+(9, '6891271925093', 'novo teste 03', '  novo teste 03 descrição', 50, '80.00', '50.00', 1, 18, 'sem-foto.jpg');
 
 -- --------------------------------------------------------
 
@@ -368,6 +380,18 @@ CREATE TABLE `vendas` (
   `abertura` int(11) NOT NULL,
   `status` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `vendas`
+--
+
+INSERT INTO `vendas` (`id`, `valor`, `data`, `hora`, `operador`, `valor_recebido`, `desconto`, `troco`, `forma_pgto`, `abertura`, `status`) VALUES
+(7, '161.95', '2022-04-28', '15:52:02', 3, '170.00', '10%', '8.05', 1, 8, 'Concluída'),
+(8, '0.00', '2022-04-28', '15:53:46', 3, '0.00', '0.00', '0.00', 2, 8, 'Concluída'),
+(9, '0.00', '2022-04-28', '16:07:19', 3, '0.00', '0.00', '0.00', 3, 8, 'Concluída'),
+(10, '69.99', '2022-04-28', '16:16:25', 3, '69.99', '0.00', '0.00', 3, 8, 'Concluída'),
+(11, '29.99', '2022-04-28', '16:26:26', 3, '29.99', '0.00', '0.00', 2, 8, 'Concluída'),
+(12, '69.99', '2022-04-28', '16:30:20', 3, '69.99', '0.00', '0.00', 1, 8, 'Concluída');
 
 --
 -- Índices para tabelas despejadas
@@ -477,13 +501,13 @@ ALTER TABLE `categorias`
 -- AUTO_INCREMENT de tabela `compras`
 --
 ALTER TABLE `compras`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de tabela `contas_pagar`
 --
 ALTER TABLE `contas_pagar`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de tabela `contas_receber`
@@ -507,7 +531,7 @@ ALTER TABLE `fornecedores`
 -- AUTO_INCREMENT de tabela `itens_venda`
 --
 ALTER TABLE `itens_venda`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=129;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=142;
 
 --
 -- AUTO_INCREMENT de tabela `movimentacoes`
@@ -519,7 +543,7 @@ ALTER TABLE `movimentacoes`
 -- AUTO_INCREMENT de tabela `produtos`
 --
 ALTER TABLE `produtos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios`
@@ -531,7 +555,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de tabela `vendas`
 --
 ALTER TABLE `vendas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
