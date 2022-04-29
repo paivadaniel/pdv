@@ -13,6 +13,7 @@ $total_reg = @count($res);
 
 if ($total_reg > 0) {
     $aberto = 'Sim';
+    $caixa = $res[0]['caixa'];
 } else {
     $aberto = 'Não';
 }
@@ -172,32 +173,11 @@ if ($total_reg > 0) {
                         <div class="col-md-6">
 
                             <div class="form-group mb-3">
-                                <label for="caixa" class="form-label">Caixa</label>
-                                <select class="form-select mt-1" aria-label="Default select example" name="caixa">
+                                <label for="caixa_fechamento" class="form-label">Caixa</label>
+                                <input type="text" class="form-control" id="caixa_fechamento" name="caixa_fechamento" value="<?php echo $caixa ?>"disabled required="">
 
-                                    <?php
+                                
 
-                                    $query = $pdo->query("SELECT * from caixas ORDER BY nome asc");
-                                    $res = $query->fetchAll(PDO::FETCH_ASSOC);
-                                    $total_reg = @count($res);
-
-                                    if ($total_reg > 0) {
-
-                                        for ($i = 0; $i < $total_reg; $i++) {
-                                            foreach ($res[$i] as $key => $value) {
-                                            } //fechamento do foreach                
-                                    ?>
-
-                                            <option value="<?php echo $res[$i]['id'] ?>"><?php echo $res[$i]['nome'] ?></option>
-
-                                    <?php }
-                                    } else { //fechamento do if seguido do fechamento do for 
-                                        echo '<option value="">Cadastre um Caixa</option>'; //não consegue inserir o produto se não estiver antes cadastrado uma categoria
-
-                                    }
-                                    ?>
-
-                                </select>
 
                             </div>
                         </div>
@@ -207,7 +187,7 @@ if ($total_reg > 0) {
 
                             <div class="form-group mb-3">
                                 <label for="caixa" class="form-label">Gerente</label>
-                                <select class="form-select mt-1" aria-label="Default select example" name="gerente_ab">
+                                <select class="form-select mt-1" aria-label="Default select example" name="gerente_fechamento">
 
                                     <?php
 
@@ -244,9 +224,9 @@ if ($total_reg > 0) {
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="valor_ab" class="form-label">Valor de Abertura do Caixa</label>
+                                <label for="valor_ab" class="form-label">Valor de Fechamento do Caixa</label>
 
-                                <input type="text" class="form-control" id="valor_ab" name="valor_ab" placeholder="Digite o valor da abertura do caixa" required="">
+                                <input type="text" class="form-control" id="valor_fechamento" name="valor_fechamento" placeholder="Digite o valor de fechamento do caixa" required="">
                             </div>
 
                         </div>
@@ -255,7 +235,7 @@ if ($total_reg > 0) {
                             <div class="mb-3">
                                 <label for="senha_gerente" class="form-label">Senha do Gerente</label>
 
-                                <input type="password" class="form-control" id="senha_gerente" name="senha_gerente" placeholder="Digite a senha do gerente" required="">
+                                <input type="password" class="form-control" id="senha_gerente_fechamento" name="senha_gerente_fechamento" placeholder="Digite a senha do gerente" required="">
                             </div>
 
                         </div>
