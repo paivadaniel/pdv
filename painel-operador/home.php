@@ -174,7 +174,7 @@ if ($total_reg > 0) {
 
                             <div class="form-group mb-3">
                                 <label for="caixa_fechamento" class="form-label">Caixa</label>
-                                <input type="text" class="form-control" id="caixa_fechamento" name="caixa_fechamento" value="<?php echo $caixa ?>"disabled required="">
+                                <input type="text" class="form-control" id="caixa_fechamento" name="caixa_fechamento" value="<?php echo $caixa ?>" readonly required=""> <!-- não pode usar disabled, pois faz com que $_POST`['caixa_fechamento'] que é chamada em fechamento.php, não funcione, então tem que trabalhar com readonly -->
 
                                 
 
@@ -187,7 +187,7 @@ if ($total_reg > 0) {
 
                             <div class="form-group mb-3">
                                 <label for="caixa" class="form-label">Gerente</label>
-                                <select class="form-select mt-1" aria-label="Default select example" name="gerente_fechamento">
+                                <select class="form-select mt-1" aria-label="Default select example" name="gerente_fechamento" id="gerente_fechamento">
 
                                     <?php
 
@@ -300,7 +300,7 @@ if ($total_reg > 0) {
 
 
 
-<!-- AJAX DO EDITAR PERFIL -->
+<!-- AJAX PARA ABRIR O CAIXA -->
 <script type="text/javascript">
     $("#form-abertura").submit(function() {
 
@@ -331,6 +331,57 @@ if ($total_reg > 0) {
                 }
 
                 $('#mensagem-abertura').text(mensagem)
+
+
+            },
+
+            cache: false,
+            contentType: false,
+            processData: false,
+            xhr: function() { // Custom XMLHttpRequest
+                var myXhr = $.ajaxSettings.xhr();
+                if (myXhr.upload) { // Avalia se tem suporte a propriedade upload
+                    myXhr.upload.addEventListener('progress', function() {
+                        /* faz alguma coisa durante o progresso do upload */
+                    }, false);
+                }
+                return myXhr;
+            }
+        });
+    });
+</script>
+
+<!-- AJAX PARA FECHAR O CAIXA -->
+<script type="text/javascript">
+    $("#form-fechamento").submit(function() {
+
+        event.preventDefault();
+        /*
+        toda vez que submetemos uma página por um formulário, ela atualiza,
+        o event.preventDefault() evita que a página seja atualizada,
+        essa é a principal função do ajax
+        */
+        var formData = new FormData(this);
+
+        $.ajax({
+            url: "fechamento.php",
+            type: 'POST',
+            data: formData,
+
+            success: function(mensagem) {
+
+                $('#mensagem-fechamento').removeClass()
+
+                if (mensagem.trim() == "Fechamento feito com Sucesso!") {
+
+                    window.location = "pdv.php";
+
+                } else { //se não devolver "Abertura feita com Sucesso!", ou seja, se der errado
+
+                    $('#mensagem-fechamento').addClass('text-danger')
+                }
+
+                $('#mensagem-fechamento').text(mensagem)
 
 
             },

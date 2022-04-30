@@ -12,11 +12,29 @@ $valor_fechamento = str_replace(',', '.', $valor_fechamento); //se o usuário di
 $senha_gerente = $_POST['senha_gerente_fechamento'];
 
 
-//VERIFICA SE O CAIXA ESTÁ ABERTO
+//totaliza as vendas do caixa aberto, soma com o valor abertura, para depois subtrair do valor de fechamento e obter o valor de quebra
 $query = $pdo->query("SELECT * from caixa WHERE operador = '$id_usuario' AND status = 'Aberto'");
 $res = $query->fetchAll(PDO::FETCH_ASSOC);
-$valor_ab = $res[0]['valor_ab'];
+$valor_abertura = $res[0]['valor_ab'];
+$id_abertura = $res[0]['id'];
 
+$valor_vendido = 0;
+$query = $pdo->query("SELECT * from vendas WHERE operador = '$id_usuario' AND abertura = '$id_abertura'");
+$res2 = $query->fetchAll(PDO::FETCH_ASSOC);
+$total_reg = @count($res2);
+
+if ($total_reg > 0) {
+    for ($i = 0; $i < $total_reg; $i++) {
+        foreach ($res2[$i] as $key => $value) {
+        } //fechamento do foreach
+        $valor_vendido += $res2[$i]['valor'];
+    }
+}
+
+$valor_quebra = $valor_fechamento - ($valor_abertura + $valor_vendido);
+
+echo $valor_quebra . ' - ' . $valor_vendido;
+exit();
 
 //verifica se a senha do gerente foi digitada corretamente
 $query = $pdo->prepare("SELECT * from usuarios WHERE id = :id_gerente AND senha = :senha_gerente");
@@ -42,4 +60,4 @@ $query5->bindValue(":gerente_fec", $gerente_fechamento);
 
 $query5->execute();
 
-echo "Abertura feita com Sucesso!";
+echo "Fechamento feito com Sucesso!";

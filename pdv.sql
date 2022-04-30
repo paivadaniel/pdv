@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 28-Abr-2022 às 22:11
+-- Tempo de geração: 30-Abr-2022 às 12:19
 -- Versão do servidor: 10.4.21-MariaDB
 -- versão do PHP: 8.0.10
 
@@ -266,7 +266,9 @@ INSERT INTO `itens_venda` (`id`, `produto`, `valor_unitario`, `quantidade`, `val
 (130, 5, '40.00', 1, '40.00', 3, 10),
 (131, 2, '29.99', 1, '29.99', 3, 11),
 (134, 2, '29.99', 1, '29.99', 3, 12),
-(135, 5, '40.00', 1, '40.00', 3, 12);
+(135, 5, '40.00', 1, '40.00', 3, 12),
+(142, 2, '29.99', 1, '29.99', 3, 0),
+(143, 5, '40.00', 1, '40.00', 3, 0);
 
 -- --------------------------------------------------------
 
@@ -326,8 +328,8 @@ CREATE TABLE `produtos` (
 --
 
 INSERT INTO `produtos` (`id`, `codigo`, `nome`, `descricao`, `estoque`, `valor_compra`, `valor_venda`, `fornecedor`, `categoria`, `foto`) VALUES
-(2, '123', 'teste', '  ffsfsfs  ', 30, '3.00', '29.99', 1, 12, '09-03-2022-16-15-16-curso-de-aplicativo-de-tarefas-com-react.jpeg'),
-(5, '321', 'teste 02', '  novo teste', 47, '10.00', '40.00', 1, 18, 'sem-foto.jpg'),
+(2, '123', 'teste', '  ffsfsfs  ', 29, '3.00', '29.99', 1, 12, '09-03-2022-16-15-16-curso-de-aplicativo-de-tarefas-com-react.jpeg'),
+(5, '321', 'teste 02', '  novo teste', 46, '10.00', '40.00', 1, 18, 'sem-foto.jpg'),
 (6, '1234598793189', 'Coca Cola 350ml', '   coca cola lata 350ml', 20, '4.00', '3.90', 3, 12, '22-04-2022-23-22-18-coca-cola-lata-350ml-min.png'),
 (7, '7898934925093', 'novo teste 01', '  novo teste 01 descrição', 324, '78.00', '5.00', 1, 12, 'sem-foto.jpg'),
 (8, '898934925093', 'novo teste 02', '  novo teste 02', 350, '10.00', '10.00', 1, 13, 'sem-foto.jpg'),
@@ -531,7 +533,7 @@ ALTER TABLE `fornecedores`
 -- AUTO_INCREMENT de tabela `itens_venda`
 --
 ALTER TABLE `itens_venda`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=142;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=144;
 
 --
 -- AUTO_INCREMENT de tabela `movimentacoes`
