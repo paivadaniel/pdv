@@ -56,11 +56,12 @@ if ($total_reg > 0) {
 
     }
 
-
+}
+//fica fora do if pois nome do caixa, total da venda e o link para fechar o caixa tem que estar disponíveis mesmo que nenhum produto seja adicionado no caixa
     echo '</ul>';
     echo '<h4 class="total mt-4">Total de Itens ('.$total_reg.') - Caixa ' . $nome_caixa . '</h4>';
-    echo '<div class="row"><div class="col-md-9"><h1>R$ <span id="sub_total">' . $total_venda_format . '</span></h1> </div> <div class="col-md-3" align="right"> <a style="text-decoration:none" href="index.php" title="Fechar Caixa"><i class="bi bi-x text-danger"> </i><small> Sair</small></a></div></div>';
-}
+    echo '<div class="row"><div class="col-md-9"><h1>R$ <span id="sub_total">' . @$total_venda_format . '</span></h1> </div> <div class="col-md-3" align="right"> <a style="text-decoration:none" href="index.php" title="Fechar Caixa"><i class="bi bi-x text-danger"> </i><small> Sair</small></a></div></div>';
+
 
 
 

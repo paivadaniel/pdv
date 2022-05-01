@@ -22,6 +22,10 @@ $valor_recebido = str_replace(',', '.', $valor_recebido);
 
 $forma_pgto_input = $_POST['forma_pgto_input'];
 
+//definir qual o tipo de pagamento e redirecionar para API ou SERIAL
+
+
+
 //recuperar o id da abertura
 $query_con = $pdo->query("SELECT * FROM caixa WHERE operador = '$id_usuario' and status = 'Aberto'");
 $res = $query_con->fetchAll(PDO::FETCH_ASSOC);

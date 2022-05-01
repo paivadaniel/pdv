@@ -13,7 +13,31 @@ $total_reg = @count($res);
 
 if ($total_reg > 0) {
     $aberto = 'Sim';
-    $caixa = $res[0]['caixa'];
+    $id_caixa = $res[0]['caixa'];
+    $id_abertura = $res[0]['id'];
+    $valor_abertura = $res[0]['valor_ab'];
+
+    //nome do caixa
+    $query = $pdo->query("SELECT * from caixas WHERE id = '$id_caixa'");
+    $res2 = $query->fetchAll(PDO::FETCH_ASSOC);
+    $nome_caixa = $res2[0]['nome'];
+
+    //totalizar venda para definir valor total, que é a soma do valor de abertura do caixa com o valor vendido
+    $valor_vendido = 0;
+    $query = $pdo->query("SELECT * from vendas WHERE operador = '$id_usuario' AND abertura = '$id_abertura'");
+    $res3 = $query->fetchAll(PDO::FETCH_ASSOC);
+    $total_reg = @count($res3);
+
+    if ($total_reg > 0) {
+        for ($i = 0; $i < $total_reg; $i++) {
+            foreach ($res3[$i] as $key => $value) {
+            } //fechamento do foreach
+            $valor_vendido += $res3[$i]['valor'];
+        }
+    }
+
+    $valor_total = ($valor_abertura + $valor_vendido); //se valor_total for diferente do valor_fechamento, então haverá valor_quebra
+
 } else {
     $aberto = 'Não';
 }
@@ -27,6 +51,8 @@ if ($total_reg > 0) {
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Abrir Caixa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
             </div>
 
             <form method="POST" id="form-abertura">
@@ -174,9 +200,9 @@ if ($total_reg > 0) {
 
                             <div class="form-group mb-3">
                                 <label for="caixa_fechamento" class="form-label">Caixa</label>
-                                <input type="text" class="form-control" id="caixa_fechamento" name="caixa_fechamento" value="<?php echo $caixa ?>" readonly required=""> <!-- não pode usar disabled, pois faz com que $_POST`['caixa_fechamento'] que é chamada em fechamento.php, não funcione, então tem que trabalhar com readonly -->
+                                <input type="text" class="form-control" id="caixa_fechamento" name="caixa_fechamento" value="<?php echo $nome_caixa ?>" readonly required=""> <!-- não pode usar disabled, pois faz com que $_POST`['caixa_fechamento'] que é chamada em fechamento.php, não funcione, então tem que trabalhar com readonly -->
 
-                                
+
 
 
                             </div>
@@ -226,7 +252,7 @@ if ($total_reg > 0) {
                             <div class="mb-3">
                                 <label for="valor_ab" class="form-label">Valor de Fechamento do Caixa</label>
 
-                                <input type="text" class="form-control" id="valor_fechamento" name="valor_fechamento" placeholder="Digite o valor de fechamento do caixa" required="">
+                                <input type="text" class="form-control" id="valor_fechamento" name="valor_fechamento" placeholder="Digite o valor de fechamento do caixa" required="" value="<?php echo @$valor_total ?>">
                             </div>
 
                         </div>

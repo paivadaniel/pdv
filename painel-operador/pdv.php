@@ -197,7 +197,7 @@ if ($desconto_porcentagem == "Sim") {
         if (result.trim() == 'Não é possível efetuar uma venda sem itens!') {
           $('#mensagem-venda').addClass('text-danger');
           $('#mensagem-venda').text(result);
-          document.getElementById('forma_pgto_input').value = ""; //não pode ser = 0, hidden é texto. tem que ser nulto para limpar o input e ele não ficar preso no if ($forma_pgto_input != "") em buscar-dados.php
+          document.getElementById('forma_pgto_input').value = ""; //não pode ser = 0, hidden é texto. tem que ser nulo para limpar o input e ele não ficar preso no if ($forma_pgto_input != "") em buscar-dados.php
           return;
         }
 
@@ -513,7 +513,7 @@ if ($desconto_porcentagem == "Sim") {
 </script>
 
 
-<!--AJAX PARA DELETAR ITEM DA SIDEBAR ESQUERDA DO PDV -->
+<!--AJAX PARA DEFINIR FORMA DE PAGAMENTO -->
 <script type="text/javascript">
   $("#form-venda").submit(function() {
     event.preventDefault();
