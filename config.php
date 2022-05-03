@@ -23,6 +23,9 @@ $senha = '';
 $banco = 'pdv';
 
 //VARIÁVEIS DE CONFIGURAÇÃO DO SISTEMA
+
+$estoque_minimo = 10; //menos de 10 unidades de um produto aponta para estoque baixo dele
+
 $relatorio_pdf = 'Sim'; 
 /*Se você utilizar "Sim", vai gerar relatórios com a biblioteca dompdf configurada para php 8.0, caso você use outra versão do php ou do dompdf pode dar errado, caso configure a variável como "Não" (ou qualquer outra coisa diferente de "Sim"), vai gerar o relatório html.
 */
@@ -31,5 +34,11 @@ $cabecalho_img_rel = 'Sim';  /* Se você optar por "Sim", os relatórios serão 
 $desconto_porcentagem = 'Sim'; /* Se essa variável receber "Sim", o desconto na tela do pdv será em porcentagem, caso contrário será em R$ */
 
 $cupom_fiscal = 'Não'; /* Se você utilizar "Sim", ele vai apontar para a API que irá gerar o cupom fiscal (não configurado nesse curso, e necessita de API externa, um dos modelos pode ser encontrado em plugnotas.com.br), caso contrário ele gera o cupom não fiscal configurado no curso */
+
+//imprimir etiqueta
+$largura_codigo_barras = 3; //2 ou 3
+$altura_codigo_barras = 50; //não menor que 20
+$etiquetas_por_linha = 7; //7 etiquetas de código de barras por linha da página
+$linhas_etiquetas_pagina = 17; //17 linhas de código de barras por página, com $etiquetas_por_linhas (7) por linha, usando esses valores temos 119 etiquetas por página
 
 ?>

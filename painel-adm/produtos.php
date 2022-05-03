@@ -102,9 +102,9 @@ require_once('verifica_permissao.php');
                                     <i class="bi bi-bag text-success me-2"></i>
                                 </a>
 
-                                <a href="../rel/barras_class.php?id=<?php echo $res[$i]['id']?>" target="_blank" title="Gerar Etiquetas" style="text-decoration:none">
+                                <a href="../rel/barras_class.php?codigo=<?php echo $res[$i]['codigo']?>" target="_blank" title="Gerar Etiquetas" style="text-decoration:none">
                                     <i class="bi bi-clipboard-check text-dark"></i>
-                                </a>
+                                </a> <!-- enviou codigo ao invés do id, pois já gera etiqueta com base nele, e não tem que recuperá-lo com uma consulta ao banco de dados depois -->
 
 
 

@@ -135,6 +135,20 @@ for ($i = 0; $i < $totalContasReceberMes; $i++) {
 	$receberMes += $resReceber[$i]['valor'];
 }
 
+//totaliza o montante vendido do início do mês atual até o dia de hoje
+$totalVendasMes = 0;
+$query_v = $pdo->query("SELECT * FROM vendas where data >= '$dataInicioMes' and data <= curDate() and status = 'Concluída'");
+$res_v = $query_v->fetchAll(PDO::FETCH_ASSOC);
+$total_reg_v = @count($res_v);
+
+for ($i = 0; $i < $total_reg_v; $i++) {
+	foreach ($res_v[$i] as $key => $value) {
+	} //fechamento do foreach
+
+	$totalVendasMes += $res_v[$i]['valor'];
+	$totalVendasMes_format = number_format($totalVendasMes, 2, ',', '.');
+}
+
 ?>
 
 
@@ -406,7 +420,7 @@ for ($i = 0; $i < $totalContasReceberMes; $i++) {
 									<span>Vendas Realizadas no Mês</span>
 								</div>
 								<div class="text-end col-5">
-									<h1>18,000</h1>
+									<h1><?php echo "R$ " . $totalVendasMes_format ?></h1>
 								</div>
 							</div>
 						</div>
@@ -428,28 +442,35 @@ for ($i = 0; $i < $totalContasReceberMes; $i++) {
 
 		<style type="text/css">
 			#principal {
-				width: 500px;
+				width: 100%;
 				height: 100%;
 				margin-left: 10px;
 				font-family: Verdana, Helvetica, sans-serif;
 				font-size: 14px;
-
 			}
 
 			#barra {
 				margin: 0 2px;
 				vertical-align: bottom;
 				display: inline-block;
-
-
+				padding:5px;
+				text-align: center;
 			}
 
 			.cor1,
 			.cor2,
 			.cor3,
-			.cor4 {
+			.cor4,
+			.cor5,
+			.cor6,
+			.cor7,
+			.cor8,
+			.cor9,
+			.cor10,
+			.cor11,
+			.cor12 {
 				color: #FFF;
-				padding: 5px;
+				padding: 0px;
 			}
 
 			.cor1 {
@@ -467,29 +488,83 @@ for ($i = 0; $i < $totalContasReceberMes; $i++) {
 			.cor4 {
 				background-color: #009933;
 			}
+
+			.cor5 {
+				background-color: #009933;
+			}
+
+			.cor6 {
+				background-color: #009933;
+			}
+
+			.cor7 {
+				background-color: #009933;
+			}
+
+			.cor8 {
+				background-color: #009933;
+			}
+
+			.cor9 {
+				background-color: #009933;
+			}
+
+			.cor10 {
+				background-color: #009933;
+			}
+
+			.cor11 {
+				background-color: #009933;
+			}
+
+			.cor12 {
+				background-color: #009933;
+			}
 		</style>
 
-
-		<?php
-		// definindo porcentagem
-		$height1 = '28px';
-		$height2 = '49px';
-		$height3 = '33px';
-		$height4 = '83px';
-		$total  = 4; // total de barras
-		?>
 		<div id="principal">
-			<p>Vendas no Ano</p>
+			<p>Vendas em <?php echo $anoAtual ?></p>
+
 			<?php
-			for ($i = 1; $i <= $total; $i++) {
-				$height = ${'height' . $i};
+			//definindo porcentagem
+			//busca o total vendido por mês
+			for ($i_mes = 1; $i_mes <= 12; $i_mes++) {
+
+				$dataMesInicio = $anoAtual . "-" . $i_mes . "-01";
+				$dataMesFinal = $anoAtual . "-" . $i_mes . "-31";
+
+				$totalVendasPorMes = 0;
+				$query_vm = $pdo->query("SELECT * FROM vendas where data >= '$dataMesInicio' and data <= '$dataMesFinal' and status = 'Concluída'");
+				$res_vm = $query_vm->fetchAll(PDO::FETCH_ASSOC);
+				$total_reg_vm = @count($res_vm); //vm = vendas mês
+
+				if($total_reg_vm > 0) {
+					$altura_barra = $total_reg_vm + 35;
+				} else {
+					$altura_barra = $total_reg_vm + 25;
+				}
+
+				if($i_mes < 10) {
+					$dataGrafico = '0'.$i_mes . '/' . $anoAtual;
+				} else {
+					$dataGrafico = $i_mes . '/' . $anoAtual;
+				}
+
 			?>
+
 				<div id="barra">
-					<div class="cor<?php echo $i ?>" style="height:<?php echo $height ?>"> <?php echo $height ?> </div>
-					<div>Janeiro</div>
+					<div class="cor<?php echo $i_mes ?>" style="height:<?php echo $altura_barra ?>px"> <!-- não pode deixar px com espaço em relação ao fechamento do php com ?>, pois senão, não considera o px, pode fazer um teste no css para ver como muda a cor -->
+						<?php echo $total_reg_vm ?>
+					</div>
+					<div><?php echo $dataGrafico ?></div>
 
 				</div>
-			<?php } ?>
+
+			<?php
+
+			}
+
+			?>
 		</div>
 
 	</section>
