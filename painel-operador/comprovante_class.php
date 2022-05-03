@@ -2,20 +2,26 @@
 
 require_once('../config.php');
 
+$id = $_GET['id'];
+
+//ALIMENTAR OS DADOS NO RELATÓRIO
+$html = utf8_encode(file_get_contents($url_sistema."painel-operador/comprovante.php?id=".$id));
+
+if($relatorio_pdf != 'Sim') {
+    echo $html;
+    exit();
+}
+
 //CARREGAR DOMPDF
 require_once '../dompdf/autoload.inc.php';
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
-$id = $_GET['id'];
-
-//ALIMENTAR OS DADOS NO RELATÓRIO
-$html = utf8_encode(file_get_contents($url_site."rel/comprovante.php?id=".$id));
-
-
-
 //INICIALIZAR A CLASSE DO DOMPDF
-$pdf = new DOMPDF();
+$options = new Options();
+$options->set('isRemoteEnabled', true); //necessário para habilitar imagens na biblioteca Dompdf
+
+$pdf = new DOMPDF($options);
 
 //Definir o tamanho do papel e orientação da página
 $pdf->set_paper(array(0, 0, 497.64, 700), 'portrait');

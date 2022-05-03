@@ -99,8 +99,13 @@ require_once('verifica_permissao.php');
 
 
                                 <a href="#" onclick="comprarProdutos('<?php echo $res[$i]['id']; ?>')" title="Fazer Pedido" style="text-decoration:none">
-                                    <i class="bi bi-bag text-success"></i>
+                                    <i class="bi bi-bag text-success me-2"></i>
                                 </a>
+
+                                <a href="../rel/barras_class.php?id=<?php echo $res[$i]['id']?>" target="_blank" title="Gerar Etiquetas" style="text-decoration:none">
+                                    <i class="bi bi-clipboard-check text-dark"></i>
+                                </a>
+
 
 
                             </td>

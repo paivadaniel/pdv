@@ -188,12 +188,6 @@ if ($desconto_porcentagem == "Sim") {
       success: function(result) { //result é a variável $dados de buscar-dados.php
         $('#mensagem-venda').text("");
         
-        if (result.trim() == 'Venda Salva!') {
-          $('#btn-fechar-venda').click();
-          window.location = "pdv.php";
-          return; //para sair fora do código (não entendi porque nãõ usou exit())
-        }
-
         if (result.trim() == 'Não é possível efetuar uma venda sem itens!') {
           $('#mensagem-venda').addClass('text-danger');
           $('#mensagem-venda').text(result);
@@ -205,6 +199,12 @@ if ($desconto_porcentagem == "Sim") {
 
         //divide e armazena em vetor o resultado vindo de "pdv/buscar-dados.php"
         var array = result.split("&-/");
+
+        if (array[0] === 'Venda Salva!') {
+          $('#btn-fechar-venda').click();
+          window.location = "comprovante_class.php?id=" + array[1]; //array[1] carrega o id_venda
+          return; //para sair fora do código (não entendi porque não usou exit())
+        }
 
         if (array.length == 2) {
           var msg1 = array[0];

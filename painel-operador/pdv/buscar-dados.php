@@ -82,9 +82,7 @@ if ($forma_pgto_input != "") {
     $id_venda = $pdo->lastInsertId(); //pega o último id inserido no banco de dados
     $query_con = $pdo->query("UPDATE itens_venda SET venda = '$id_venda' WHERE usuario = '$id_usuario' and venda = 0"); //venda atual tem os itens no campo venda igual à zero
 
-
-
-    echo 'Venda Salva!';
+    echo 'Venda Salva! &-/' . $id_venda;
     exit();
 }
 
@@ -114,7 +112,6 @@ if ($total_res > 0) {
         echo 'Quantidade em estoque insuficiente. &-/ Temos ' . $estoque . ' unidades à pronta entrega.';
         exit();
     }
-
 
     //INSERE NA TABELA itens_venda
     $query = $pdo->prepare("INSERT INTO itens_venda SET produto = :produto, valor_unitario = :valor_venda, usuario = :usuario, venda = '0', quantidade = :quantidade, valor_total_item = :valor_total"); //venda=0 pois ela ainda não ocorreu, está no carrinho de compras

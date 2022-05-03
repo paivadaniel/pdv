@@ -17,6 +17,9 @@ $menu5 = 'produtos';
 $menu6 = 'compras';
 $menu7 = 'caixas';
 $menu8 = 'forma_pgtos';
+$menu9 = 'vendas';
+$menu10 = 'aberturas';
+
 
 //RECUPERAR DADOS DO USUÁRIO
 $query = $pdo->query("SELECT * FROM usuarios WHERE id = '$_SESSION[id_usuario]'");
@@ -123,6 +126,26 @@ $id_usu = $res[0]['id'];
                         </ul>
                     </li>
 
+                    <li class="nav-item dropdown">
+                        <!-- pode manter o mesmo id do dropdown passado, ou seja, id="navbarDropdown" -->
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Vendas / Caixas
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li>
+                                <a class="dropdown-item" href="index.php?pagina=<?php echo $menu9; ?>">Vendas</a>
+                            </li>
+
+
+                            <li>
+                                <a class="dropdown-item" href="index.php?pagina=<?php echo $menu10; ?>">Aberturas</a>
+                            </li>
+
+
+                        </ul>
+                    </li>
+
+
 
                     <li class="nav-item dropdown">
                         <!-- pode manter o mesmo id do dropdown passado, ou seja, id="navbarDropdown" -->
@@ -138,6 +161,12 @@ $id_usu = $res[0]['id'];
                             <li>
                                 <a class="dropdown-item" href="" data-bs-toggle="modal" data-bs-target="#ModalRelCompras">Relatório de Compras</a>
                             </li>
+
+                            
+                            <li>
+                                <a class="dropdown-item" href="" data-bs-toggle="modal" data-bs-target="#ModalRelVendas">Relatório de Vendas</a>
+                            </li>
+
 
 
                         </ul>
@@ -197,7 +226,15 @@ $id_usu = $res[0]['id'];
         require_once($menu7 . '.php');
     } else if (@$_GET['pagina'] == $menu8) {
         require_once($menu8 . '.php');
-    } else {
+    } else if (@$_GET['pagina'] == $menu9) {
+        require_once($menu9 . '.php');
+    } else if (@$_GET['pagina'] == $menu10) {
+        require_once($menu10 . '.php');
+    } 
+    
+    
+    
+    else {
         //caso não for nenhuma das páginas do GET, e tiver algum lixo nele, carrega a home.php
         require_once($menu1 . '.php');
     }
@@ -336,6 +373,68 @@ $id_usu = $res[0]['id'];
         </div>
     </div>
 </div>
+
+<!--  Modal Rel Vendas-->
+
+<div class="modal fade" tabindex="-1" id="ModalRelVendas">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Relatório de Vendas</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+
+            <form action="../rel/relVendas_class.php" method="POST" target="_blank">
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Data Inicial</label>
+                                <input value="<?php echo date('Y-m-d') ?>" type="date" class="form-control mt-1" name="dataInicial">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+
+                            <div class="form-group">
+                                <label>Data Final</label>
+                                <input value="<?php echo date('Y-m-d') ?>" type="date" class="form-control mt-1" name="dataFinal">
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <div class="form-group">
+                                <label>Status</label>
+                                <!-- a classe "form-select" aplicada abaixo, difere da "form-control" ao apresentar uma flecha para mudar a opção da caixa seletora  -->
+                                <select class="form-select mt-1" name="status">
+                                    <option value="">Todas</option>
+                                    <option value="Concluída">Concluída</option>
+                                    <option value="Cancelada">Cancelada</option>
+
+                                </select>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+
+                    <button type="submit" class="btn btn-primary">Gerar Relatório</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
 
 </html>
 
