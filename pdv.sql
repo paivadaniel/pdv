@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 03-Maio-2022 às 22:12
+-- Tempo de geração: 04-Maio-2022 às 17:11
 -- Versão do servidor: 10.4.21-MariaDB
 -- versão do PHP: 8.0.10
 
@@ -124,7 +124,8 @@ INSERT INTO `compras` (`id`, `total`, `data`, `usuario`, `fornecedor`, `pago`) V
 (3, '80.00', '2022-04-22', 2, 3, 'Sim'),
 (4, '4000.00', '2022-04-28', 3, 1, 'Não'),
 (5, '3500.00', '2022-04-28', 2, 1, 'Não'),
-(6, '25272.00', '2022-04-28', 2, 1, 'Não');
+(6, '25272.00', '2022-04-28', 2, 1, 'Não'),
+(7, '93.00', '2022-05-03', 2, 1, 'Não');
 
 -- --------------------------------------------------------
 
@@ -166,7 +167,8 @@ INSERT INTO `contas_pagar` (`id`, `descricao`, `valor`, `usuario`, `pago`, `data
 (15, 'Compra de Produtos', '80.00', 12, 'Sim', '2022-04-22', '2022-04-22', 'sem-foto.jpg', 3),
 (16, 'Compra de Produtos', '4000.00', 3, 'Não', '2022-04-28', '2022-04-28', 'sem-foto.jpg', 4),
 (17, 'Compra de Produtos', '3500.00', 2, 'Não', '2022-04-28', '2022-04-28', 'sem-foto.jpg', 5),
-(18, 'Compra de Produtos', '25272.00', 2, 'Não', '2022-04-28', '2022-04-28', 'sem-foto.jpg', 6);
+(18, 'Compra de Produtos', '25272.00', 2, 'Não', '2022-04-28', '2022-04-28', 'sem-foto.jpg', 6),
+(19, 'Compra de Produtos', '93.00', 2, 'Não', '2022-05-03', '2022-05-03', 'sem-foto.jpg', 7);
 
 -- --------------------------------------------------------
 
@@ -356,7 +358,7 @@ CREATE TABLE `produtos` (
 --
 
 INSERT INTO `produtos` (`id`, `codigo`, `nome`, `descricao`, `estoque`, `valor_compra`, `valor_venda`, `fornecedor`, `categoria`, `foto`) VALUES
-(2, '123', 'teste', '  ffsfsfs  ', 6, '3.00', '29.99', 1, 12, '09-03-2022-16-15-16-curso-de-aplicativo-de-tarefas-com-react.jpeg'),
+(2, '123', 'teste', '  ffsfsfs  ', 9, '31.00', '29.99', 1, 12, '09-03-2022-16-15-16-curso-de-aplicativo-de-tarefas-com-react.jpeg'),
 (5, '321', 'teste 02', '  novo teste', 15, '10.00', '40.00', 1, 18, 'sem-foto.jpg'),
 (6, '1234598793189', 'Coca Cola 350ml', '   coca cola lata 350ml', 20, '4.00', '3.90', 3, 12, '22-04-2022-23-22-18-coca-cola-lata-350ml-min.png'),
 (7, '7898934925093', 'novo teste 01', '  novo teste 01 descrição', 324, '78.00', '5.00', 1, 12, 'sem-foto.jpg'),
@@ -540,13 +542,13 @@ ALTER TABLE `categorias`
 -- AUTO_INCREMENT de tabela `compras`
 --
 ALTER TABLE `compras`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de tabela `contas_pagar`
 --
 ALTER TABLE `contas_pagar`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT de tabela `contas_receber`
