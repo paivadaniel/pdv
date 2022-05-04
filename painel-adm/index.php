@@ -19,7 +19,7 @@ $menu7 = 'caixas';
 $menu8 = 'forma_pgtos';
 $menu9 = 'vendas';
 $menu10 = 'aberturas';
-
+$menu11 = 'estoque';
 
 //RECUPERAR DADOS DO USUÁRIO
 $query = $pdo->query("SELECT * FROM usuarios WHERE id = '$_SESSION[id_usuario]'");
@@ -88,9 +88,27 @@ $id_usu = $res[0]['id'];
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="index.php?pagina=<?php echo $menu1; ?>">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.php?pagina=<?php echo $menu2; ?>">Usuários</a>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Usuários
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li>
+                                <a class="dropdown-item" href="index.php?pagina=<?php echo $menu2; ?>">Cadastro de usuários</a>
+                            </li>
+
+
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+
+
+
+                            <li><a class="dropdown-item" href="logout.php">Logout</a></li>
+                        </ul>
                     </li>
+
                     <li class="nav-item">
                         <a class="nav-link" href="index.php?pagina=<?php echo $menu3; ?>">Fornecedores</a>
                     </li>
@@ -102,6 +120,9 @@ $id_usu = $res[0]['id'];
                     <li class="nav-item">
                         <a class="nav-link" href="index.php?pagina=<?php echo $menu8; ?>">Forma de Pagamentos</a>
                     </li>
+
+
+
 
 
                     <li class="nav-item dropdown">
@@ -119,10 +140,11 @@ $id_usu = $res[0]['id'];
                             <li>
                                 <a class="dropdown-item" href="index.php?pagina=<?php echo $menu6; ?>">Lista de compras</a>
                             </li>
+
                             <li>
-                                <hr class="dropdown-divider">
+                                <a class="dropdown-item" href="index.php?pagina=<?php echo $menu11; ?>">Estoque Baixo</a>
                             </li>
-                            <li><a class="dropdown-item" href="logout.php">Logout</a></li>
+
                         </ul>
                     </li>
 
@@ -140,6 +162,7 @@ $id_usu = $res[0]['id'];
                             <li>
                                 <a class="dropdown-item" href="index.php?pagina=<?php echo $menu10; ?>">Aberturas</a>
                             </li>
+
 
 
                         </ul>
@@ -162,7 +185,7 @@ $id_usu = $res[0]['id'];
                                 <a class="dropdown-item" href="" data-bs-toggle="modal" data-bs-target="#ModalRelCompras">Relatório de Compras</a>
                             </li>
 
-                            
+
                             <li>
                                 <a class="dropdown-item" href="" data-bs-toggle="modal" data-bs-target="#ModalRelVendas">Relatório de Vendas</a>
                             </li>
@@ -230,11 +253,9 @@ $id_usu = $res[0]['id'];
         require_once($menu9 . '.php');
     } else if (@$_GET['pagina'] == $menu10) {
         require_once($menu10 . '.php');
-    } 
-    
-    
-    
-    else {
+    } else if (@$_GET['pagina'] == $menu11) {
+        require_once($menu11 . '.php');
+    } else {
         //caso não for nenhuma das páginas do GET, e tiver algum lixo nele, carrega a home.php
         require_once($menu1 . '.php');
     }

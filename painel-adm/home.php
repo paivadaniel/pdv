@@ -151,21 +151,23 @@ for ($i = 0; $i < $total_reg_v; $i++) {
 			</div>
 
 			<div class="col-xl-3 col-sm-6 col-12">
-				<div class="card">
-					<div class="card-content">
-						<div class="card-body">
-							<div class="row">
-								<div class="align-self-center col-3">
-									<i class="bi-cash text-danger fs-1 float-start"></i>
-								</div>
-								<div class="col-9 text-end">
-									<h3><span class="text-danger"><?php echo @$totalEstoqueBaixo ?></span></h3>
-									<span>Estoque Baixo</span>
+				<a href="index.php?pagina=estoque" style="text-decoration:none" class="text-dark">
+					<div class="card">
+						<div class="card-content">
+							<div class="card-body">
+								<div class="row">
+									<div class="align-self-center col-3">
+										<i class="bi-cash text-danger fs-1 float-start"></i>
+									</div>
+									<div class="col-9 text-end">
+										<h3><span class="text-danger"><?php echo @$totalEstoqueBaixo ?></span></h3>
+										<span>Estoque Baixo</span>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
+				</a>
 			</div>
 
 
@@ -417,7 +419,7 @@ for ($i = 0; $i < $total_reg_v; $i++) {
 				margin: 0 2px;
 				vertical-align: bottom;
 				display: inline-block;
-				padding:5px;
+				padding: 5px;
 				text-align: center;
 			}
 
@@ -499,7 +501,7 @@ for ($i = 0; $i < $total_reg_v; $i++) {
 				$dataMesInicio = $anoAtual . "-" . $i_mes . "-01";
 				$dataMesFinal = $anoAtual . "-" . $i_mes . "-31";
 
-				
+
 				$query_vm = $pdo->query("SELECT * FROM vendas where data >= '$dataMesInicio' and data <= '$dataMesFinal' and status = 'Concluída'");
 				$res_vm = $query_vm->fetchAll(PDO::FETCH_ASSOC);
 				$total_reg_vm = @count($res_vm); //vm = vendas mês
@@ -514,14 +516,12 @@ for ($i = 0; $i < $total_reg_v; $i++) {
 					} //fechamento do foreach
 					@$totalValorPorMes += $res_vm[$i]['valor'];
 					$totalValorPorMes_format = number_format($totalValorPorMes, 2, ',', '.');
-					
-
 				}
 
-				$altura_barra = $totalValorPorMes/10;
+				$altura_barra = $totalValorPorMes / 10;
 
-				if($i_mes < 10) {
-					$dataGrafico = '0'.$i_mes . '/' . $anoAtual;
+				if ($i_mes < 10) {
+					$dataGrafico = '0' . $i_mes . '/' . $anoAtual;
 				} else {
 					$dataGrafico = $i_mes . '/' . $anoAtual;
 				}
@@ -529,7 +529,8 @@ for ($i = 0; $i < $total_reg_v; $i++) {
 			?>
 
 				<div id="barra">
-					<div class="cor<?php echo $i_mes ?>" style="height:<?php echo $altura_barra + 25 ?>px"> <!-- não pode deixar px com espaço em relação ao fechamento do php com ?>, pois senão, não considera o px, pode fazer um teste no css para ver como muda a cor -->
+					<div class="cor<?php echo $i_mes ?>" style="height:<?php echo $altura_barra + 25 ?>px">
+						<!-- não pode deixar px com espaço em relação ao fechamento do php com ?>, pois senão, não considera o px, pode fazer um teste no css para ver como muda a cor -->
 						<?php echo @$totalValorPorMes_format ?>
 					</div>
 					<div><?php echo $dataGrafico ?></div>

@@ -1,5 +1,7 @@
 <?php
 
+//para projeto hospedado altera $url_sistema (por exemplo, pdv.hugocursos.com.br) e as variáveis de servidor (que não é mais o local)
+
 //VARIÁVEIS GLOBAIS
 $nome_sistema = "PDV Paiva";
 $email_admin = "admin@gmail.com"; //caso não tenha um administrador cadastrado, cria automaticamente um com esse email
